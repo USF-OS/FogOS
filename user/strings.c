@@ -2,6 +2,7 @@
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
 #include "user/user.h"
+#include "user/strings.h"
 
 char
 *strncpy1(char *dst, const char *src, uint n)
