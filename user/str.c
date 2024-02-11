@@ -9,8 +9,8 @@
 int main(void) {
 	char buf[LEN];
 
-	strncpy(buf, "i am", LEN);
-	int len = strspn(buf, "xyz");
+	strncpy(buf, "geeks for geeks", LEN);
+	int len = strcspn(buf, "geek");
 	printf("%d\n", len);
 	return 0;
 }
