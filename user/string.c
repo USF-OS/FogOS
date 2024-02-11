@@ -7,13 +7,13 @@
 char
 *strncpy(char *dst, const char *src, uint n)
 {
-	char *to_ret;
-
-	to_ret = dst;
-	while ((*to_ret++ = *src++) && n >= 0)
+	char *walk = dst;
+	while ((*walk++ = *src++) && n > 0)
 		n--;
 
-	return to_ret;	
+	*walk = '\0'; 	// null-terminate regardless
+
+	return dst;	
 }
 
 int
@@ -24,15 +24,10 @@ strncmp(const char *s1, const char *s2, uint n)
 	return (uchar)*s1 - (uchar)*s2;
 }
 
-/*
-int
-char *strncat(char *restrict s1, const char *restrict s2, uint n)
+char 
+*strncat(char *restrict s1, const char *restrict s2, uint n)
 {
-	s1 += strlen(s1) + 1;					// point to end of str
-	while (*s2 && n >= 0) {
-		*s1 = *s2;
-		s1++, s2++, n--;
-	}
-	return 0;
+	strncpy(s1 + strlen(s1), s2, n);
+	return s1;
 }
-*/
+

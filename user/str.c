@@ -9,9 +9,10 @@ int main(void) {
 	strncpy(buf, "Hello", 128);	
 	printf("%s\n", buf);
 
+	strncat(buf, " food", 128 - strlen(buf));
+	printf("%s\n", buf);
+
 	int same = strncmp(buf, "Hello", 128);
-	printf("%d\n", same);
-	same = strncmp(buf, "Hell", 128);
 	printf("%d\n", same);
 	
 	return 0;
