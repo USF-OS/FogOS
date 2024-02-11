@@ -12,8 +12,14 @@ int main(void) {
 	strncat(buf, " food", 128 - strlen(buf));
 	printf("%s\n", buf);
 
-	int same = strncmp(buf, "Hello", 128);
-	printf("%d\n", same);
+	char *sub = strstr(buf, "food");
+	printf("%s\n", sub);
+
+	sub = strstr(buf, "");
+	printf("%s\n", sub);
+
+	sub = strstr(buf, "ayo");
+	printf("%s\n", sub);
 	
 	return 0;
 }
