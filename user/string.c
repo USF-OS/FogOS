@@ -54,3 +54,27 @@ char
 	}
 	return 0;
 }
+
+uint 
+strspn(const char *s, const char *charset)
+{
+	int charset_len = strlen(charset);
+	char *walk = (char *)s;
+	uint span_len = 0;
+
+	while (*walk) {
+		for (int i = 0; i < charset_len; i++) {
+			if (*walk == charset[i]) {
+				span_len++;
+				break;
+			}
+
+			// If it hits this line, then *walk has no match with anything in charset
+			if (i == charset_len - 1) {
+				return span_len;
+			}
+		}
+		walk++;	
+	}
+	return span_len;
+}

@@ -4,22 +4,13 @@
 #include "user/user.h"
 #include "user/string.h"
 
+# define LEN 128
+
 int main(void) {
-	char buf[128];
-	strncpy(buf, "Hello", 128);	
-	printf("%s\n", buf);
+	char buf[LEN];
 
-	strncat(buf, " food", 128 - strlen(buf));
-	printf("%s\n", buf);
-
-	char *sub = strstr(buf, "food");
-	printf("%s\n", sub);
-
-	sub = strstr(buf, "");
-	printf("%s\n", sub);
-
-	sub = strstr(buf, "ayo");
-	printf("%s\n", sub);
-	
+	strncpy(buf, "i am", LEN);
+	int len = strspn(buf, "xyz");
+	printf("%d\n", len);
 	return 0;
 }
