@@ -1,3 +1,16 @@
+#define NULL ((void *) 0)
+
+#define bool _Bool
+#define true 1
+#define false 0
+
+#define SEEK_SET        0
+#define STDIN_FILENO    0
+#define SEEK_CUR        1
+#define STDOUT_FILENO   1
+#define SEEK_END        2
+#define STDERR_FILENO   2
+
 struct stat;
 
 // system calls
@@ -31,7 +44,9 @@ char* strchr(const char*, char c);
 int strcmp(const char*, const char*);
 void fprintf(int, const char*, ...);
 void printf(const char*, ...);
-char* gets(char*, int max);
+int fgets(int, char*, uint);
+char* gets(char*, int);
+int getline(char**, uint*, int);
 uint strlen(const char*);
 void* memset(void*, int, uint);
 void* malloc(uint);
