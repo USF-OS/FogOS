@@ -15,3 +15,5 @@ mkfs/mkfs
 kernel/kernel
 user/usys.S
 .gdbinit
+.vscode/
+.gitignore
