@@ -266,7 +266,7 @@ sort(int argc, char *argv[])
 
   printf("\nAfter sorting:\n");
   printLines(num_lines, lines);
-  freeLines(fd, argc, argv, lines);
+  freeLines(fd, argc, argv, num_lines, lines);
 
   return 0;
 }

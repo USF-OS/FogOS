@@ -26,16 +26,19 @@ printLines(int num_lines, char *lines[])
 }
 
 void
-freeLines(int fd, int argc, char *argv[], char *lines[])
+freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[])
 {
   for (int i = 0; i < argc; i++) {
     free(*(argv + i));
   }
   free(argv);
+  argv = NULL;
 
-  for (int i = 0; i < NUM_LINES; i++) {
+  for (int i = 0; i < num_lines; i++) {
     free(*(lines + i));
   }
   free(lines);
+  lines = NULL;
+
   close(fd);
 }
