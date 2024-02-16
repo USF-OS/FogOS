@@ -5,12 +5,12 @@
 int
 main(int argc, char *argv[])
 {
-	char **arg_vec = (char **) malloc(argc - 1 * sizeof(char *));
+	char **arg_vec = (char **) malloc((argc - 1) * sizeof(char *));
 	int len;
 
 	for (int i = 0; i + 1 < argc; i++) {
-		len = strlen(*(argv + i + 1));
-		*(arg_vec + i) = (char *) malloc((len + 1) * sizeof(char));
+		len = strlen(*(argv + i + 1)) + 1;
+		*(arg_vec + i) = (char *) malloc(len * sizeof(char));
 		if (*(arg_vec + i) == NULL) {
 			printf("Memory allocation error.\n");
 			return -1;

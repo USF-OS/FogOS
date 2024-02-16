@@ -234,7 +234,6 @@ sort(int argc, char *argv[])
   */
 
   char *line = NULL;
-  const int NUM_LINES = 1000;
   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
   if (lines == NULL) {
     printf("Memory allocation error.\n");
@@ -249,7 +248,7 @@ sort(int argc, char *argv[])
   int fd = open(file_name, O_RDONLY);
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
-    *(lines + num_lines) = (char *) malloc(len + 1 * sizeof(char));
+    *(lines + num_lines) = (char *) malloc((len + 1) * sizeof(char));
     if (*(lines + num_lines) == NULL) {
       printf("Memory allocation error.\n");
       return -1;
@@ -266,14 +265,8 @@ sort(int argc, char *argv[])
   insertionSort(num_lines, lines);
 
   printf("\nAfter sorting:\n");
-  printLines(fd, NUM_LINES, lines);
-  // for (int i = 0; i < num_lines; i++) {
-  //   printf("%s\n", *(lines + i));
-  // }
-
-  /**
-   * Free argv
-  */
+  printLines(num_lines, lines);
+  freeLines(fd, argc, argv, lines);
 
   return 0;
 }

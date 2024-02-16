@@ -1,4 +1,5 @@
 #define NULL ((void *) 0)
+#define NUM_LINES 1000
 
 void
 insertionSort(int num_lines, char *lines[])
@@ -17,13 +18,24 @@ insertionSort(int num_lines, char *lines[])
 }
 
 void
-printLines(int fd, int num_lines, char *lines[])
+printLines(int num_lines, char *lines[])
 {
   for (int i = 0; i < num_lines; i++) {
     printf("%s\n", *(lines + i));
+  }
+}
+
+void
+freeLines(int fd, int argc, char *argv[], char *lines[])
+{
+  for (int i = 0; i < argc; i++) {
+    free(*(argv + i));
+  }
+  free(argv);
+
+  for (int i = 0; i < NUM_LINES; i++) {
     free(*(lines + i));
   }
-
   free(lines);
   close(fd);
 }
