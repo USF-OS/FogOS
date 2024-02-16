@@ -42,3 +42,6 @@ freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[])
 
   close(fd);
 }
+
+void
+ignore_blanks() {}
