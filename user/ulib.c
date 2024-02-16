@@ -208,3 +208,12 @@ memcpy(void *dst, const void *src, uint n)
 {
   return memmove(dst, src, n);
 }
+
+
+int 
+sort(int fd, int argc, char* argv[]) {
+
+
+
+  return 0;
+}
