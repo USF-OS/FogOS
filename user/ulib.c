@@ -233,6 +233,9 @@ sort(int argc, char *argv[])
    *
   */
 
+  /* Check for flags */
+  // char **flags = (char **) malloc(argc * sizeof(char *));
+
   char *line = NULL;
   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
   if (lines == NULL) {
@@ -260,6 +263,12 @@ sort(int argc, char *argv[])
   printf("Before sorting:\n");
   for (int i = 0; i < num_lines; i++) {
     printf("%s\n", *(lines + i));
+  }
+
+  // Hard coded for testing
+  if (strcmp(*(argv + 1), "-u") == 0) {
+    unique(num_lines, lines);
+    return 0;
   }
 
   insertionSort(num_lines, lines);
