@@ -3,8 +3,6 @@
 #include "kernel/fcntl.h"
 #include "user/user.h"
 
-#define NUM_LINES 1000
-
 //
 // wrapper so that it's OK if main() does not call exit().
 //
@@ -212,48 +210,50 @@ memcpy(void *dst, const void *src, uint n)
 }
 
 
-int 
+int
 sort(int argc, char *argv[]) {
-  printf("yup\n");
   // Error check
 
   /**
-   * 
-   * 
-   * 
+   *
+   *
+   *
    * ----------------------------------------------------
    * DON'T FORGET TO FREE LINES AFTER PRINTING TO STDOUT
    * ----------------------------------------------------
-   * 
-   * 
-   * 
-   * 
+   *
+   *
+   *
+   *
   */
 
   char *line = NULL;
-  char *lines[NUM_LINES] = { NULL };
-  uint buffer_size = 0;
-  char *file_name = NULL;
-
-
-  // char *found_flags[50] = { NULL };
-  
-
-  for (int i = 0; i < argc; i++) {
-    // Save file to file_name
+  const int NUM_LINES = 1000;
+  char **lines = (char **) malloc(NUM_LINES);
+  if (lines == NULL) {
+    printf("Memory allocation error.\n");
+    return -1;
   }
+
+  uint buffer_size = 0;
+  char *file_name = *argv;
 
   int num_lines = 0;
   int len;
   int fd = open(file_name, O_RDONLY);
   while (1) {
-    if ((len = getline(lines, &buffer_size, fd)) <= 0) break;
+    if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
     *(lines + num_lines) = (char *) malloc(len + 1);
-    strcpy(*(lines + num_lines), line);
+    if (*(lines + num_lines) == NULL) {
+      printf("Memory allocation error.\n");
+      return -1;
+    }
+
+    strcpy(*(lines + num_lines++), line);
   }
 
-  for (int i = 0; i <= num_lines; i++) {
-    printf("%s\n", *(lines + i));
+  for (int i = 0; i < num_lines; i++) {
+    printf("Line %d:\t%s\n", i + 1, *(lines + i));
   }
 
   return 0;
