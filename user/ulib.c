@@ -2,6 +2,7 @@
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
 #include "user/user.h"
+#include "user/sortfuncs.c"
 
 //
 // wrapper so that it's OK if main() does not call exit().
@@ -209,9 +210,15 @@ memcpy(void *dst, const void *src, uint n)
   return memmove(dst, src, n);
 }
 
-
+/**
+ * @brief ** add description **
+ * @param argc Number of arguments (file, flag(s))
+ * @param *argv[] Array of arguments (file, flag(s))
+ * @return 0 for success, -1 for failure
+*/
 int
-sort(int argc, char *argv[]) {
+sort(int argc, char *argv[])
+{
   // Error check
 
   /**
@@ -224,18 +231,17 @@ sort(int argc, char *argv[]) {
    *
    *
    *
-   *
   */
 
   char *line = NULL;
   const int NUM_LINES = 1000;
-  char **lines = (char **) malloc(NUM_LINES);
+  char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
   if (lines == NULL) {
     printf("Memory allocation error.\n");
     return -1;
   }
 
-  uint buffer_size = 0;
+  uint buffer_size = 128;
   char *file_name = *argv;
 
   int num_lines = 0;
@@ -243,7 +249,7 @@ sort(int argc, char *argv[]) {
   int fd = open(file_name, O_RDONLY);
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
-    *(lines + num_lines) = (char *) malloc(len + 1);
+    *(lines + num_lines) = (char *) malloc(len + 1 * sizeof(char));
     if (*(lines + num_lines) == NULL) {
       printf("Memory allocation error.\n");
       return -1;
@@ -252,9 +258,22 @@ sort(int argc, char *argv[]) {
     strcpy(*(lines + num_lines++), line);
   }
 
+  printf("Before sorting:\n");
   for (int i = 0; i < num_lines; i++) {
-    printf("Line %d:\t%s\n", i + 1, *(lines + i));
+    printf("%s\n", *(lines + i));
   }
+
+  insertionSort(num_lines, lines);
+
+  printf("\nAfter sorting:\n");
+  printLines(fd, NUM_LINES, lines);
+  // for (int i = 0; i < num_lines; i++) {
+  //   printf("%s\n", *(lines + i));
+  // }
+
+  /**
+   * Free argv
+  */
 
   return 0;
 }
