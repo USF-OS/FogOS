@@ -1,4 +1,5 @@
-# FogOS
-
-![FogOS](docs/fogos.gif)
-
+test
+apple
+car
+banana
+program

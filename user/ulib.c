@@ -3,6 +3,8 @@
 #include "kernel/fcntl.h"
 #include "user/user.h"
 
+#define NUM_LINES 1000
+
 //
 // wrapper so that it's OK if main() does not call exit().
 //
@@ -211,9 +213,48 @@ memcpy(void *dst, const void *src, uint n)
 
 
 int 
-sort(int fd, int argc, char* argv[]) {
+sort(int argc, char *argv[]) {
+  printf("yup\n");
+  // Error check
+
+  /**
+   * 
+   * 
+   * 
+   * ----------------------------------------------------
+   * DON'T FORGET TO FREE LINES AFTER PRINTING TO STDOUT
+   * ----------------------------------------------------
+   * 
+   * 
+   * 
+   * 
+  */
+
+  char *line = NULL;
+  char *lines[NUM_LINES] = { NULL };
+  uint buffer_size = 0;
+  char *file_name = NULL;
 
 
+  // char *found_flags[50] = { NULL };
+  
+
+  for (int i = 0; i < argc; i++) {
+    // Save file to file_name
+  }
+
+  int num_lines = 0;
+  int len;
+  int fd = open(file_name, O_RDONLY);
+  while (1) {
+    if ((len = getline(lines, &buffer_size, fd)) <= 0) break;
+    *(lines + num_lines) = (char *) malloc(len + 1);
+    strcpy(*(lines + num_lines), line);
+  }
+
+  for (int i = 0; i <= num_lines; i++) {
+    printf("%s\n", *(lines + i));
+  }
 
   return 0;
 }
