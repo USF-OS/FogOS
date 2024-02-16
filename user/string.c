@@ -99,3 +99,27 @@ strcspn(const char *s, const char *charset)
 	}
 	return span_len;
 }
+
+char
+*strtok(char *restrict str, const char *restrict sep) {
+	char *last;
+	return strtok_r(str, sep, &last);
+}
+
+char
+*strtok_r(char *restrict str, const char *restrict sep, char **restrict lasts) {
+	char *spanp;
+	int cmp, scancmp;
+	char *token;
+
+	if (str == NULL) { //str is null, check last instead
+		str = *last;
+	}
+	if (*str == '\0') { // starts with a null pointer
+		*last = str;
+		return NULL;
+	}
+	
+	return NULL; // changing this afterwards
+}
+
