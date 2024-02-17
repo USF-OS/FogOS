@@ -107,18 +107,22 @@ char
 }
 
 char
-*strtok_r(char *restrict str, const char *restrict sep, char **restrict lasts) {
-	char *spanp;
-	int cmp, scancmp;
-	char *token;
-
-	if (str == NULL) { //str is null, check last instead
+*strtok_r(char *restrict str, const char *restrict sep, char **restrict last) {
+	
+	if (str == NULL) { //str is null, check saveptr/last instead
 		str = *last;
 	}
-	if (*str == '\0') { // starts with a null pointer
+	if (*str == '\0') { // last is also null, return NULL
 		*last = str;
 		return NULL;
 	}
+
+	if (strspn(str, sep) == 0) { // no occurance in str, point last to str
+		*last = str;
+		return NULL;
+	}
+
+	
 	
 	return NULL; // changing this afterwards
 }
