@@ -11,7 +11,6 @@ char
 	while ((*walk++ = *src++) && n > 0)
 		n--;
 
-	// null-terminates regardless; slightly different from C library
 	*walk = '\0'; 
 
 	return dst;	

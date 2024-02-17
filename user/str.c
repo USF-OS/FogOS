@@ -7,6 +7,11 @@
 # define LEN 128
 
 int main(void) {
+	int d[10];
+	int error = scanf("%d\n", d);
+	printf("%d %d\n", error, *d);
+
+	/*
 	char buf[LEN];
 
 	strncpy(buf, "geeks for geeks", LEN);
@@ -37,6 +42,7 @@ int main(void) {
  
         token = strtok_r(0, outer_delimiters, &outer_saveptr);
     }
+    */
     
 	return 0;
 }

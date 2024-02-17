@@ -82,6 +82,58 @@ gets(char *buf, int max)
 }
 
 int
+fgets(int fd, char *buf, int max)
+{
+  int i, cc;
+  char c;
+
+  for(i=0; i+1 < max; ){
+  	// has a pointer to keep track where it last left off
+    cc = read(fd, &c, 1);
+    if(cc < 1)
+      break;
+    buf[i++] = c;
+    if(c == '\n' || c == '\r')
+      break;
+  }
+  buf[i] = '\0';
+  return i;
+}
+
+int
+getline(int fd, char **buf, int *sz)
+{	
+	if (*sz == 0 && *buf == 0) {
+		*sz = 1024;
+		*buf = malloc(*sz);
+	}
+	int total_bytes_read = 0;
+	memset(*buf, 0, *sz);
+
+	while (1) {
+		// pointer to skip past already filled words
+		int read = fgets(fd, *buf + total_bytes_read, *sz - total_bytes_read);
+		if (read == 0) {
+			break;
+		}
+		total_bytes_read += read;
+
+		// should stop when it ends with a \n chara
+		if (*(*buf + total_bytes_read - 1) == '\n' || *(*buf + total_bytes_read - 1) == '\r') {
+			break;
+		} else {
+			*sz = *sz * 2;
+			char *temp_buf = malloc(*sz);
+			memset(temp_buf, 0, *sz);
+			memcpy(temp_buf, *buf, total_bytes_read + 1);
+			free(*buf);
+			*buf = temp_buf;
+		}
+	}
+	return total_bytes_read;
+}
+
+int
 stat(const char *n, struct stat *st)
 {
   int fd;

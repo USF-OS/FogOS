@@ -10,6 +10,5 @@ char *strtok_r(char *restrict str, const char *restrict sep, char **restrict las
 
 //char *strsep(char **stringp, const char *delim);
 
-
 //stdio.h
 int scanf(const char *restrict format, ...);
