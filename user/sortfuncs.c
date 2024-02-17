@@ -26,21 +26,13 @@ printLines(int num_lines, char *lines[])
 }
 
 void
-freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[])
+freeLines(int num_lines, char *lines[])
 {
-  for (int i = 0; i < argc; i++) {
-    free(*(argv + i));
-  }
-  free(argv);
-  argv = NULL;
-
   for (int i = 0; i < num_lines; i++) {
     free(*(lines + i));
   }
   free(lines);
   lines = NULL;
-
-  close(fd);
 }
 
 void
@@ -75,6 +67,9 @@ unique(int num_lines, char *lines[])
   }
 
   // Should not be printing here. Testing purposes only
+  // On second thought, might be ok for certain flags
+  // On third thought, probably not a good idea -> hard to follow
   printf("\nSorted unique values:\n");
   printLines(num_unique_lines, unique_lines);
+  freeLines(num_unique_lines, unique_lines);
 }

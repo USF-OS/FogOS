@@ -275,7 +275,10 @@ sort(int argc, char *argv[])
 
   printf("\nAfter sorting:\n");
   printLines(num_lines, lines);
-  freeLines(fd, argc, argv, num_lines, lines);
+  freeLines(argc, argv);
+  freeLines(num_lines, lines);
+
+  close(fd);
 
   return 0;
 }
