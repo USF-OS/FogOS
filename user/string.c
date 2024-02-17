@@ -108,22 +108,30 @@ char
 
 char
 *strtok_r(char *restrict str, const char *restrict sep, char **restrict last) {
-	
-	if (str == NULL) { //str is null, check saveptr/last instead
+	if (str == 0) { // str is null, check last instead
 		str = *last;
 	}
-	if (*str == '\0') { // last is also null, return NULL
+	
+	if (*str == '\0') { // last is also null, point last to str
 		*last = str;
-		return NULL;
+		return 0;
 	}
 
-	if (strspn(str, sep) == 0) { // no occurance in str, point last to str
+	str = str + strspn(str, sep); // jump to next occurance
+	if (*str == '\0') { // point last to str
 		*last = str;
-		return NULL;
+		return 0;
 	}
 
-	
-	
-	return NULL; // changing this afterwards
+	char *end = str + strcspn(str, sep); // get to the end of token
+	if (*end == '\0') { // if token is already null pointer, make last point to end of token
+		*last = end;
+		return str;
+	}
+
+	// terminate the token with null terminator point last to 1 space beyond it
+	*end = '\0';
+	*last = end + 1;
+	return str;
 }
 
