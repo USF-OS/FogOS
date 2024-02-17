@@ -72,6 +72,17 @@ freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[], char **f
 void
 reverse(int num_lines, char *lines[]) {
 
+}
 
-
+//True = 1
+//False = 0
+int
+reverseCheck(char** flags, int flagCount) {
+  for (int i = 0; i < flagCount; i++) {
+    if (strcmp(flags[i], "-r") == 0) {
+      return 1;
+    }
+    printf("%s\n", flags[i]);
+  }
+  return 0;
 }
