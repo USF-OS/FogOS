@@ -238,7 +238,7 @@ sort(int argc, char *argv[])
   int flag_len = 0;
   int num_flags = 0;
   char **flags = (char **) malloc((argc - 1) * sizeof(char *));
-  if (flags == NULL) return error();
+  if (flags == NULL) return errorInt();
   for (int i = 1; i < argc; i++) {
     curr_flag = *(argv + i);
     flag_len = strlen(curr_flag) + 1;
@@ -250,7 +250,7 @@ sort(int argc, char *argv[])
       strcmp(curr_flag, "-f") == 0
     ) {
       *(flags + num_flags) = (char *) malloc(flag_len * sizeof(char));
-      if (*(flags + num_flags) == NULL) return error();
+      if (*(flags + num_flags) == NULL) return errorInt();
       strcpy(*(flags + num_flags), curr_flag);
     }
   }
@@ -258,7 +258,7 @@ sort(int argc, char *argv[])
   /* Build array of lines from file we're reading from */
   char *line = NULL;
   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
-  if (lines == NULL) return error();
+  if (lines == NULL) return errorInt();
 
   uint buffer_size = 128;
   char *file_name = *argv;
@@ -269,7 +269,7 @@ sort(int argc, char *argv[])
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
     *(lines + num_lines) = (char *) malloc((len + 1) * sizeof(char));
-    if (*(lines + num_lines) == NULL) return error();
+    if (*(lines + num_lines) == NULL) return errorInt();
 
     strcpy(*(lines + num_lines++), line);
   }

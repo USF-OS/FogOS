@@ -76,13 +76,14 @@ unique(int num_lines, char *lines[])
 
   int num_unique_lines = 0;
   char **unique_lines = (char **) malloc(num_lines * sizeof(char *));
+  if (unique_lines == NULL) errorVoid();
   int runner = 1;
   for (int i = 0; runner < num_lines; i++) {
     char *curr_line = *(lines + runner - 1);
     char *next_line = *(lines + runner);
     int len = strlen(curr_line) + 1;
     *(unique_lines + num_unique_lines) = (char *) malloc(len * sizeof(char));
-    if (*(unique_lines + num_unique_lines) == NULL) return;
+    if (*(unique_lines + num_unique_lines) == NULL) errorVoid();
 
     strcpy(*(unique_lines + num_unique_lines++), curr_line);
 
