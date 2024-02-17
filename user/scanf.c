@@ -27,7 +27,7 @@ scanf(const char *restrict format, ...)
 	va_list ap;
 	va_start(ap, format);
 
-	//char *s;
+	char *s;
 	int c, i, state, success;
 	state = 0;
 	success = 0;				// Increments for each successful write into buffer
@@ -49,28 +49,34 @@ scanf(const char *restrict format, ...)
 			if (c == 'd') {
 				int *d = va_arg(ap, int *);
 				int offset = strspn(buf, digits);
+
+				// Convert str to int
 				char temp[offset + 1];
 				memset(temp, 0, offset + 1);
 				strncpy(temp, buf, offset);
 				int val = atoi(temp);
+				
 				*d = val;
+				buf += offset;
 				success++;
-
-				// TODO: Figure out how to get int str from buf; stop reading when we stop reading ints
-				// TODO: use strcspn and figure out how many characters to read from, then do ptr arithmetic
 			} 
-/*
 			else if (c == 's') {
 				s = va_arg(ap, char *);
 
-				// TODO: Figure out better error handling
-				// problem 1: buffer no space, problem 2: when to stop reading
-				if (s == 0)
-					s = "(null)";
-
-				
+				// No buffer space allocated, not successfully copied
+				if (s == 0) {
+					s = malloc(8);
+					memset(s, 0, 8);
+					strncpy(s, "(null)", 8);	
+				} else {
+					// scanf stops reading when whitespace
+					int offset = strcspn(buf, " \t\n\r");
+					// assumes user allocates sufficient space, similar to C Library scanf
+					strncpy(s, buf, offset - 1);
+					buf += offset - 1;
+					success++;	
+				}
 			}
-*/
 		}
 	}
 	return success;

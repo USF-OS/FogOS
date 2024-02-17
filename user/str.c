@@ -7,18 +7,17 @@
 # define LEN 128
 
 int main(void) {
-	int d[10];
-	int error = scanf("I have $%d\n", d);
-	printf("%d %d\n", error, *d);
-
+	// strcspn tests
 	/*
 	char buf[LEN];
 
-	strncpy(buf, "geeks for geeks", LEN);
-	int len = strcspn(buf, "geek");
-	printf("%d\n", len);
-
+	strncpy(buf, "geeks\\ for geeks", LEN);
+	int len = strcspn(buf, "\t");
+	printf("%d %l\n", len, strlen("geeks"));
+	*/
+	
 	// strtok_r test
+	/*
 	char str[] = "Hello, World! Geeks for Geeks.";
     const char outer_delimiters[] = "!.";
     const char inner_delimiters[] = " ,";
@@ -43,6 +42,22 @@ int main(void) {
         token = strtok_r(0, outer_delimiters, &outer_saveptr);
     }
     */
-    
+
+	// scanf tests
+/*
+	int in;
+	char *str = malloc(100);
+
+	memset(str, 0, 100);
+
+	int err = scanf("%d %s\n", &in, str);
+	printf("%d %s %d\n", err, str, in);
+*/
+
+	int d;
+	char s[100];
+	int error = scanf("%s%d\n", s, &d);
+	printf("%d %s %d\n", error, s, d);
+
 	return 0;
 }
