@@ -1,6 +1,25 @@
 #define NULL ((void *) 0)
 #define NUM_LINES 1000
 
+/**
+ * @return -1 for memory allocation error
+*/
+int
+error()
+{
+  printf("Memory allocation error.\n");
+  return -1;
+}
+
+/**
+ * Good for small input data
+ * Use xv6's global 'ticks' variable to compare sort times
+ * between insertion sort and merge sort
+ * Once we know threshold, let that be the determinant
+ * as whether to use insertion sort or merge sort
+ * 
+ * Hope that works
+*/
 void
 insertionSort(int num_lines, char *lines[])
 {
@@ -40,8 +59,8 @@ unique(int num_lines, char *lines[])
 {
   /**
    * Sort lines, compare adjacent lines, ignore duplicates
-   * Go through lines and compare curr to next
-   * If curr == next, ignore line
+   * Iterate through lines and compare curr to next
+   * If curr == next, ignore next
    * Put unique lines in a new array or change in place?
    * For now, start with new array
   */

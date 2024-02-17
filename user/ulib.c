@@ -233,15 +233,32 @@ sort(int argc, char *argv[])
    *
   */
 
-  /* Check for flags */
-  // char **flags = (char **) malloc(argc * sizeof(char *));
+  /* Check for flags and store in array */
+  char *curr_flag = NULL;
+  int flag_len = 0;
+  int num_flags = 0;
+  char **flags = (char **) malloc((argc - 1) * sizeof(char *));
+  if (flags == NULL) return error();
+  for (int i = 1; i < argc; i++) {
+    curr_flag = *(argv + i);
+    flag_len = strlen(curr_flag) + 1;
+    if (
+      strcmp(curr_flag, "-n") == 0 ||
+      strcmp(curr_flag, "-r") == 0 ||
+      strcmp(curr_flag, "-u") == 0 ||
+      strcmp(curr_flag, "-b") == 0 ||
+      strcmp(curr_flag, "-f") == 0
+    ) {
+      *(flags + num_flags) = (char *) malloc(flag_len * sizeof(char));
+      if (*(flags + num_flags) == NULL) return error();
+      strcpy(*(flags + num_flags), curr_flag);
+    }
+  }
 
+  /* Build array of lines from file we're reading from */
   char *line = NULL;
   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
-  if (lines == NULL) {
-    printf("Memory allocation error.\n");
-    return -1;
-  }
+  if (lines == NULL) return error();
 
   uint buffer_size = 128;
   char *file_name = *argv;
@@ -252,10 +269,7 @@ sort(int argc, char *argv[])
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
     *(lines + num_lines) = (char *) malloc((len + 1) * sizeof(char));
-    if (*(lines + num_lines) == NULL) {
-      printf("Memory allocation error.\n");
-      return -1;
-    }
+    if (*(lines + num_lines) == NULL) return error();
 
     strcpy(*(lines + num_lines++), line);
   }
