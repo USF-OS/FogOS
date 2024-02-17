@@ -69,10 +69,25 @@ freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[], char **f
   close(fd);
 }
 
-void
-reverse(int num_lines, char *lines[]) {
-
+//Swaps idnexes for reversing
+void swap(char** a, char** b) {
+    char* temp = *a;
+    *a = *b;
+    *b = temp;
 }
+
+void 
+reverse(int num_lines, char *lines[]) {
+    int start = 0;              
+    int end = num_lines - 1;  
+
+    while (start < end) {
+        swap(&lines[start], &lines[end]);
+        start++;
+        end--;
+    }
+}
+
 
 //True = 1
 //False = 0

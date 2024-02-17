@@ -272,7 +272,12 @@ sort(int argc, char *argv[])
   }
 
   insertionSort(num_lines, lines);
-  reverseCheck(flags, flagCount);
+
+  //this looks a little shitty but works
+  if (reverseCheck(flags, flagCount) == 1) {
+    reverse(num_lines, lines);
+  }
+  
 
   printf("\nAfter sorting:\n");
   printLines(num_lines, lines);
