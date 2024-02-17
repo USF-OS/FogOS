@@ -17,6 +17,11 @@ insertionSort(int num_lines, char *lines[])
   }
 }
 
+void 
+reverseSort(int num_lines, char *lines[]) {
+  
+}
+
 void
 printLines(int num_lines, char *lines[])
 {
