@@ -233,6 +233,8 @@ sort(int argc, char *argv[])
    *
   */
 
+  char** flags;
+  int flagCount;
   char *line = NULL;
   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
   if (lines == NULL) {
@@ -262,11 +264,18 @@ sort(int argc, char *argv[])
     printf("%s\n", *(lines + i));
   }
 
+  getFlags(argc, argv, &flags, &flagCount);
+  
+  printf("Flags collected:\n");
+  for (int i = 0; i < flagCount; i++) {
+      printf("%s\n", flags[i]);
+  }
+
   insertionSort(num_lines, lines);
 
   printf("\nAfter sorting:\n");
   printLines(num_lines, lines);
-  freeLines(fd, argc, argv, num_lines, lines);
+  freeLines(fd, argc, argv, num_lines, lines, flags);  
 
   return 0;
 }

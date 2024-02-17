@@ -17,9 +17,27 @@ insertionSort(int num_lines, char *lines[])
   }
 }
 
+
 void 
-reverseSort(int num_lines, char *lines[]) {
-  
+getFlags(int argc, char *argv[], char*** flags, int* flagCount) {
+    *flags = (char**)malloc(100 * sizeof(char*)); 
+    if (*flags == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1); 
+    }
+
+    *flagCount = 0;
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0] == '-') {
+            (*flags)[*flagCount] = argv[i]; 
+            (*flagCount)++;
+            
+            if (*flagCount >= 100) { 
+                printf("Maximum number of flags reached (100).\n");
+                break;
+            }
+        }
+    }
 }
 
 void
@@ -31,7 +49,7 @@ printLines(int num_lines, char *lines[])
 }
 
 void
-freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[])
+freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[], char **flags)
 {
   for (int i = 0; i < argc; i++) {
     free(*(argv + i));
@@ -45,8 +63,15 @@ freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[])
   free(lines);
   lines = NULL;
 
+  free(flags);
+  flags = NULL;
+
   close(fd);
 }
 
 void
-reverse() {}
+reverse(int num_lines, char *lines[]) {
+
+
+
+}
