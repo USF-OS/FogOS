@@ -12,4 +12,4 @@ char *strtok_r(char *restrict str, const char *restrict sep, char **restrict las
 
 
 //stdio.h
-//int scanf(const char *restrict format, ...);
+int scanf(const char *restrict format, ...);
