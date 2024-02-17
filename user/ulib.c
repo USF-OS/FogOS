@@ -279,7 +279,7 @@ sort(int argc, char *argv[])
     printf("%s\n", *(lines + i));
   }
 
-  // Hard coded for testing
+  // Hard coded for testing. Change for whatever flag you're working on.
   if (strcmp(*(argv + 1), "-u") == 0) {
     unique(num_lines, lines);
     return 0;

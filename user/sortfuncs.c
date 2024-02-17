@@ -5,10 +5,17 @@
  * @return -1 for memory allocation error
 */
 int
-error()
+errorInt()
 {
   printf("Memory allocation error.\n");
   return -1;
+}
+
+void
+errorVoid()
+{
+  printf("Memory allocation error.\n");
+  return;
 }
 
 /**
