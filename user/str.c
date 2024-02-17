@@ -8,7 +8,7 @@
 
 int main(void) {
 	int d[10];
-	int error = scanf("%d\n", d);
+	int error = scanf("I have $%d\n", d);
 	printf("%d %d\n", error, *d);
 
 	/*
