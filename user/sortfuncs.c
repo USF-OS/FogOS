@@ -94,4 +94,18 @@ unique(int num_lines, char *lines[])
 }
 
 void
-ignore_blanks() {}
+ignoreBlanks(int num_lines, char **lines)
+{
+  /**
+   * Ignore leading blank chars
+   * We sort based on alphanumeric ASCII chars,
+   *   but we still output the line with the blanks.
+   * We're sorting w/o blanks, but we need to preserve the line
+   *   with blanks so we can print it to stdout.
+   * How? We can put lines with blanks in an array.
+   * We're not sorting these lines, but instead keeping them
+   *   for when we print to stdout.
+  */
+
+  
+}

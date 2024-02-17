@@ -280,8 +280,8 @@ sort(int argc, char *argv[])
   }
 
   // Hard coded for testing
-  if (strcmp(*(argv + 1), "-u") == 0) {
-    unique(num_lines, lines);
+  if (strcmp(*(argv + 1), "-b") == 0) {
+    ignoreBlanks(num_lines, lines);
     return 0;
   }
 
