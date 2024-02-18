@@ -17,9 +17,11 @@ int main(void) {
 	*/
 
 	// strtok tests
+	/*
     char strtokstr[] = "first second third";
     char *strtoktoken = strtok(strtokstr, " ");
     printf("%s\n", strtoktoken);
+*/
 	
 	// strtok_r test
 	/*
