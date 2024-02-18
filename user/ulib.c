@@ -242,13 +242,7 @@ sort(int argc, char *argv[])
   for (int i = 1; i < argc; i++) {
     curr_flag = *(argv + i);
     flag_len = strlen(curr_flag) + 1;
-    if (
-      strcmp(curr_flag, "-n") == 0 ||
-      strcmp(curr_flag, "-r") == 0 ||
-      strcmp(curr_flag, "-u") == 0 ||
-      strcmp(curr_flag, "-b") == 0 ||
-      strcmp(curr_flag, "-f") == 0
-    ) {
+    if (isFlag(curr_flag)) {
       *(flags + num_flags) = (char *) malloc(flag_len * sizeof(char));
       if (*(flags + num_flags) == NULL) return errorInt();
       strcpy(*(flags + num_flags), curr_flag);

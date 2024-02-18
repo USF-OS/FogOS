@@ -18,6 +18,18 @@ errorVoid()
   return;
 }
 
+bool
+isFlag(char *flag)
+{
+  return (
+    strcmp(flag, "-n") == 0 ||
+    strcmp(flag, "-r") == 0 ||
+    strcmp(flag, "-u") == 0 ||
+    strcmp(flag, "-b") == 0 ||
+    strcmp(flag, "-f") == 0
+  );
+}
+
 /**
  * Good for small input data
  * Use xv6's global 'ticks' variable to compare sort times
