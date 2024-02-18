@@ -125,12 +125,10 @@ char
 	char *end = str + strcspn(str, sep); // get to the end of token
 	if (*end == '\0') { // if token is already null pointer, make last point to end of token
 		*last = end;
-		return str;
+	} else { // terminate the token with null terminator point last to 1 space beyond it
+		*end = '\0';
+		*last = end + 1;
 	}
-
-	// terminate the token with null terminator point last to 1 space beyond it
-	*end = '\0';
-	*last = end + 1;
 	return str;
 }
 
@@ -140,14 +138,13 @@ char
 		return 0;
 
 	char *retval = *stringp;
-	char *end = *stringp + strcspn(*stringp, delim); // get to the end of the pointer
-	printf("end %s\n", end);
-	if (end == 0) {
+	char *end = *stringp + strcspn(*stringp, delim); // get to the end of first occurance
+	if (*end == '\0') {
 		*stringp = 0;
 	} else {
 		*end = '\0';
 		*stringp = end + 1;
-		printf("*stringp: %s\n", *stringp);
 	}
+	
 	return retval;
 }

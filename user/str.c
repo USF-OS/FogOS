@@ -15,6 +15,11 @@ int main(void) {
 	int len = strcspn(buf, "\t");
 	printf("%d %l\n", len, strlen("geeks"));
 	*/
+
+	// strtok tests
+    char strtokstr[] = "first second third";
+    char *strtoktoken = strtok(strtokstr, " ");
+    printf("%s\n", strtoktoken);
 	
 	// strtok_r test
 	/*
@@ -31,8 +36,7 @@ int main(void) {
     while (token != 0) {
         printf("Outer Token: %s\n", token);
  
-        char* inner_token = strtok_r(
-            token, inner_delimiters, &inner_saveptr);
+        char* inner_token = strtok_r(token, inner_delimiters, &inner_saveptr);
  
         while (inner_token != 0) {
             printf("Inner Token: %s\n", inner_token);
@@ -44,16 +48,17 @@ int main(void) {
     */
 
     // strsep tests
-    char *strsepstr = "Let's start programming ";
-    char delim[20] = " ";
-    char *token = strsep(&strsepstr, delim);
-  
-    while (token != 0) {  
-        printf("%s\n", token);
-    	token = strsep(&strsepstr, delim);
-    }  
-  
-    return 0;  
+    /*
+    char strsepstr[] = "I love string functions";
+    char strsepdelim[] = " ";
+    char *strsepptr = strsepstr;
+    char *strseptoken = strsep(&strsepptr, strsepdelim);
+    
+    while (strseptoken != 0) {
+        printf("%s\n", strseptoken);
+    	strseptoken = strsep(&strsepptr, strsepdelim);
+    }
+    */
 
 	// scanf tests
 /*
