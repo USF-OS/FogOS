@@ -127,18 +127,30 @@ ignoreBlanks(int num_lines, char **lines)
   */
 
   /* Array of lines with leading blanks */
+  int num_blank_lines = 0;
   char **leading_blanks = (char **) malloc(num_lines * sizeof(char *));
   if (leading_blanks == NULL) errorVoid();
 
   // Check all lines for leading blanks. If any found, add to blanks array
   char *curr_line = NULL;
   int blank_index;
+  int len;
   for (int i = 0; i < num_lines; i++) {
-    curr_line = *(lines + num_lines);
+    curr_line = *(lines + i);
+    len = strlen(curr_line) + 1;
     blank_index = 0;
-    while (*(curr_line + blank_index++) == ' ') { /* Skip leading blanks */ }
-    
-
+    while (*(curr_line + blank_index) == ' ' || *(curr_line + blank_index) == '\t') { blank_index++; /* Skip leading blanks */ }
+    // Save line with blanks to blank_lines
+    if (blank_index > 0) {
+      *(leading_blanks + num_blank_lines) = (char *) malloc(len * sizeof(char));
+      if (*(leading_blanks + num_blank_lines) == NULL) errorVoid();
+      strcpy(*(leading_blanks + num_blank_lines++), curr_line);
+      curr_line += blank_index;
+      // printf("%s\n", curr_line);
+    }
   }
 
+  // insertionSort(num_lines, lines);
+  // printLines(num_lines, lines);
+  printLines(num_blank_lines, leading_blanks);
 }

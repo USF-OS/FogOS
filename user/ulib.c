@@ -268,14 +268,14 @@ sort(int argc, char *argv[])
     strcpy(*(lines + num_lines++), line);
   }
 
-  printf("Before sorting:\n");
-  for (int i = 0; i < num_lines; i++) {
-    printf("%s\n", *(lines + i));
-  }
+  // printf("Before sorting:\n");
+  // for (int i = 0; i < num_lines; i++) {
+  //   printf("%s\n", *(lines + i));
+  // }
 
   // Hard coded for testing. Change for whatever flag you're working on.
-  if (strcmp(*(argv + 1), "-u") == 0) {
-    unique(num_lines, lines);
+  if (strcmp(*(argv + 1), "-b") == 0) {
+    ignoreBlanks(num_lines, lines);
     return 0;
   }
 
