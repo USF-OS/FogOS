@@ -5,10 +5,29 @@
  * @return -1 for memory allocation error
 */
 int
-error()
+errorInt()
 {
   printf("Memory allocation error.\n");
   return -1;
+}
+
+void
+errorVoid()
+{
+  printf("Memory allocation error.\n");
+  return;
+}
+
+bool
+isFlag(char *flag)
+{
+  return (
+    strcmp(flag, "-n") == 0 ||
+    strcmp(flag, "-r") == 0 ||
+    strcmp(flag, "-u") == 0 ||
+    strcmp(flag, "-b") == 0 ||
+    strcmp(flag, "-f") == 0
+  );
 }
 
 /**
@@ -107,5 +126,19 @@ ignoreBlanks(int num_lines, char **lines)
    *   for when we print to stdout.
   */
 
-  
+  /* Array of lines with leading blanks */
+  char **leading_blanks = (char **) malloc(num_lines * sizeof(char *));
+  if (leading_blanks == NULL) errorVoid();
+
+  // Check all lines for leading blanks. If any found, add to blanks array
+  char *curr_line = NULL;
+  int blank_index;
+  for (int i = 0; i < num_lines; i++) {
+    curr_line = *(lines + num_lines);
+    blank_index = 0;
+    while (*(curr_line + blank_index++) == ' ') { /* Skip leading blanks */ }
+    
+
+  }
+
 }
