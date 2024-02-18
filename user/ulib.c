@@ -274,14 +274,17 @@ sort(int argc, char *argv[])
   // }
 
   // Hard coded for testing. Change for whatever flag you're working on.
+  bool ignore_leading_blanks = false;
   if (strcmp(*(argv + 1), "-b") == 0) {
-    ignoreBlanks(num_lines, lines);
+    ignore_leading_blanks = true;
+    insertionSort(num_lines, lines, ignore_leading_blanks);
+    printLines(num_lines, lines);
+    freeLines(num_lines, lines);
     return 0;
   }
 
-  insertionSort(num_lines, lines);
-
   printf("\nAfter sorting:\n");
+  insertionSort(num_lines, lines, ignore_leading_blanks);
   printLines(num_lines, lines);
   freeLines(argc, argv);
   freeLines(num_lines, lines);
