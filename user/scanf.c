@@ -77,6 +77,7 @@ scanf(const char *restrict format, ...)
 					success++;	
 				}
 			}
+			state = 0;
 		}
 	}
 	return success;

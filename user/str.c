@@ -11,8 +11,8 @@ int main(void) {
 	/*
 	char buf[LEN];
 
-	strncpy(buf, "geeks\\ for geeks", LEN);
-	int len = strcspn(buf, "\t");
+	strncpy(buf, "geeks\n for geeks", LEN);
+	int len = strcspn(buf, " \t\n\r");
 	printf("%d %l\n", len, strlen("geeks"));
 	*/
 
@@ -21,7 +21,7 @@ int main(void) {
     char strtokstr[] = "first second third";
     char *strtoktoken = strtok(strtokstr, " ");
     printf("%s\n", strtoktoken);
-*/
+	*/
 	
 	// strtok_r test
 	/*
@@ -63,20 +63,14 @@ int main(void) {
     */
 
 	// scanf tests
-/*
-	int in;
-	char *str = malloc(100);
 
-	memset(str, 0, 100);
+	/* Uninitialised str ptr
+	int in;
+	char *str = 0;
 
 	int err = scanf("%d %s\n", &in, str);
 	printf("%d %s %d\n", err, str, in);
-*/
-
-	int d;
-	char s[100];
-	int error = scanf("%s%d\n", s, &d);
-	printf("%d %s %d\n", error, s, d);
+	*/
 
 	return 0;
 }
