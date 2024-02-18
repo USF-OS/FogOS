@@ -7,8 +7,7 @@ uint strspn(const char *s, const char *charset);
 uint strcspn(const char *s, const char *charset);
 char *strtok(char *restrict str, const char *restrict sep);
 char *strtok_r(char *restrict str, const char *restrict sep, char **restrict last);
-
-//char *strsep(char **stringp, const char *delim);
+char *strsep(char **stringp, const char *delim);
 
 //stdio.h
 int scanf(const char *restrict format, ...);

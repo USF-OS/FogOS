@@ -134,3 +134,20 @@ char
 	return str;
 }
 
+char
+*strsep(char **stringp, const char *delim) {
+	if (*stringp == 0) // string is null
+		return 0;
+
+	char *retval = *stringp;
+	char *end = *stringp + strcspn(*stringp, delim); // get to the end of the pointer
+	printf("end %s\n", end);
+	if (end == 0) {
+		*stringp = 0;
+	} else {
+		*end = '\0';
+		*stringp = end + 1;
+		printf("*stringp: %s\n", *stringp);
+	}
+	return retval;
+}

@@ -43,6 +43,18 @@ int main(void) {
     }
     */
 
+    // strsep tests
+    char *strsepstr = "Let's start programming ";
+    char delim[20] = " ";
+    char *token = strsep(&strsepstr, delim);
+  
+    while (token != 0) {  
+        printf("%s\n", token);
+    	token = strsep(&strsepstr, delim);
+    }  
+  
+    return 0;  
+
 	// scanf tests
 /*
 	int in;
