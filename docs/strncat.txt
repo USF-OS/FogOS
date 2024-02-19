@@ -1,0 +1,17 @@
+NAME
+	strncat - concatenate a null-padded character sequence into a string
+
+SYNOPSIS
+	#include "user/string.h"
+	
+	char *strncat(char *restrict s1, const char *restrict s2, uint n);
+
+DESCRIPTION
+	strncat() catenates the input character sequence contained in a null-padded fixed-
+	width buffer, into a string at the buffer pointed to by dst. The programmer is 
+	responsible for allocating a destination buffer large enough, that is,
+	strlen(dst) + strnlen(src, n) + 1
+
+RETURN VALUE
+	returns dst.
+	

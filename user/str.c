@@ -7,6 +7,14 @@
 # define LEN 128
 
 int main(void) {
+	// strncpy tests
+
+	// Buffer overflow
+	char buf_terminated[5];
+	char buf_overflow[] = "HEHEHE";
+	strncpy(buf_terminated, buf_overflow, strlen(buf_overflow));
+	printf("%s\n", buf_terminated);
+
 	// strcspn tests
 	/*
 	char buf[LEN];
@@ -63,14 +71,16 @@ int main(void) {
     */
 
 	// scanf tests
-
-	/* Uninitialised str ptr
+	/*
+	// Uninitialised str ptr
 	int in;
 	char *str = 0;
 
-	int err = scanf("%d %s\n", &in, str);
-	printf("%d %s %d\n", err, str, in);
-	*/
+	int err = scanf("%d %s\n", str, &in);
+	printf("%d %s %d\n", str, in);
 
+	// TODO: Ask prof how to handle wrong order of buffer inputs, since C library kinda just doesn't let you
+	*/
+	
 	return 0;
 }

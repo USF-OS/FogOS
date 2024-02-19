@@ -1,0 +1,22 @@
+NAME
+	strspn, strcspn - get length of a prefix substring
+
+SYNOPSIS
+	#include "user/string.h"
+
+	uint strspn(const char *s, const char *accept);
+	uint strcspn(const char *s, const char *reject);
+
+DESCRIPTION
+	strspn() calculates the length (in bytes) of the initial segment of s which 
+	consists entirely of bytes in accept.
+
+	strcspn() calculates the length of the initial segment of s which consists
+	entirely of bytes not in reject.
+
+RETURN VALUE
+	strspn() returns the number of bytes in the initial segment of s which 
+	consists only of bytes from accept.
+
+	strcspn() returns the number of bytes in the initial segment of s which are
+	not in the string reject.

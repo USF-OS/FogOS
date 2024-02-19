@@ -8,10 +8,11 @@ char
 *strncpy(char *dst, const char *src, uint n)
 {
 	char *walk = dst;
-	while ((*walk++ = *src++) && n > 0)
+
+	while ((*walk++ = *src++) != 0 && n > 0)
 		n--;
 
-	*walk = '\0'; 
+	*walk = '\0';
 
 	return dst;	
 }
@@ -55,21 +56,21 @@ char
 }
 
 uint 
-strspn(const char *s, const char *charset)
+strspn(const char *s, const char *accept)
 {
-	int charset_len = strlen(charset);
+	int accept_len = strlen(accept);
 	char *walk = (char *)s;
 	uint span_len = 0;
 
 	while (*walk) {
-		for (int i = 0; i < charset_len; i++) {
-			if (*walk == charset[i]) {
+		for (int i = 0; i < accept_len; i++) {
+			if (*walk == accept[i]) {
 				span_len++;
 				break;
 			}
 
 			// If it hits this line, then *walk has no match with anything in charset
-			if (i == charset_len - 1) {
+			if (i == accept_len - 1) {
 				return span_len;
 			}
 		}
@@ -80,15 +81,15 @@ strspn(const char *s, const char *charset)
 
 
 uint 
-strcspn(const char *s, const char *charset)
+strcspn(const char *s, const char *reject)
 {
-	int charset_len = strlen(charset);
+	int reject_len = strlen(reject);
 	char *walk = (char *)s;
 	uint span_len = 0;
 
 	while (*walk) {
-		for (int i = 0; i < charset_len; i++) {
-			if (*walk == charset[i]) {
+		for (int i = 0; i < reject_len; i++) {
+			if (*walk == reject[i]) {
 				return span_len;
 			}
 		}

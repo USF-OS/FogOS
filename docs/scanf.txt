@@ -1,0 +1,24 @@
+NAME
+	scanf - input FILE format conversion
+
+SYNOPSIS
+	#include "user/string.h"
+
+	int scanf(const char *restrict format, ...);
+
+DESCRIPTION
+	scanf() reads input from the standard input stream stdin
+
+	scanf() currently supports the following formats:
+	* %d, if an int is to be stored into an int *
+
+	* %s, if a string is to be stored in a char *
+
+	The programmer is responsible for ensuring that the formats in the format string 
+	corresponds to the right type of buffer, and that the correct number of buffers
+	has been provided in the arguments.
+
+RETURN VALUE
+	On success, these functions return the number of input items successfuly matched 
+	and assigned; this can be fewer than provided for, or even zero, in the event of
+	an early matching failure. 

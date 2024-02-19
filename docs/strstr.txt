@@ -1,0 +1,17 @@
+NAME
+	strstr - locate a substring
+
+SYNOPSIS
+	#include "user/string.h"
+
+	char *strstr(const char *haystack, const char *needle);
+
+DESCRIPTION
+	strstr() finds the first occurence of the substring needle in the string haystack.
+	The terminating null bytes ('\0') are not compared.
+
+RETURN VALUE
+	strstr() returns a pointer to the beginning of the located substring, or NULL if
+	the substring is not found.
+
+	If needle is the empty string, the return value is always the haystack itself.

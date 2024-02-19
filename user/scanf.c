@@ -42,7 +42,6 @@ scanf(const char *restrict format, ...)
 			if (c == '%') {
 				state = '%';
 			} else {
-				// TODO: Include test case for invalid inputs later
 				buf++;			// iterate through string since no match
 			}
 		} else if (state == '%') {
@@ -64,6 +63,7 @@ scanf(const char *restrict format, ...)
 				s = va_arg(ap, char *);
 
 				// No buffer space allocated, not successfully copied
+				// TODO: Ask prof if there is a better way cuz then they have to free it?
 				if (s == 0) {
 					s = malloc(8);
 					memset(s, 0, 8);

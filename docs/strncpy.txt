@@ -1,0 +1,19 @@
+NAME
+	strncpy - copy a string into a character sequence with trunctation and
+	null termination
+
+SYNOPSIS
+	#include "user/string.h"
+
+	char *strncpy(char *dst, const char *src, uint n);
+
+DESCRIPTION
+	strncpy() copies the string pointed to by src into a null-padded 
+	character sequence at the fixed-width buffer pointed to by dst. If 
+	the destination buffer, limited by its size, isn't large enough to 
+	hold the copy, the resulting character sequence is truncated. 
+
+RETURN VALUE
+	strncpy()
+		returns dst.
+
