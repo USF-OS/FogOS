@@ -1,0 +1,19 @@
+NAME
+	strtok - extract tokens from strings
+
+SYNOPSIS
+	char *strtok(char *restrict str, const char *restrict sep);
+
+DESCRIPTION
+	strtok() breaks a string into a sequence of zero or more nonempty
+	tokens. On the first call to strtok(), the string to be parsed
+	should be specified in str. Next calls of the function that
+	should parse the same string should have str as NULL.
+
+	The sep argument specifies a set of bytes that delimit the tokens
+	in the parsed string. The caller may specify different strings in
+	delim in successive calls that parse the same string.
+
+RETURN VALUE
+	Returns a pointer to the next token, or NULL if there are no more
+	tokens.

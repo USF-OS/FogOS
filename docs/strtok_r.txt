@@ -1,0 +1,24 @@
+NAME
+	strtok - extract tokens from strings
+
+SYNOPSIS
+	char *strtok_r(char *restrict str, const char *restrict sep, char **restrict last);
+
+DESCRIPTION
+	strtok_r() is a reentrant version of strtok() that also breaks a
+	string into a sequence of zero or more nonempty tokens. The last
+	argument is a pointer to a variable of char * type and is used
+	internally by strtok_r() to maintain context between successive
+	calls that parse the same string.
+
+	On the first call to strtok_r(), str should point to the string
+	to be parsed, and the value of *last is ignored. In the next
+	calls of the function, str should be NULL and last should remain
+	unchanged since previous calls.
+
+	Different strings may be parsed concurrently using sequences of
+	calls to strtok_r() that specify different last arguments.
+
+RETURN VALUE
+	Returns a pointer to the next token, or NULL if there are no more
+	tokens.
