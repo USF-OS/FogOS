@@ -8,13 +8,14 @@
 
 int main(void) {
 	// strncpy tests
-
+	/*
 	// Buffer overflow
 	char buf_terminated[5];
 	char buf_overflow[] = "HEHEHE";
 	strncpy(buf_terminated, buf_overflow, strlen(buf_overflow));
 	printf("%s\n", buf_terminated);
-
+	*/
+	
 	// strcspn tests
 	/*
 	char buf[LEN];
@@ -71,6 +72,10 @@ int main(void) {
     */
 
 	// scanf tests
+	int num;
+	int result = scanf("%d\n", &num);
+	printf("%d %d\n", result, num);
+	
 	/*
 	// Uninitialised str ptr
 	int in;
@@ -81,6 +86,8 @@ int main(void) {
 
 	// TODO: Ask prof how to handle wrong order of buffer inputs, since C library kinda just doesn't let you
 	*/
+
+	
 	
 	return 0;
 }

@@ -47,17 +47,31 @@ scanf(const char *restrict format, ...)
 		} else if (state == '%') {
 			if (c == 'd') {
 				int *d = va_arg(ap, int *);
-				int offset = strspn(buf, digits);
 
-				// Convert str to int
-				char temp[offset + 1];
-				memset(temp, 0, offset + 1);
-				strncpy(temp, buf, offset);
-				int val = atoi(temp);
+				int offset;
+				int is_neg = 0;
 				
-				*d = val;
-				buf += offset;
-				success++;
+				if (*buf == '-') {
+					is_neg = 1;
+					buf++;	
+				}
+
+				offset = strspn(buf, digits);
+
+				// Convert str to int if input is valid sequence of digits (offset > 0)
+				if (offset > 0) {
+					char temp[offset + 1];
+					memset(temp, 0, offset + 1);
+					strncpy(temp, buf, offset);
+					int val = atoi(temp);
+
+					if (is_neg)
+						val *= -1;
+					
+					*d = val;
+					buf += offset;
+					success++;	
+				}
 			} 
 			else if (c == 's') {
 				s = va_arg(ap, char *);
