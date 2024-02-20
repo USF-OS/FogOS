@@ -263,9 +263,7 @@ sort(int argc, char *argv[])
   }
 
     if (strcmp(*(argv + 1), "-n") == 0) {
-    printf("\n");
     numeric(num_lines, lines);
-    return 0;
   }
 
   //insertionSort(num_lines, lines);

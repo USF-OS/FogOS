@@ -114,13 +114,21 @@ numeric(int num_lines, char *lines[]) {
   insertionSort(alphabeticCount, alphabeticLines);
 
 
+  int index = 0;
+  for (int i = 0; i < alphabeticCount; i++, index++) {
+    lines[index] = alphabeticLines[i];
+  }
+  // Continue with numerical lines
+  for (int i = 0; i < numericCount; i++, index++) {
+    lines[index] = numericalLines[i];
+  }
 
-  for (int i = 0; i < numericCount; i++) {
-    printf("%s\n", numericalLines[i]);
+  // Assuming the rest of lines beyond index should be nullified if not all lines are overwritten
+  //Probably not needed but safe
+  for (int i = index; i < num_lines; i++) {
+    lines[i] = NULL; 
   }
-  for (int i = 0; i < alphabeticCount; i++) {
-    printf("%s\n", alphabeticLines[i]);
-  }
+  
 
   // Clean up
   free(numericalLines);
