@@ -17,43 +17,43 @@ insertionSort(int num_lines, char *lines[])
   }
 }
 
-int my_isdigit(char c) {
+int 
+my_isdigit(char c) {
     return c >= '0' && c <= '9';
 }
 
-long parseLeadingNumber(const char *str, int *isNumeric) {
-    long value = 0;
-    *isNumeric = my_isdigit(*str) ? 1 : 0; 
+// Helper function to check if the first character of a string is numeric
+int 
+isNumeric(const char *str) {
+    return my_isdigit(str[0]);
+}
 
-    while (my_isdigit(*str)) { 
+// parseLong function to manually parse a long from a string
+long 
+parseLong(const char *str) {
+    long value = 0;
+    while (my_isdigit(*str)) {
         value = value * 10 + (*str - '0');
         str++;
     }
-
     return value;
 }
 
+int 
+compareStringsAsNumbers(const char* a, const char* b) {
+    if (my_isdigit(a[0]) && my_isdigit(b[0])) {
+        long numA = parseLong(a);
+        long numB = parseLong(b);
 
-int compareStringsAsNumbers(const char* a, const char* b) {
-    int isNumericA, isNumericB;
-    long numA = parseLeadingNumber(a, &isNumericA);
-    long numB = parseLeadingNumber(b, &isNumericB);
-
-    if (isNumericA && isNumericB) {
-        if (numA != numB) {
-            return (numA < numB) ? -1 : 1;
-        }
-
-    } else if (isNumericA) {
-        return -1; 
-    } else if (isNumericB) {
-        return 1; 
+        if (numA < numB) return -1;
+        if (numA > numB) return 1;
     }
 
     return strcmp(a, b);
 }
 
-void insertionSortWithNumeric(int num_lines, char **lines) {
+void 
+insertionSortWithNumeric(int num_lines, char **lines) {
     int j;
     char *curr_line;
     for (int i = 1; i < num_lines; i++) {
@@ -94,13 +94,6 @@ freeLines(int fd, int argc, char *argv[], int num_lines, char *lines[])
 
   close(fd);
 }
-
-// Helper function to check if the first character of a string is numeric
-int 
-isNumeric(const char *str) {
-    return my_isdigit(str[0]);
-}
-
 
 void
 numeric(int num_lines, char *lines[]) {
