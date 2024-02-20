@@ -58,8 +58,8 @@ scanf(const char *restrict format, ...)
 
 				offset = strspn(buf, digits);
 
-				// Convert str to int if input is valid sequence of digits (offset > 0)
-				if (offset > 0) {
+				// Convert str to int if input is valid sequence of digits and minimise buffer overflow
+				if (offset > 0 && offset < 11) {
 					char temp[offset + 1];
 					memset(temp, 0, offset + 1);
 					strncpy(temp, buf, offset);
