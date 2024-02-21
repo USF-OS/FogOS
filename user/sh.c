@@ -3,6 +3,7 @@
 #include "kernel/types.h"
 #include "user/user.h"
 #include "kernel/fcntl.h"
+//#include "<sys/queue.h>"
 
 // Parsed command representation
 #define EXEC  1
@@ -147,7 +148,8 @@ main(void)
 {
   static char buf[100];
   int fd;
-
+ //TODO hist init
+ 
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
     if(fd >= 3){
@@ -158,7 +160,10 @@ main(void)
 
   // Read and run input commands.
   while(getcmd(buf, sizeof(buf)) >= 0){
-    if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){
+  //TODO print about to run, buf?
+  	printf("about to run, %s\n", buf);
+    if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){ 
+    //TODO string comparison like this for starting with history
       // Chdir must be called by the parent, not the child.
       buf[strlen(buf)-1] = 0;  // chop \n
       if(chdir(buf+3) < 0)
@@ -166,6 +171,7 @@ main(void)
       continue;
     }
     if(fork1() == 0)
+    //TODO pass bufs back thriugh this???
       runcmd(parsecmd(buf));
     wait(0);
   }
@@ -492,3 +498,4 @@ nulterminate(struct cmd *cmd)
   }
   return cmd;
 }
+
