@@ -1,13 +1,7 @@
-test
 apple
 car
-apple
-car
-test
-apple
-banana
+aPpLE
+TEST
+Banana
 banana
 program
-program
-banana
-test

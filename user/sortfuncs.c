@@ -74,43 +74,19 @@ freeLines(int num_lines, char *lines[])
 }
 
 void
-unique(int num_lines, char *lines[])
+ignoreCase(int num_lines, char *lines[])
 {
   /**
-   * Sort lines, compare adjacent lines, ignore duplicates
-   * Iterate through lines and compare curr to next
-   * If curr == next, ignore next
-   * Put unique lines in a new array or change in place?
-   * For now, start with new array
+   * Ignore blanks when sorting
+   * Convert all to lowercase before sorting, then output
+   *    lines with original case (original input)
+   * Might have to save lowercase lines into array
+   *    But how do we then replace them with the original lines?
+   * Create new line that will be lower case version of line
+   * Sort based on this line
+   * Then, we strcpy() original line back in? But how do we know location?
+   * After sort, iterate through sorted output (which will be all lowercase),
+   *    and strcmp() the lowercase output and the toLower() version of the original line.
+   * If they match, then strcpy() the original line into the lowercase line, thus maintaining sorted order
   */
-
-  insertionSort(num_lines, lines);
-
-  int num_unique_lines = 0;
-  char **unique_lines = (char **) malloc(num_lines * sizeof(char *));
-  int runner = 1;
-  for (int i = 0; runner < num_lines; i++) {
-    char *curr_line = *(lines + runner - 1);
-    char *next_line = *(lines + runner);
-    int len = strlen(curr_line) + 1;
-    *(unique_lines + num_unique_lines) = (char *) malloc(len * sizeof(char));
-    if (*(unique_lines + num_unique_lines) == NULL) return;
-
-    strcpy(*(unique_lines + num_unique_lines++), curr_line);
-
-    while (strcmp(curr_line, next_line) == 0) {
-      next_line = *(lines + ++runner);
-    }
-    runner++;
-  }
-
-  // Should not be printing here. Testing purposes only
-  // On second thought, might be ok for certain flags
-  // On third thought, probably not a good idea -> hard to follow
-  printf("\nSorted unique values:\n");
-  printLines(num_unique_lines, unique_lines);
-  freeLines(num_unique_lines, unique_lines);
 }
-
-void
-ignore_case() {}
