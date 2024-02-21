@@ -31,6 +31,54 @@ isFlag(char *flag)
 }
 
 /**
+ * @return 0 if lowercase, 1 if uppercase
+*/
+int
+my_isUpper(const char c)
+{
+  return c >= 'A' && c <= 'Z';
+}
+
+/**
+ * @brief Determines if at least 1 character in the line is uppercase
+ * @return 0 for all lowercase or 1 for at least 1 uppercase character
+*/
+int
+my_lineIsUpper(const char* line)
+{
+  int len = strlen(line);
+  for (int i = 0; i < len; i++) {
+    if (*(line + i) >= 'A' && *(line + i) <= 'Z') return 1;
+  }
+
+  return 0;
+}
+
+/**
+ * @brief Converts a line to all lowercase characters
+ * @return The lowercase line
+*/
+char*
+my_toLower(char* line)
+{
+  int len = strlen(line);
+  char *lowercase_line = (char *) malloc(len * sizeof(char));
+  /* DO NOT FORGET TO FREE THIS */
+  if (lowercase_line == NULL) return NULL;
+  strcpy(lowercase_line, line);
+
+  char curr_char;
+  for (int i = 0; i < len; i++) {
+    curr_char = *(line + i);
+    if (my_isUpper(curr_char)) {
+      *(lowercase_line + i) += 'a' - 'A';
+    }
+  }
+
+  return lowercase_line;
+}
+
+/**
  * Good for small input data
  * Use xv6's global 'ticks' variable to compare sort times
  * between insertion sort and merge sort
@@ -82,11 +130,11 @@ ignoreCase(int num_lines, char *lines[])
    *    lines with original case (original input)
    * Might have to save lowercase lines into array
    *    But how do we then replace them with the original lines?
-   * Create new line that will be lower case version of line
-   * Sort based on this line
+   * Create new line that will be lowercase version of original line
+   * Sort based on this lowercase line
    * Then, we strcpy() original line back in? But how do we know location?
    * After sort, iterate through sorted output (which will be all lowercase),
-   *    and strcmp() the lowercase output and the toLower() version of the original line.
+   *    and strcmp() the lowercase line and the toLower() version of the original line (which we have in a separate array).
    * If they match, then strcpy() the original line into the lowercase line, thus maintaining sorted order
   */
 }
