@@ -72,9 +72,9 @@ int main(void) {
     */
 
 	// scanf tests
-	int num;
-	int result = scanf("%d\n", &num);
-	printf("%d %d\n", result, num);
+	char s[100];
+	int result = scanf("%d\n", s);
+	printf("%d %d\n", result, s);
 	
 	/*
 	// Uninitialised str ptr
@@ -83,8 +83,6 @@ int main(void) {
 
 	int err = scanf("%d %s\n", str, &in);
 	printf("%d %s %d\n", str, in);
-
-	// TODO: Ask prof how to handle wrong order of buffer inputs, since C library kinda just doesn't let you
 	*/
 
 	
