@@ -63,6 +63,12 @@ historyinit()
 {
 	
 }
+
+void
+historyadd(char *buf)
+{
+	
+}
 // Execute cmd.  Never returns.
 void
 runcmd(struct cmd *cmd)
@@ -149,12 +155,6 @@ getcmd(char *buf, int nbuf)
   if(buf[0] == 0) // EOF
     return -1;
   return 0;
-}
-
-void
-historyadd(char *buf)
-{
-	
 }
 
 int
