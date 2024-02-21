@@ -55,6 +55,14 @@ void panic(char*);
 struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
 
+struct history{
+	char *his[10];
+}
+void 
+historyinit()
+{
+	
+}
 // Execute cmd.  Never returns.
 void
 runcmd(struct cmd *cmd)
