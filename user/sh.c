@@ -143,6 +143,12 @@ getcmd(char *buf, int nbuf)
   return 0;
 }
 
+void
+historyadd(char *buf)
+{
+	
+}
+
 int
 main(void)
 {
