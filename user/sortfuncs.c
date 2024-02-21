@@ -18,7 +18,7 @@ errorVoid()
   return;
 }
 
-bool
+int
 isFlag(char *flag)
 {
   return (
@@ -137,4 +137,59 @@ ignoreCase(int num_lines, char *lines[])
    *    and strcmp() the lowercase line and the toLower() version of the original line (which we have in a separate array).
    * If they match, then strcpy() the original line into the lowercase line, thus maintaining sorted order
   */
+
+  printf("\nUnsorted, original case:\n");
+  printLines(num_lines, lines);
+
+  char **lines_to_ignore = (char **) malloc(num_lines * sizeof(char *));
+  if (lines_to_ignore == NULL) errorVoid();
+  int num_lines_to_ignore = 0, len = 0;
+
+  char *curr_line = NULL;
+  for (int i = 0; i < num_lines; i++) {
+    curr_line = *(lines + i);
+    len = strlen(curr_line);
+
+    if (my_lineIsUpper(curr_line)) {
+      *(lines_to_ignore + num_lines_to_ignore) = (char *) malloc(len * sizeof(char));
+      strcpy(*(lines_to_ignore + num_lines_to_ignore++), curr_line);
+      strcpy(curr_line, my_toLower(curr_line));
+    }
+  }
+
+  /**
+   * At this point, lines are unsorted and lowercase
+   * After sorting, we will iterate through and compare
+   *    lowercase version of original lines to sorted, lowercase lines
+   * If there's a match, swap the lines via strcpy()
+  */
+
+  printf("\nUnsorted, lowercase:\n");
+  printLines(num_lines, lines);
+
+  insertionSort(num_lines, lines);
+
+  char *sorted_line = NULL;
+  char *original_line = NULL;
+  int ignored_lines_index = 0;
+
+  printf("\nSorted, lowercase:\n");
+  printLines(num_lines, lines);
+
+  printf("\nOriginal lines containing uppercase chars:\n");
+  printLines(num_lines_to_ignore, lines_to_ignore);
+  
+  for (int i = 0; i < num_lines; i++) {
+    sorted_line = *(lines + i);
+    original_line = *(lines_to_ignore + ignored_lines_index);
+
+    if (strcmp(sorted_line, my_toLower(original_line)) == 0) {
+      strcpy(sorted_line, original_line);
+      ignored_lines_index++;
+    }
+  }
+
+  printf("\nSorted, case ignored:\n");
+  printLines(num_lines, lines);
+  
 }
