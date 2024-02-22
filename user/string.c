@@ -8,20 +8,21 @@ char
 *strncpy(char *dst, const char *src, uint n)
 {
 	char *walk = dst;
-
-	while ((*walk++ = *src++) != 0 && n > 0)
+	while ((*walk++ = *src++) && n > 0)
 		n--;
 
-	*walk = '\0';
+	*walk = '\0'; 
 
 	return dst;	
 }
 
+
 int
 strncmp(const char *s1, const char *s2, uint n)
 {
-	while (*s1 && *s1 == *s2 && n >= 0)
+	while (*s1 && *s1 == *s2 && n > 0) 
 		s1++, s2++, n--;
+		
 	return (uchar)*s1 - (uchar)*s2;
 }
 
@@ -40,7 +41,7 @@ char
 		return (char *)haystack;
 	}	
 
-	int substr_len = strlen(needle);
+	int substr_len = strlen(needle) - 1;
 
 	// const char* shows that func will not change char str
 	char *walk = (char *)haystack;
