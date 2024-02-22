@@ -44,7 +44,7 @@ scanf(const char *restrict format, ...)
 				int *d = va_arg(ap, int *);
 
 				int offset;
-				int is_neg = 0;
+				int is_neg = 0;	// by default, set to non-negative
 				
 				if (*buf == '-') {
 					is_neg = 1;
@@ -53,8 +53,8 @@ scanf(const char *restrict format, ...)
 
 				offset = strspn(buf, digits);
 
-				// Convert str to int if input is valid sequence of digits (offset > 0)
-				if (offset > 0) {
+				// Convert str to int if input is valid sequence of digits (not too short, not too long)
+				if (offset > 0 && offset < 11) {
 					char temp[offset + 1];
 					memset(temp, 0, offset + 1);
 					strncpy(temp, buf, offset);
