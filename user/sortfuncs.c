@@ -66,6 +66,58 @@ insertionSort(int num_lines, char *lines[], int ignore_leading_blanks)
   }
 }
 
+int 
+my_isdigit(char c) {
+    return c >= '0' && c <= '9';
+}
+
+// Helper function to check if the first character of a string is numeric
+int 
+isNumeric(const char *str) {
+    return my_isdigit(str[0]);
+}
+
+// parseLong function to manually parse a long from a string
+long 
+parseLong(const char *str) {
+    long value = 0;
+    while (my_isdigit(*str)) {
+        value = value * 10 + (*str - '0');
+        str++;
+    }
+    return value;
+}
+
+int 
+compareStringsAsNumbers(const char* a, const char* b) {
+    if (my_isdigit(a[0]) && my_isdigit(b[0])) {
+        long numA = parseLong(a);
+        long numB = parseLong(b);
+
+        if (numA < numB) return -1;
+        if (numA > numB) return 1;
+    }
+
+    return strcmp(a, b);
+}
+
+void 
+insertionSortWithNumeric(int num_lines, char **lines) {
+    int j;
+    char *curr_line;
+    for (int i = 1; i < num_lines; i++) {
+        curr_line = lines[i];
+        j = i - 1;
+
+        // Use compareStringsAsNumbers for comparison
+        while (j >= 0 && compareStringsAsNumbers(lines[j], curr_line) > 0) {
+            lines[j + 1] = lines[j];
+            j--;
+        }
+        lines[j + 1] = curr_line;
+    }
+}
+
 void
 printLines(int num_lines, char *lines[])
 {
@@ -122,4 +174,44 @@ unique(int num_lines, char *lines[])
   printf("\nSorted unique values:\n");
   printLines(num_unique_lines, unique_lines);
   freeLines(num_unique_lines, unique_lines);
+}
+
+void
+numeric(int num_lines, char *lines[]) {
+
+  char **numericalLines = (char **)malloc(NUM_LINES * sizeof(char *));
+  char **alphabeticLines = (char **)malloc(NUM_LINES * sizeof(char *));
+  int numericCount = 0, alphabeticCount = 0;
+
+  for (int i = 0; i < num_lines; i++) {
+    if (isNumeric(lines[i])) {
+        numericalLines[numericCount++] = lines[i];
+    } else {
+        alphabeticLines[alphabeticCount++] = lines[i];
+    }
+  }
+
+  insertionSortWithNumeric(numericCount, numericalLines);
+  insertionSort(alphabeticCount, alphabeticLines);
+
+
+  int index = 0;
+  for (int i = 0; i < alphabeticCount; i++, index++) {
+    lines[index] = alphabeticLines[i];
+  }
+  // Continue with numerical lines
+  for (int i = 0; i < numericCount; i++, index++) {
+    lines[index] = numericalLines[i];
+  }
+
+  // Assuming the rest of lines beyond index should be nullified if not all lines are overwritten
+  //Probably not needed but safe
+  for (int i = index; i < num_lines; i++) {
+    lines[i] = NULL; 
+  }
+  
+
+  // Clean up
+  free(numericalLines);
+  free(alphabeticLines);
 }
