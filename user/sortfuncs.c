@@ -18,7 +18,7 @@ errorVoid()
   return;
 }
 
-bool
+int
 isFlag(char *flag)
 {
   return (
