@@ -241,6 +241,21 @@ sort(int argc, char *argv[])
   int ig_case_flag = 0;
   int ig_blanks_flag = 0;
 
+  // char *curr_flag = NULL;
+  // int flag_len = 0;
+  // int num_flags = 0;
+  // char **flags = (char **) malloc((argc - 1) * sizeof(char *));
+  
+  // getFlags(argc, argv, flags, num_flags );
+
+  // if (num_flags > 0) {
+  //   for (int i = 1; i < num_flags; i++) {
+  //     if (flags == NULL) return errorInt();
+
+
+  //   }
+  // }     
+
 
   char *curr_flag = NULL;
   int flag_len = 0;
