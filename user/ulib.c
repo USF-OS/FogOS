@@ -312,13 +312,13 @@ sort(int argc, char *argv[])
   }
 
   if (num_flag == 1) {
-    //call num_flag that already sorts
+    numeric(num_lines, lines);
   } else {
-    //call regulat insertion sort
+    //call regular insertion sort 
   }
 
   if (rev_flag) {
-    //call reverse func
+    reverse(num_lines, lines);
   }
 
   // printf("Before sorting:\n");
