@@ -30,6 +30,17 @@ isFlag(char *flag)
   );
 }
 
+int
+compare(char *s1, char *s2, int ignore_leading_blanks)
+{
+  if (ignore_leading_blanks) {
+    while (*s1 == ' ' || *s1 == '\t') s1++;
+    while (*s2 == ' ' || *s2 == '\t') s2++;
+  }
+
+  return strcmp(s1, s2);
+}
+
 /**
  * Good for small input data
  * Use xv6's global 'ticks' variable to compare sort times
@@ -40,14 +51,14 @@ isFlag(char *flag)
  * Hope that works
 */
 void
-insertionSort(int num_lines, char *lines[])
+insertionSort(int num_lines, char *lines[], int ignore_leading_blanks)
 {
   int j;
   char *curr_line = NULL;
   for (int i = 1; i < num_lines; i++) {
     j = i - 1;
     curr_line = *(lines + i);
-    while (j >= 0 && strcmp(*(lines + j), curr_line) > 0) {
+    while (j >= 0 && compare(*(lines + j), curr_line, ignore_leading_blanks) > 0) {
       *(lines + j + 1) = *(lines + j);
       j--;
     }
