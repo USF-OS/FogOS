@@ -105,6 +105,10 @@ int main(void) {
         printf("%s\n", strseptoken);
     	strseptoken = strsep(&strsepptr, strsepdelim);
     }
+
+	int num;
+	int result = scanf("%d", &num);
+	printf("%d %d\n", result, num);
 	
 	return 0;
 }

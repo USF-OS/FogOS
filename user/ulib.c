@@ -91,6 +91,7 @@ fgets(int fd, char *buf, int max)
 int
 getline(char **lineptr, uint *n, int fd)
 {
+  printf("Hi1\n");
   if (*lineptr == 0 && *n == 0) {
     *n = 128;
     *lineptr = malloc(*n);
