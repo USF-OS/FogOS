@@ -227,6 +227,12 @@ freeLines(int num_lines, char *lines[])
 }
 
 void
+ignoreBlanks(int num_lines, char *lines[])
+{
+  insertionSort(num_lines, lines, "-b");
+}
+
+void
 unique(int num_lines, char *lines[])
 {
   /**
