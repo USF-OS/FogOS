@@ -1,3 +1,9 @@
+/**
+ * @file sortfuncs.c a collection of helper functions used for 'sort'
+ * @author Shyon Ghahghahi
+ * @author Amin Joseph
+*/
+
 #define NULL ((void *) 0)
 #define NUM_LINES 1000
 
