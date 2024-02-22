@@ -268,10 +268,10 @@ sort(int argc, char *argv[])
     strcpy(*(lines + num_lines++), line);
   }
 
-  printf("Before sorting:\n");
-  for (int i = 0; i < num_lines; i++) {
-    printf("%s\n", *(lines + i));
-  }
+  // printf("Before sorting:\n");
+  // for (int i = 0; i < num_lines; i++) {
+  //   printf("%s\n", *(lines + i));
+  // }
 
   // char** flags;
   //   int flagCount;
@@ -311,16 +311,18 @@ sort(int argc, char *argv[])
   // }
 
   // Hard coded for testing. Change for whatever flag you're working on.
-  if (strcmp(*(argv + 1), "-f") == 0) {
-    ignoreCase(num_lines, lines);
+  if (strcmp(*(argv + 1), "-u") == 0) {
+    unique(num_lines, lines);
+    // printLines(num_lines, lines);
+    // freeLines(num_lines, lines);
     close(fd);
     return 0;
   }
 
-  //this looks a little shitty but works
-  if (reverseCheck(flags, flagCount) == 1) {
-    reverse(num_lines, lines);
-  }
+  // //this looks a little shitty but works
+  // if (reverseCheck(flags, flagCount) == 1) {
+  //   reverse(num_lines, lines);
+  // }
   
 
   // printf("\nAfter sorting:\n");
