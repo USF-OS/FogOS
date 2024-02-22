@@ -284,7 +284,7 @@ sort(int argc, char *argv[])
   }
 
   printf("\nAfter sorting:\n");
-  insertionSort(num_lines, lines, ignore_leading_blanks);
+  ignoreBlanks(num_lines, lines);
   printLines(num_lines, lines);
   freeLines(argc, argv);
   freeLines(num_lines, lines);

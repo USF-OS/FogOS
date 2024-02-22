@@ -83,3 +83,9 @@ freeLines(int num_lines, char *lines[])
   free(lines);
   lines = NULL;
 }
+
+void
+ignoreBlanks(int num_lines, char *lines[])
+{
+  insertionSort(num_lines, lines, "-b");
+}
