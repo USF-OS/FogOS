@@ -241,36 +241,46 @@ sort(int argc, char *argv[])
   int ig_case_flag = 0;
   int ig_blanks_flag = 0;
 
-  // char *curr_flag = NULL;
-  // int flag_len = 0;
-  // int num_flags = 0;
-  // char **flags = (char **) malloc((argc - 1) * sizeof(char *));
-  
-  // getFlags(argc, argv, flags, num_flags );
-
-  // if (num_flags > 0) {
-  //   for (int i = 1; i < num_flags; i++) {
-  //     if (flags == NULL) return errorInt();
-
-
-  //   }
-  // }     
-
-
   char *curr_flag = NULL;
   int flag_len = 0;
   int num_flags = 0;
   char **flags = (char **) malloc((argc - 1) * sizeof(char *));
-  if (flags == NULL) return errorInt();
-  for (int i = 1; i < argc; i++) {
-    curr_flag = *(argv + i);
-    flag_len = strlen(curr_flag) + 1;
-    if (isFlag(curr_flag)) {
-      *(flags + num_flags) = (char *) malloc(flag_len * sizeof(char));
-      if (*(flags + num_flags) == NULL) return errorInt();
-      strcpy(*(flags + num_flags), curr_flag);
+  
+  getFlags(argc, argv, &flags, &flagCount);
+
+  //pretty ugly, but limited number of lfags allows for this
+  if (num_flags > 0) {
+    for (int i = 1; i < num_flags; i++) {
+      if (strcmp(flags[i], "-u" ) == 0) {
+        unq_flag = 1;
+      }
+      if (strcmp(flags[i], "-r" ) == 0) {
+        unq_flag = 1;
+      }
+      if (strcmp(flags[i], "-b" ) == 0) {
+        ig_blanks_flag = 1;
+      }
+      if (strcmp(flags[i], "-i" ) == 0) {
+        ig_case_flag = 1;
+      }
     }
-  }
+  }     
+
+
+  // char *curr_flag = NULL;
+  // int flag_len = 0;
+  // int num_flags = 0;
+  // char **flags = (char **) malloc((argc - 1) * sizeof(char *));
+  // if (flags == NULL) return errorInt();
+  // for (int i = 1; i < argc; i++) {
+  //   curr_flag = *(argv + i);
+  //   flag_len = strlen(curr_flag) + 1;
+  //   if (isFlag(curr_flag)) {
+  //     *(flags + num_flags) = (char *) malloc(flag_len * sizeof(char));
+  //     if (*(flags + num_flags) == NULL) return errorInt();
+  //     strcpy(*(flags + num_flags), curr_flag);
+  //   }
+  // }
 
   /* Build array of lines from file we're reading from */
   char *line = NULL;
@@ -289,6 +299,26 @@ sort(int argc, char *argv[])
     if (*(lines + num_lines) == NULL) return errorInt();
 
     strcpy(*(lines + num_lines++), line);
+  }
+
+  if (unq_flag == 1) {
+    //call unq_flag
+  }
+  if (ig_blanks_flag == 1) {
+    //call blanks flag
+  }
+    if (ig_case_flag == 1) {
+    //call case flag
+  }
+
+  if (num_flag == 1) {
+    //call num_flag that already sorts
+  } else {
+    //call regulat insertion sort
+  }
+
+  if (rev_flag) {
+    //call reverse func
   }
 
   // printf("Before sorting:\n");
