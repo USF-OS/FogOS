@@ -4,36 +4,73 @@
 #include "user/user.h"
 #include "user/string.h"
 
-# define LEN 128
+# define LEN 16
 
 int main(void) {
-	// strncpy tests
-	/*
-	// Buffer overflow
-	char buf_terminated[5];
-	char buf_overflow[] = "HEHEHE";
-	strncpy(buf_terminated, buf_overflow, strlen(buf_overflow));
-	printf("%s\n", buf_terminated);
-	*/
-	
-	// strcspn tests
-	/*
 	char buf[LEN];
 
-	strncpy(buf, "geeks\n for geeks", LEN);
-	int len = strcspn(buf, " \t\n\r");
-	printf("%d %l\n", len, strlen("geeks"));
-	*/
+	// strncpy
+	printf("strncpy:\n");
+	strncpy(buf, "Hello", LEN);
+	printf("%s\n", buf);
 
-	// strtok tests
-	/*
+	// strncmp
+	printf("\nstrncmp:\n");
+	
+	if (!strncmp(buf, "Hello", LEN))
+		printf("%s matches Hello\n", buf);
+		
+	if (strncmp(buf, "World", LEN))
+		printf("%s does not match World\n", buf);
+
+	// strncat
+	printf("\nstrncat:\n");
+	strncat(buf, " World12345678910", LEN - strlen(buf));
+	printf("%s\n", buf);
+
+	// strstr
+	printf("\nstrstr:\n");
+	char *substr = strstr(buf, "");
+	printf("%s\n", substr);
+
+	substr = strstr(buf, "Hell");
+	printf("%s\n", substr);
+
+	substr = strstr(buf, "123");
+	printf("%s\n", substr);	
+
+	substr = strstr(buf, "Yell");
+	printf("%s\n", substr);	
+
+	printf("\nstrspn:\n");
+
+	// strspn
+	int len = strspn(buf, "Hel");
+	printf("len: %d, should be 4\n", len);
+
+	len = strspn(buf, "hel");
+	printf("len: %d, should be 0\n", len);
+
+	printf("\nstrcspn:\n");
+
+	// strcspn
+	len = strcspn(buf, "Hel");
+	printf("len: %d, should be 0\n", len);
+
+	len = strcspn(buf, "hel");
+	printf("len: %d, should be 1\n", len);
+
+	len = strcspn(buf, " ");
+	printf("len: %d, should be 5\n", len);
+
+	// strtok
+	printf("\nstrtok:\n");
     char strtokstr[] = "first second third";
     char *strtoktoken = strtok(strtokstr, " ");
     printf("%s\n", strtoktoken);
-	*/
-	
-	// strtok_r test
-	/*
+
+	// strtok_r
+	printf("\nstrtok_r:\n");
 	char str[] = "Hello, World! Geeks for Geeks.";
     const char outer_delimiters[] = "!.";
     const char inner_delimiters[] = " ,";
@@ -56,10 +93,9 @@ int main(void) {
  
         token = strtok_r(0, outer_delimiters, &outer_saveptr);
     }
-    */
 
-    // strsep tests
-    /*
+    // strsep
+    printf("\nstrsep:\n");
     char strsepstr[] = "I love string functions";
     char strsepdelim[] = " ";
     char *strsepptr = strsepstr;
@@ -69,23 +105,6 @@ int main(void) {
         printf("%s\n", strseptoken);
     	strseptoken = strsep(&strsepptr, strsepdelim);
     }
-    */
-
-	// scanf tests
-	char s[100];
-	int result = scanf("%d\n", s);
-	printf("%d %d\n", result, s);
-	
-	/*
-	// Uninitialised str ptr
-	int in;
-	char *str = 0;
-
-	int err = scanf("%d %s\n", str, &in);
-	printf("%d %s %d\n", str, in);
-	*/
-
-	
 	
 	return 0;
 }

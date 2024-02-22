@@ -80,7 +80,6 @@ strspn(const char *s, const char *accept)
 	return span_len;
 }
 
-
 uint 
 strcspn(const char *s, const char *reject)
 {

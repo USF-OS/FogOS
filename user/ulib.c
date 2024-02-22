@@ -66,18 +66,7 @@ strchr(const char *s, char c)
 char*
 gets(char *buf, int max)
 {
-  int i, cc;
-  char c;
-
-  for(i=0; i+1 < max; ){
-    cc = read(0, &c, 1);
-    if(cc < 1)
-      break;
-    buf[i++] = c;
-    if(c == '\n' || c == '\r')
-      break;
-  }
-  buf[i] = '\0';
+  fgets(0, buf, max);
   return buf;
 }
 
@@ -88,7 +77,6 @@ fgets(int fd, char *buf, int max)
   char c;
 
   for(i=0; i+1 < max; ){
-  	// has a pointer to keep track where it last left off
     cc = read(fd, &c, 1);
     if(cc < 1)
       break;
@@ -101,36 +89,41 @@ fgets(int fd, char *buf, int max)
 }
 
 int
-getline(int fd, char **buf, int *sz)
-{	
-	if (*sz == 0 && *buf == 0) {
-		*sz = 1024;
-		*buf = malloc(*sz);
-	}
-	int total_bytes_read = 0;
-	memset(*buf, 0, *sz);
+getline(char **lineptr, uint *n, int fd)
+{
+  if (*lineptr == 0 && *n == 0) {
+    *n = 128;
+    *lineptr = malloc(*n);
+  }
 
-	while (1) {
-		// pointer to skip past already filled words
-		int read = fgets(fd, *buf + total_bytes_read, *sz - total_bytes_read);
-		if (read == 0) {
-			break;
-		}
-		total_bytes_read += read;
+  char *buf = *lineptr;
+  uint total_read = 0;
+  while (1) {
+    int read_sz = fgets(fd, buf + total_read, *n - total_read);
+    if (read_sz == 0) {
+      return total_read;
+    } else if (read_sz == -1) {
+      // error
+      return -1;
+    }
 
-		// should stop when it ends with a \n chara
-		if (*(*buf + total_bytes_read - 1) == '\n' || *(*buf + total_bytes_read - 1) == '\r') {
-			break;
-		} else {
-			*sz = *sz * 2;
-			char *temp_buf = malloc(*sz);
-			memset(temp_buf, 0, *sz);
-			memcpy(temp_buf, *buf, total_bytes_read + 1);
-			free(*buf);
-			*buf = temp_buf;
-		}
-	}
-	return total_bytes_read;
+    total_read += read_sz;
+    if (buf[total_read - 1] == '\n') {
+      break;
+    }
+
+    uint new_n = *n * 2;
+    char *new_buf = malloc(new_n);
+    memcpy(new_buf, buf, *n);
+    free(buf);
+
+    buf = new_buf;
+
+    *n = new_n;
+    *lineptr = buf;
+  }
+
+  return total_read;
 }
 
 int
