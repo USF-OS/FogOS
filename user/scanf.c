@@ -10,10 +10,9 @@ static char digits[] = "0123456789";
 int 
 scanf(const char *restrict format, ...)
 {
-    char *buf;
-    uint sz;
+    char *buf = 0;
+    uint sz = 0;
     int bytes_read = getline(&buf, &sz, 0);
-	printf("%s\n", buf);
     char *copy = buf;
 
 	if (bytes_read < 0)

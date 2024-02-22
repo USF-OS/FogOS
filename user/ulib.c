@@ -95,7 +95,6 @@ getline(char **lineptr, uint *n, int fd)
     *n = 128;
     *lineptr = malloc(*n);
   }
-
   char *buf = *lineptr;
   uint total_read = 0;
   while (1) {

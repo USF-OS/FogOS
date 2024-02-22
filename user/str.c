@@ -8,7 +8,7 @@
 
 int main(void) {
 	char buf[LEN];
-
+	
 	// strncpy
 	printf("strncpy:\n");
 	strncpy(buf, "Hello", LEN);
@@ -106,9 +106,18 @@ int main(void) {
     	strseptoken = strsep(&strsepptr, strsepdelim);
     }
 
-	int num;
-	int result = scanf("%d", &num);
-	printf("%d %d\n", result, num);
+	// scanf tests
+    printf("\nscanf:\n");
+	int num1, num2;
+	printf("Input two integers(space separated, can be negative): ");
+	int result = scanf("%d %d", &num1, &num2);
+	printf("%d %d %d\n", result, num1, num2);
+
+	char *uninitialised = 0;
+	char *initialised = malloc(128);
+	printf("Input two strings(space separated): ");
+	result = scanf("%s %s", initialised, uninitialised);
+	printf("%d %s %s\n", result, initialised, uninitialised);
 	
 	return 0;
 }
