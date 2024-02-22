@@ -241,12 +241,11 @@ sort(int argc, char *argv[])
   int ig_case_flag = 0;
   int ig_blanks_flag = 0;
 
-  char *curr_flag = NULL;
-  int flag_len = 0;
+
   int num_flags = 0;
   char **flags = (char **) malloc((argc - 1) * sizeof(char *));
   
-  getFlags(argc, argv, &flags, &flagCount);
+  getFlags(argc, argv, &flags, &num_flags);
 
   //pretty ugly, but limited number of lfags allows for this
   if (num_flags > 0) {
@@ -314,7 +313,7 @@ sort(int argc, char *argv[])
   if (num_flag == 1) {
     numeric(num_lines, lines);
   } else {
-    //call regular insertion sort 
+    insertionSort(num_lines, lines);
   }
 
   if (rev_flag) {
@@ -352,38 +351,29 @@ sort(int argc, char *argv[])
   //     strcpy(*(lines + num_lines++), line);
   //   }
 
-  //   printf("Before sorting:\n");
-  //   for (int i = 0; i < num_lines; i++) {
-  //     printf("%s\n", *(lines + i));
-  //   }
-  // getFlags(argc, argv, &flags, &flagCount);
-  
-  // printf("Flags collected:\n");
-  // for (int i = 0; i < flagCount; i++) {
-  //     printf("%s\n", flags[i]);
-  // }
 
   // Hard coded for testing. Change for whatever flag you're working on.
-  if (strcmp(*(argv + 1), "-f") == 0) {
-    ignoreCase(num_lines, lines);
-    printLines(num_lines, lines);
-    freeLines(num_lines, lines);
-    close(fd);
-    return 0;
-  }
-
-  // //this looks a little shitty but works
-  // if (reverseCheck(flags, flagCount) == 1) {
-  //   reverse(num_lines, lines);
+  // if (strcmp(*(argv + 1), "-f") == 0) {
+  //   ignoreCase(num_lines, lines);
+  //   printLines(num_lines, lines);
+  //   freeLines(num_lines, lines);
+  //   close(fd);
+  //   return 0;
   // }
+
+
+  printf("Before sorting:\n");
+  for (int i = 0; i < num_lines; i++) {
+    printf("%s\n", *(lines + i));
+  }
   
 
-  // printf("\nAfter sorting:\n");
-  // printLines(num_lines, lines);
-  // freeLines(argc, argv);
-  // freeLines(num_lines, lines);
+  printf("\nAfter sorting:\n");
+  printLines(num_lines, lines);
+  freeLines(argc, argv);
+  freeLines(num_lines, lines);
 
-  // close(fd);
+  close(fd);
 
   return 0;
 }
