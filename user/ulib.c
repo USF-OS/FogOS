@@ -268,10 +268,17 @@ sort(int argc, char *argv[])
     strcpy(*(lines + num_lines++), line);
   }
 
-  // printf("Before sorting:\n");
-  // for (int i = 0; i < num_lines; i++) {
-  //   printf("%s\n", *(lines + i));
-  // }
+  printf("Before sorting:\n");
+  for (int i = 0; i < num_lines; i++) {
+    printf("%s\n", *(lines + i));
+  }
+
+  getFlags(argc, argv, &flags, &flagCount);
+  
+  printf("Flags collected:\n");
+  for (int i = 0; i < flagCount; i++) {
+      printf("%s\n", flags[i]);
+  }
 
   // Hard coded for testing. Change for whatever flag you're working on.
   bool ignore_leading_blanks = false;
@@ -282,6 +289,12 @@ sort(int argc, char *argv[])
     freeLines(num_lines, lines);
     return 0;
   }
+
+  //this looks a little shitty but works
+  if (reverseCheck(flags, flagCount) == 1) {
+    reverse(num_lines, lines);
+  }
+  
 
   printf("\nAfter sorting:\n");
   insertionSort(num_lines, lines, ignore_leading_blanks);

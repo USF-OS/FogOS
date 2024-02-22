@@ -118,6 +118,29 @@ insertionSortWithNumeric(int num_lines, char **lines) {
     }
 }
 
+
+void 
+getFlags(int argc, char *argv[], char*** flags, int* flagCount) {
+    *flags = (char**)malloc(100 * sizeof(char*)); 
+    if (*flags == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1); 
+    }
+
+    *flagCount = 0;
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0] == '-') {
+            (*flags)[*flagCount] = argv[i]; 
+            (*flagCount)++;
+            
+            if (*flagCount >= 100) { 
+                printf("Maximum number of flags reached (100).\n");
+                break;
+            }
+        }
+    }
+}
+
 void
 printLines(int num_lines, char *lines[])
 {
@@ -214,4 +237,37 @@ numeric(int num_lines, char *lines[]) {
   // Clean up
   free(numericalLines);
   free(alphabeticLines);
+}
+
+//Swaps idnexes for reversing
+void swap(char** a, char** b) {
+    char* temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void 
+reverse(int num_lines, char *lines[]) {
+    int start = 0;              
+    int end = num_lines - 1;  
+
+    while (start < end) {
+        swap(&lines[start], &lines[end]);
+        start++;
+        end--;
+    }
+}
+
+
+//True = 1
+//False = 0
+int
+reverseCheck(char** flags, int flagCount) {
+  for (int i = 0; i < flagCount; i++) {
+    if (strcmp(flags[i], "-r") == 0) {
+      return 1;
+    }
+    printf("%s\n", flags[i]);
+  }
+  return 0;
 }
