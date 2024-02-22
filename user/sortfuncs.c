@@ -170,7 +170,7 @@ unique(int num_lines, char *lines[])
    * For now, start with new array
   */
 
-  insertionSort(num_lines, lines);
+  insertionSort(num_lines, lines, 0);
 
   int num_unique_lines = 0;
   char **unique_lines = (char **) malloc(num_lines * sizeof(char *));
@@ -215,7 +215,7 @@ numeric(int num_lines, char *lines[]) {
   }
 
   insertionSortWithNumeric(numericCount, numericalLines);
-  insertionSort(alphabeticCount, alphabeticLines);
+  insertionSort(alphabeticCount, alphabeticLines, 0);
 
 
   int index = 0;

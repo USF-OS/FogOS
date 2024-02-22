@@ -273,12 +273,42 @@ sort(int argc, char *argv[])
     printf("%s\n", *(lines + i));
   }
 
-  getFlags(argc, argv, &flags, &flagCount);
+  // char** flags;
+  //   int flagCount;
+  //   char *line = NULL;
+  //   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
+  //   if (lines == NULL) {
+  //     printf("Memory allocation error.\n");
+  //     return -1;
+  //   }
+
+  //   uint buffer_size = 128;
+  //   char *file_name = *argv;
+
+  //   int num_lines = 0;
+  //   int len;
+  //   int fd = open(file_name, O_RDONLY);
+  //   while (1) {
+  //     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
+  //     *(lines + num_lines) = (char *) malloc((len + 1) * sizeof(char));
+  //     if (*(lines + num_lines) == NULL) {
+  //       printf("Memory allocation error.\n");
+  //       return -1;
+  //     }
+
+  //     strcpy(*(lines + num_lines++), line);
+  //   }
+
+  //   printf("Before sorting:\n");
+  //   for (int i = 0; i < num_lines; i++) {
+  //     printf("%s\n", *(lines + i));
+  //   }
+  // getFlags(argc, argv, &flags, &flagCount);
   
-  printf("Flags collected:\n");
-  for (int i = 0; i < flagCount; i++) {
-      printf("%s\n", flags[i]);
-  }
+  // printf("Flags collected:\n");
+  // for (int i = 0; i < flagCount; i++) {
+  //     printf("%s\n", flags[i]);
+  // }
 
   // Hard coded for testing. Change for whatever flag you're working on.
   bool ignore_leading_blanks = false;
