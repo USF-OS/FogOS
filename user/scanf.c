@@ -13,7 +13,8 @@ scanf(const char *restrict format, ...)
     char *buf;
     uint sz;
     int bytes_read = getline(&buf, &sz, 0);
-    printf("%d %s\n", bytes_read, buf);
+	printf("%s\n", buf);
+    char *copy = buf;
 
 	if (bytes_read < 0)
 			return -1;
@@ -89,5 +90,6 @@ scanf(const char *restrict format, ...)
 			state = 0;
 		}
 	}
+	free(copy);
 	return success;
 }
