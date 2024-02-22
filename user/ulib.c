@@ -234,6 +234,14 @@ sort(int argc, char *argv[])
   */
 
   /* Check for flags and store in array */
+
+  int unq_flag = 0;
+  int rev_flag = 0; 
+  int num_flag = 0;
+  int ig_case_flag = 0;
+  int ig_blanks_flag = 0;
+
+
   char *curr_flag = NULL;
   int flag_len = 0;
   int num_flags = 0;
