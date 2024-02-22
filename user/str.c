@@ -114,10 +114,16 @@ int main(void) {
 	printf("%d %d %d\n", result, num1, num2);
 
 	char *uninitialised = 0;
-	char *initialised = malloc(128);
-	printf("Input two strings(space separated): ");
-	result = scanf("%s %s", initialised, uninitialised);
-	printf("%d %s %s\n", result, initialised, uninitialised);
+	char *initialised0 = malloc(128);
+	char *initialised1 = malloc(128);
+	memset(initialised0, 0, 128);
+	memset(initialised1, 0, 128);
 	
+	printf("Input three strings(space separated): ");
+	result = scanf("%s %s %s", initialised0, uninitialised,initialised1);
+	printf("%d %s %s %s\n", result, initialised0, uninitialised, initialised1);
+
+	free(initialised0);
+	free(initialised1);
 	return 0;
 }

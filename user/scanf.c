@@ -72,11 +72,14 @@ scanf(const char *restrict format, ...)
 				s = va_arg(ap, char *);
 
 				// No buffer space allocated, not successfully copied
-				// TODO: Ask prof if there is a better way cuz then they have to free it?
 				if (s == 0) {
 					s = malloc(8);
 					memset(s, 0, 8);
-					strncpy(s, "(null)", 8);	
+					strncpy(s, "(null)", 8);
+
+					// early return since error is hit
+					va_end(ap);
+					return success;	
 				} else {
 					// scanf stops reading when whitespace
 					int offset = strcspn(buf, " \t\n\r");
@@ -89,6 +92,7 @@ scanf(const char *restrict format, ...)
 			state = 0;
 		}
 	}
-	free(copy);
+	free(copy);		// free malloc from getline
+	va_end(ap);
 	return success;
 }
