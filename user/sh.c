@@ -209,8 +209,9 @@ main(void)
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
     	printf("history\n"); //added this to test
     	//printf("Your latest history: %s\n", hist.his); //it doesnt like this either
-    	printf("Your latest history: \n");
+    	printf("Your latest history:");
         printQueue();
+        printf("\n");
     }
     if(fork1() == 0){
     //TODO pass bufs back thriugh this???
