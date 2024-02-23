@@ -57,8 +57,8 @@ struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
 
 struct history{
-	//har his[10];
-	queue his[10];
+	char his[10];
+	//queue his[10];
 };
 
 /*void
@@ -73,11 +73,19 @@ gethistory()
 {
 	//history h;
 	//for (int i = 0; );
+
 }	
 
 void
 historyadd(struct history *history, char *buf)
 {
+	printf("adding to history: %s\n", buf);
+	enQueue(*buf);
+	/*char result[256];
+	strcpy(result, history->his);
+	strcat(result, " ");
+	strcat(result, buf);*/
+	
 	//strcpy(history->his, buf);
 	
 	
@@ -200,7 +208,9 @@ main(void)
       continue;
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
     	printf("history\n"); //added this to test
-    	printf("Your latest history: %s\n", hist.his); //it doesnt like this either
+    	//printf("Your latest history: %s\n", hist.his); //it doesnt like this either
+    	printf("Your latest history: \n");
+        printQueue();
     }
     if(fork1() == 0){
     //TODO pass bufs back thriugh this???
