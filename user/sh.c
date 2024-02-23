@@ -56,37 +56,27 @@ struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
 
 struct history{
-<<<<<<< HEAD
-	char *his[10];
-}
+	char his[10];
+};
 
-void
-historyadd(char *buf)
-=======
+/*void
+historyadd(char *buf){
 	char his[10]; 
 	//had to take * out because it wasn't letting me access it, 
 	//you can put it back if you want to though!
-};
-
-void 
-historyinit(void)
->>>>>>> refs/remotes/origin/main
-{
-	
-}
+}*/
 
 void
-<<<<<<< HEAD
 gethistory()
 {
-	history h;
-	for (int i = 0; )
-	
-=======
+	//history h;
+	//for (int i = 0; );
+}	
+
+void
 historyadd(struct history *history, char *buf)
 {
 	strcpy(history->his, buf);
->>>>>>> refs/remotes/origin/main
 }
 // Execute cmd.  Never returns.
 void
