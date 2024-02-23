@@ -172,7 +172,7 @@ main(void)
   static char buf[100];
   int fd;
  //TODO hist init
-  //struct history *hist; //it does not like this for some reason
+  struct history hist; //it does not like this for some reason
  
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
@@ -195,11 +195,13 @@ main(void)
       continue;
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
     	printf("history\n"); //added this to test
-    	//printf("Your latest history: %s\n", hist->his); //it doesnt like this either
+    	printf("Your latest history: %s\n", hist.his); //it doesnt like this either
     }
-    if(fork1() == 0)
+    if(fork1() == 0){
     //TODO pass bufs back thriugh this???
+      historyadd(&hist, buf);
       runcmd(parsecmd(buf));
+    }
     wait(0);
   }
   exit(0);
