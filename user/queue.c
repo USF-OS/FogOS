@@ -62,8 +62,8 @@ enQueue(char *element) {
 		//printf("el: %s\n", element[0]);
 		/*for(int i = 0; i < 5 ; back++){
 			//printf("in for");
-			printf("el: %s\n", element[i]);
-			queue[back] = element[i];
+			printf("el: %s\n", queue[i]);
+			//queue[back] = element[i];
 		}*/
       	//queue[back] = element;
       	printf("the queue after enQueue: %s\n", queue);
