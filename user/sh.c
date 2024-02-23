@@ -56,21 +56,37 @@ struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
 
 struct history{
+<<<<<<< HEAD
 	char *his[10];
 }
 
 void
 historyadd(char *buf)
+=======
+	char his[10]; 
+	//had to take * out because it wasn't letting me access it, 
+	//you can put it back if you want to though!
+};
+
+void 
+historyinit(void)
+>>>>>>> refs/remotes/origin/main
 {
 	
 }
 
 void
+<<<<<<< HEAD
 gethistory()
 {
 	history h;
 	for (int i = 0; )
 	
+=======
+historyadd(struct history *history, char *buf)
+{
+	strcpy(history->his, buf);
+>>>>>>> refs/remotes/origin/main
 }
 // Execute cmd.  Never returns.
 void
@@ -166,6 +182,7 @@ main(void)
   static char buf[100];
   int fd;
  //TODO hist init
+  //struct history *hist; //it does not like this for some reason
  
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
@@ -186,6 +203,9 @@ main(void)
       if(chdir(buf+3) < 0)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
+    }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
+    	printf("history\n"); //added this to test
+    	//printf("Your latest history: %s\n", hist->his); //it doesnt like this either
     }
     if(fork1() == 0)
     //TODO pass bufs back thriugh this???
