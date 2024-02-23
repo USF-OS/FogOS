@@ -247,14 +247,17 @@ sort(int argc, char *argv[])
   
   getFlags(argc, argv, &flags, &num_flags);
 
+  printf("Num FLags: %d", num_flags);
+
   //pretty ugly, but limited number of lfags allows for this
   if (num_flags > 0) {
-    for (int i = 1; i < num_flags; i++) {
+    for (int i = 0; i < num_flags; i++) {
       if (strcmp(flags[i], "-u" ) == 0) {
         unq_flag = 1;
       }
       if (strcmp(flags[i], "-r" ) == 0) {
-        unq_flag = 1;
+        printf("in here reverse\n");
+        rev_flag = 1;
       }
       if (strcmp(flags[i], "-b" ) == 0) {
         ig_blanks_flag = 1;
@@ -310,13 +313,19 @@ sort(int argc, char *argv[])
     //call case flag
   }
 
-  if (num_flag == 1) {
-    numeric(num_lines, lines);
-  } else {
-    insertionSort(num_lines, lines);
+  printf("Before sorting:\n");
+  for (int i = 0; i < num_lines; i++) {
+    printf("%s\n", *(lines + i));
   }
 
-  if (rev_flag) {
+  if (num_flag == 1) {
+    numeric(num_lines, lines);
+  } else if (num_flags == 0){
+    printf("\ninhere\n");
+    insertionSortOrig(num_lines, lines);
+  }
+
+  if (rev_flag == 1) {
     reverse(num_lines, lines);
   }
 
@@ -362,10 +371,6 @@ sort(int argc, char *argv[])
   // }
 
 
-  printf("Before sorting:\n");
-  for (int i = 0; i < num_lines; i++) {
-    printf("%s\n", *(lines + i));
-  }
   
 
   printf("\nAfter sorting:\n");
