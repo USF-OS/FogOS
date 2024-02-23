@@ -46,7 +46,7 @@ enQueue(char element) {
 		// add new element --> remove else 
 	}*/
   	else { //add element to queue
-  		print("in enqueue\n");
+  		printf("in enqueue\n");
   		//if the queue is empty then update front to 0
     	if (front == -1){
     		front = 0;
@@ -54,7 +54,7 @@ enQueue(char element) {
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back + 1); //is this right??? not circular 
       	queue[back] = element;
-      	printf("This is elem 0 in queue: %s\n", queue[0])
+      	printf("This is elem 0 in queue: %s\n", queue[0]);
   	}
 }
 
