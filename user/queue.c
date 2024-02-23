@@ -59,20 +59,8 @@ enQueue(char *element) {
     	strcpy(a, element);
     	
 		queue[back] = a;
-		//strcpy(queue + back, element);
-		//printf("el: %s\n", element[0]);
-		/*for(int i = 0; i < 5 ; back++){
-			//printf("in for");
-			printf("el: %s\n", element[i]);
-			queue[back] = element[i];
-		}*/
-      	//queue[back] = element;
+		
       	printf("the queue after enQueue: %s\n", queue);
-      	/*printf("This is elem 0 in queue: %c\n", queue[0]);
-      	printf("This is elem 1 in queue: %c\n", queue[1]);
-      	printf("This is elem 2 in queue: %c\n", queue[2]);
-      	printf("This is elem 3 in queue: %c\n", queue[3]);
-      	printf("This is elem 4 in queue: %c\n", queue[4]);*/
   	}
 }
 
