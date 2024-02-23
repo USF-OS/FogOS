@@ -58,38 +58,15 @@ void runcmd(struct cmd*) __attribute__((noreturn));
 
 struct history{
 	char his[10];
-	//queue his[10];
-};
-
-/*void
-historyadd(char *buf){
-	char his[10]; 
-	//had to take * out because it wasn't letting me access it, 
-	//you can put it back if you want to though!
-}*/
-
-void
-gethistory()
-{
-	//history h;
-	//for (int i = 0; );
-
-}	
+};	
 
 void
 historyadd(struct history *history, char *buf)
 {
 	printf("adding to history: %s\n", buf);
-	enQueue(buf);
-	/*char result[256];
-	strcpy(result, history->his);
-	strcat(result, " ");
-	strcat(result, buf);*/
-	
-	//strcpy(history->his, buf);
-	
-	
+	enQueue(buf);	
 }
+
 // Execute cmd.  Never returns.
 void
 runcmd(struct cmd *cmd)
@@ -183,7 +160,6 @@ main(void)
 {
   static char buf[100];
   int fd;
- //TODO hist init
   struct history hist; //it does not like this for some reason
  
   // Ensure that three file descriptors are open.
@@ -196,11 +172,9 @@ main(void)
 
   // Read and run input commands.
   while(getcmd(buf, sizeof(buf)) >= 0){
-  //TODO print about to run, buf?
   	printf("about to run, %s\n", buf);
   	historyadd(&hist, buf);
     if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){ 
-    //TODO string comparison like this for starting with history
       // Chdir must be called by the parent, not the child.
       buf[strlen(buf)-1] = 0;  // chop \n
       if(chdir(buf+3) < 0)
@@ -208,7 +182,6 @@ main(void)
       continue;
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
     	printf("history\n"); //added this to test
-    	//printf("Your latest history: %s\n", hist.his); //it doesnt like this either
     	printf("Your latest history:");
         printQueue();
         printf("\n");
