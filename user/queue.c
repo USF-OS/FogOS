@@ -38,8 +38,12 @@ void
 enQueue(int element) {
 	/* TODO: we shouldn't check if its full, instead refactor this to remove an 
 	element from the end and add the new elenent to the history queue to keep relevance*/
-	if (isFull()){
+	/*if (isFull()){
     	printf("Cannot add element. Queue is full\n");
+	}*/
+	if (back == 0){
+		//deQueue the last element
+		// add new element --> remove else 
 	}
   	else { //add element to queue
   		//if the queue is empty then update front to 0
@@ -47,7 +51,7 @@ enQueue(int element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	back = (back + 1); //is this right???
+    	back = (back + 1); //is this right??? not circular 
       	items[back] = element;
   	}
 	
