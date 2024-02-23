@@ -1,15 +1,15 @@
 apple
 car
-apple
+aPPlE
 test
 banana
-banana
+BANANA
 program
 program
-program
+Program
 banana
 test
-blank test
+   		blank test
 1
 2
 3

@@ -5,7 +5,7 @@
 */
 
 #define NULL ((void *) 0)
-#define NUM_LINES 1000
+#define MAX_LINES 1000
 
 /**
  * @return -1 for memory allocation error
@@ -100,7 +100,7 @@ compare(const char* s1, const char* s2, char* flag)
 
     return strcmp(s1_lower, s2_lower);
 
-  } else if (strcmp(flag, "-b")) {
+  } else if (strcmp(flag, "-b") == 0) {
     while (*s1 == ' ' || *s1 == '\t') s1++;
     while (*s2 == ' ' || *s2 == '\t') s2++;
   }
@@ -204,17 +204,10 @@ insertionSortWithNumeric(int num_lines, char **lines) {
 
 
 void 
-getFlags(int argc, char *argv[], char*** flags, int* flagCount) {
-    *flags = (char**)malloc(100 * sizeof(char*)); 
-    if (*flags == NULL) {
-        printf("Memory allocation failed\n");
-        exit(1); 
-    }
-
-    *flagCount = 0;
+getFlags(int argc, char *argv[], char** flags, int* flagCount) {
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-') {
-            (*flags)[*flagCount] = argv[i]; 
+            flags[*flagCount] = argv[i]; 
             (*flagCount)++;
             
             if (*flagCount >= 100) { 
@@ -250,7 +243,7 @@ ignoreBlanks(int num_lines, char *lines[])
 }
 
 void
-unique(int num_lines, char *lines[])
+unique(int *num_lines, char *lines[])
 {
   /**
    * Sort lines, compare adjacent lines, ignore duplicates
@@ -260,13 +253,13 @@ unique(int num_lines, char *lines[])
    * For now, start with new array
   */
 
-  insertionSort(num_lines, lines, "-u");
+  insertionSort(*num_lines, lines, "-u");
 
   int num_unique_lines = 0;
-  char **unique_lines = (char **) malloc(num_lines * sizeof(char *));
+  char **unique_lines = (char **) malloc(*num_lines * sizeof(char *));
   if (unique_lines == NULL) errorVoid();
   int runner = 1;
-  for (int i = 0; runner < num_lines; i++) {
+  for (int i = 0; runner < *num_lines; i++) {
     char *curr_line = *(lines + runner - 1);
     char *next_line = *(lines + runner);
     int len = strlen(curr_line) + 1;
@@ -281,93 +274,23 @@ unique(int num_lines, char *lines[])
     runner++;
   }
 
-  // Should not be printing here. Testing purposes only
-  // On second thought, might be ok for certain flags
-  // On third thought, probably not a good idea -> hard to follow
-  printf("\nSorted unique values:\n");
-  printLines(num_unique_lines, unique_lines);
-  freeLines(num_unique_lines, unique_lines);
+  // Update num_lines to be num_unique_lines (have to pass pointer to this function)
+  // Update lines to be unique_lines
+  *num_lines = num_unique_lines;
+  memcpy(lines, unique_lines, *num_lines * sizeof(char *));
 }
 
 void
 ignoreCase(int num_lines, char *lines[])
 {
-  /**
-   * Ignore blanks when sorting
-   * Convert all to lowercase before sorting, then output
-   *    lines with original case (original input)
-   * Might have to save lowercase lines into array
-   *    But how do we then replace them with the original lines?
-   * Create new line that will be lowercase version of original line
-   * Sort based on this lowercase line
-   * Then, we strcpy() original line back in? But how do we know location?
-   * After sort, iterate through sorted output (which will be all lowercase),
-   *    and strcmp() the lowercase line and the toLower() version of the original line (which we have in a separate array).
-   * If they match, then strcpy() the original line into the lowercase line, thus maintaining sorted order
-  */
-
-  // printf("\nUnsorted, original case:\n");
-  // printLines(num_lines, lines);
-
-  // char **lines_to_ignore = (char **) malloc(num_lines * sizeof(char *));
-  // if (lines_to_ignore == NULL) errorVoid();
-  // int num_lines_to_ignore = 0, len = 0;
-
-  // char *curr_line = NULL;
-  // for (int i = 0; i < num_lines; i++) {
-  //   curr_line = *(lines + i);
-  //   len = strlen(curr_line);
-
-  //   if (my_lineIsUpper(curr_line)) {
-  //     *(lines_to_ignore + num_lines_to_ignore) = (char *) malloc(len * sizeof(char));
-  //     strcpy(*(lines_to_ignore + num_lines_to_ignore++), curr_line);
-  //     strcpy(curr_line, my_toLower(curr_line));
-  //   }
-  // }
-
-  /**
-   * At this point, lines are unsorted and lowercase
-   * After sorting, we will iterate through and compare
-   *    lowercase version of original lines to sorted, lowercase lines
-   * If there's a match, swap the lines via strcpy()
-  */
-
-  // printf("\nUnsorted, lowercase:\n");
-  // printLines(num_lines, lines);
-
   insertionSort(num_lines, lines, "-f");
-
-  // char *sorted_line = NULL;
-  // char *original_line = NULL;
-  // int ignored_lines_index = 0;
-
-  // printf("\nSorted, lowercase:\n");
-  // printLines(num_lines, lines);
-
-  // printf("\nOriginal lines containing uppercase chars:\n");
-  // printLines(num_lines_to_ignore, lines_to_ignore);
-  
-  // for (int i = 0; i < num_lines; i++) {
-  //   sorted_line = *(lines + i);
-  //   original_line = *(lines_to_ignore + ignored_lines_index);
-  // }
-
-  //   if (strcmp(sorted_line, my_toLower(original_line)) == 0) {
-  //     strcpy(sorted_line, original_line);
-  //     ignored_lines_index++;
-  //   }
-  // }
-
-  // printf("\nSorted, case ignored:\n");
-  // printLines(num_lines, lines);
-  
 }
 
 void
 numeric(int num_lines, char *lines[]) {
 
-  char **numericalLines = (char **)malloc(NUM_LINES * sizeof(char *));
-  char **alphabeticLines = (char **)malloc(NUM_LINES * sizeof(char *));
+  char **numericalLines = (char **)malloc(MAX_LINES * sizeof(char *));
+  char **alphabeticLines = (char **)malloc(MAX_LINES * sizeof(char *));
   int numericCount = 0, alphabeticCount = 0;
 
   for (int i = 0; i < num_lines; i++) {
@@ -381,22 +304,9 @@ numeric(int num_lines, char *lines[]) {
   insertionSortWithNumeric(numericCount, numericalLines);
   insertionSort(alphabeticCount, alphabeticLines, "-n");
 
-
-  int index = 0;
-  for (int i = 0; i < alphabeticCount; i++, index++) {
-    lines[index] = alphabeticLines[i];
-  }
+  memcpy(lines, alphabeticLines, alphabeticCount * sizeof(char *));
   // Continue with numerical lines
-  for (int i = 0; i < numericCount; i++, index++) {
-    lines[index] = numericalLines[i];
-  }
-
-  // Assuming the rest of lines beyond index should be nullified if not all lines are overwritten
-  //Probably not needed but safe
-  for (int i = index; i < num_lines; i++) {
-    lines[i] = NULL; 
-  }
-  
+  memcpy(lines + alphabeticCount, numericalLines, numericCount * sizeof(char *));
 
   // Clean up
   free(numericalLines);

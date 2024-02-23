@@ -217,7 +217,7 @@ memcpy(void *dst, const void *src, uint n)
  * @return 0 for success, -1 for failure
 */
 int
-sort(int argc, char *argv[])
+sort(int argc, char *argv[], int fd)
 {
   // Error check
 
@@ -241,13 +241,12 @@ sort(int argc, char *argv[])
   int ig_case_flag = 0;
   int ig_blanks_flag = 0;
 
-
   int num_flags = 0;
   char **flags = (char **) malloc((argc - 1) * sizeof(char *));
-  
-  getFlags(argc, argv, &flags, &num_flags);
 
-  //pretty ugly, but limited number of lfags allows for this
+  getFlags(argc, argv, flags, &num_flags);
+
+  // Pretty ugly, but limited number of fla allows for this
   if (num_flags > 0) {
     for (int i = 0; i < num_flags; i++) {
       if (strcmp(flags[i], "-u" ) == 0) {
@@ -259,7 +258,7 @@ sort(int argc, char *argv[])
       if (strcmp(flags[i], "-b" ) == 0) {
         ig_blanks_flag = 1;
       }
-      if (strcmp(flags[i], "-i" ) == 0) {
+      if (strcmp(flags[i], "-f" ) == 0) {
         ig_case_flag = 1;
       }
       if (strcmp(flags[i], "-n" ) == 0) {
@@ -268,25 +267,9 @@ sort(int argc, char *argv[])
     }
   }     
 
-
-  // char *curr_flag = NULL;
-  // int flag_len = 0;
-  // int num_flags = 0;
-  // char **flags = (char **) malloc((argc - 1) * sizeof(char *));
-  // if (flags == NULL) return errorInt();
-  // for (int i = 1; i < argc; i++) {
-  //   curr_flag = *(argv + i);
-  //   flag_len = strlen(curr_flag) + 1;
-  //   if (isFlag(curr_flag)) {
-  //     *(flags + num_flags) = (char *) malloc(flag_len * sizeof(char));
-  //     if (*(flags + num_flags) == NULL) return errorInt();
-  //     strcpy(*(flags + num_flags), curr_flag);
-  //   }
-  // }
-
   /* Build array of lines from file we're reading from */
   char *line = NULL;
-  char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
+  char **lines = (char **) malloc(MAX_LINES * sizeof(char *));
   if (lines == NULL) return errorInt();
 
   uint buffer_size = 128;
@@ -303,24 +286,24 @@ sort(int argc, char *argv[])
     strcpy(*(lines + num_lines++), line);
   }
 
+  if (num_flags == 0) {
+    insertionSortOrig(num_lines, lines);
+    goto original;
+  }
   if (unq_flag == 1) {
-    //call unq_flag
+    unique(&num_lines, lines);
   }
   if (ig_blanks_flag == 1) {
-    //call blanks flag
+    ignoreBlanks(num_lines, lines);
   }
-    if (ig_case_flag == 1) {
-    //call case flag
-  }
-
-  printf("Before sorting:\n");
-  for (int i = 0; i < num_lines; i++) {
-    printf("%s\n", *(lines + i));
+  if (ig_case_flag == 1) {
+    ignoreCase(num_lines, lines);
   }
 
   if (num_flag == 1) {
     numeric(num_lines, lines);
-  } else if (num_flags == 0){
+  }
+  if (num_flags <= 2 && (rev_flag == 1 || unq_flag == 1)) {
     insertionSortOrig(num_lines, lines);
   }
 
@@ -328,56 +311,12 @@ sort(int argc, char *argv[])
     reverse(num_lines, lines);
   }
 
-  // printf("Before sorting:\n");
-  // for (int i = 0; i < num_lines; i++) {
-  //   printf("%s\n", *(lines + i));
-  // }
+  original:
+    printLines(num_lines, lines);
+    freeLines(argc, argv);
+    freeLines(num_lines, lines);
 
-  // char** flags;
-  //   int flagCount;
-  //   char *line = NULL;
-  //   char **lines = (char **) malloc(NUM_LINES * sizeof(char *));
-  //   if (lines == NULL) {
-  //     printf("Memory allocation error.\n");
-  //     return -1;
-  //   }
-
-  //   uint buffer_size = 128;
-  //   char *file_name = *argv;
-
-  //   int num_lines = 0;
-  //   int len;
-  //   int fd = open(file_name, O_RDONLY);
-  //   while (1) {
-  //     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
-  //     *(lines + num_lines) = (char *) malloc((len + 1) * sizeof(char));
-  //     if (*(lines + num_lines) == NULL) {
-  //       printf("Memory allocation error.\n");
-  //       return -1;
-  //     }
-
-  //     strcpy(*(lines + num_lines++), line);
-  //   }
-
-
-  // Hard coded for testing. Change for whatever flag you're working on.
-  // if (strcmp(*(argv + 1), "-f") == 0) {
-  //   ignoreCase(num_lines, lines);
-  //   printLines(num_lines, lines);
-  //   freeLines(num_lines, lines);
-  //   close(fd);
-  //   return 0;
-  // }
-
-
-  
-
-  printf("\nAfter sorting:\n");
-  printLines(num_lines, lines);
-  freeLines(argc, argv);
-  freeLines(num_lines, lines);
-
-  close(fd);
+    close(fd);
 
   return 0;
 }
