@@ -69,9 +69,9 @@ deQueue() {
 
 //print the queue
 void printQueue(){
-	printf("in printQueue");
+	printf("in printQueue\n");
 	//for(int i = front; i != back; i++){ //is this circular tho???
-	for(int i = 0; i > 10; i++){
+	for(int i = 0; i < 10; i++){
 		printf("in the printqueue for loop\n");
 		printf("%s ", queue[i]);
 	}
