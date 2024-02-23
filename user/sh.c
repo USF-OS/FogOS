@@ -77,6 +77,7 @@ void
 historyadd(struct history *history, char *buf)
 {
 	strcpy(history->his, buf);
+	
 }
 // Execute cmd.  Never returns.
 void
@@ -186,6 +187,7 @@ main(void)
   while(getcmd(buf, sizeof(buf)) >= 0){
   //TODO print about to run, buf?
   	printf("about to run, %s\n", buf);
+  	historyadd(&hist, buf);
     if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){ 
     //TODO string comparison like this for starting with history
       // Chdir must be called by the parent, not the child.
