@@ -247,8 +247,6 @@ sort(int argc, char *argv[])
   
   getFlags(argc, argv, &flags, &num_flags);
 
-  printf("Num FLags: %d", num_flags);
-
   //pretty ugly, but limited number of lfags allows for this
   if (num_flags > 0) {
     for (int i = 0; i < num_flags; i++) {
@@ -256,7 +254,6 @@ sort(int argc, char *argv[])
         unq_flag = 1;
       }
       if (strcmp(flags[i], "-r" ) == 0) {
-        printf("in here reverse\n");
         rev_flag = 1;
       }
       if (strcmp(flags[i], "-b" ) == 0) {
@@ -264,6 +261,9 @@ sort(int argc, char *argv[])
       }
       if (strcmp(flags[i], "-i" ) == 0) {
         ig_case_flag = 1;
+      }
+      if (strcmp(flags[i], "-n" ) == 0) {
+        num_flag = 1;
       }
     }
   }     
@@ -321,7 +321,6 @@ sort(int argc, char *argv[])
   if (num_flag == 1) {
     numeric(num_lines, lines);
   } else if (num_flags == 0){
-    printf("\ninhere\n");
     insertionSortOrig(num_lines, lines);
   }
 

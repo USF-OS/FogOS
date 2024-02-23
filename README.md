@@ -10,3 +10,6 @@ program
 banana
 test
 blank test
+1
+2
+3
