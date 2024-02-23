@@ -53,7 +53,8 @@ enQueue(char *element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	back = (back + 1); //is this right??? not circular 
+    	back = (back+1); //is this right??? not circular 
+    	
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
     	
@@ -62,8 +63,8 @@ enQueue(char *element) {
 		//printf("el: %s\n", element[0]);
 		/*for(int i = 0; i < 5 ; back++){
 			//printf("in for");
-			printf("el: %s\n", queue[i]);
-			//queue[back] = element[i];
+			printf("el: %s\n", element[i]);
+			queue[back] = element[i];
 		}*/
       	//queue[back] = element;
       	printf("the queue after enQueue: %s\n", queue);
@@ -91,6 +92,6 @@ void printQueue(){
 	//for(int i = front; i != back; i++){ //is this circular tho???
 	for(int i = 0; i < 10; i++){
 		printf("in the printqueue for loop\n");
-		printf("%c ", queue[i]);
+		printf("%s ", queue[i]);
 	}
 }
