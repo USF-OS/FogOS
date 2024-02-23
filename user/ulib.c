@@ -66,11 +66,18 @@ strchr(const char *s, char c)
 char*
 gets(char *buf, int max)
 {
+  fgets(0, buf, max);
+  return buf;
+}
+
+int
+fgets(int fd, char *buf, int max)
+{
   int i, cc;
   char c;
 
   for(i=0; i+1 < max; ){
-    cc = read(0, &c, 1);
+    cc = read(fd, &c, 1);
     if(cc < 1)
       break;
     buf[i++] = c;
@@ -78,7 +85,45 @@ gets(char *buf, int max)
       break;
   }
   buf[i] = '\0';
-  return buf;
+  return i;
+}
+
+int
+getline(char **lineptr, uint *n, int fd)
+{
+  if (*lineptr == 0 && *n == 0) {
+    *n = 128;
+    *lineptr = malloc(*n);
+  }
+
+  char *buf = *lineptr;
+  uint total_read = 0;
+  while (1) {
+    int read_sz = fgets(fd, buf + total_read, *n - total_read);
+    if (read_sz == 0) {
+      return total_read;
+    } else if (read_sz == -1) {
+      // error
+      return -1;
+    }
+
+    total_read += read_sz;
+    if (buf[total_read - 1] == '\n') {
+      break;
+    }
+
+    uint new_n = *n * 2;
+    char *new_buf = malloc(new_n);
+    memcpy(new_buf, buf, *n);
+    free(buf);
+
+    buf = new_buf;
+
+    *n = new_n;
+    *lineptr = buf;
+  }
+
+  return total_read;
 }
 
 int
