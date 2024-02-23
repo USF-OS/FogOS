@@ -11,7 +11,7 @@
 //#define SIZE 10;
 
 //initilaize array
-char queue[10];
+char queue[100];
 
 //initialize front and back to -1 
 int front = -1;
@@ -46,6 +46,7 @@ enQueue(char element) {
 		// add new element --> remove else 
 	}*/
   	else { //add element to queue
+  		printf("in enqueue\n");
   		//if the queue is empty then update front to 0
     	if (front == -1){
     		front = 0;
@@ -54,7 +55,6 @@ enQueue(char element) {
     	back = (back + 1); //is this right??? not circular 
       	queue[back] = element;
   	}
-	
 }
 
 //remove an element
@@ -68,10 +68,10 @@ deQueue() {
 }
 
 //print the queue
-void printQueue() {
-	for(int i = front; i != back; i++){ //is this circular tho???
-		printf("%d ", queue[i]);
+void printQueue(){
+	//for(int i = front; i != back; i++){ //is this circular tho???
+	for(int i = 0; i >= 2; i++){
+		printf("in the printqueue for loop\n");
+		printf("%s ", queue[i]);
 	}
-	
-	
 }
