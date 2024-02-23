@@ -4,6 +4,7 @@
 #include "user/user.h"
 #include "kernel/fcntl.h"
 //#include "<sys/queue.h>"
+#include "user/queue.c"
 
 // Parsed command representation
 #define EXEC  1
@@ -56,7 +57,8 @@ struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
 
 struct history{
-	char his[10];
+	//har his[10];
+	queue his[10];
 };
 
 /*void
@@ -76,7 +78,8 @@ gethistory()
 void
 historyadd(struct history *history, char *buf)
 {
-	strcpy(history->his, buf);
+	//strcpy(history->his, buf);
+	
 	
 }
 // Execute cmd.  Never returns.
