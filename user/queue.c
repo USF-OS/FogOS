@@ -68,6 +68,12 @@ enQueue(char *element) {
 int 
 deQueue() {
 	//cehck if the queue is empty 
+	if(isEmpty() == 0){
+		queue[back] == NULL;
+		front++;	
+	}
+	
+	
 	//return the value pointed by front
 	// inscrese the front index by 1
 	// last element --> resent the values of front and back to -1
