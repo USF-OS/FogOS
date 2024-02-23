@@ -11,7 +11,7 @@
 //#define SIZE 10;
 
 //initilaize array
-char queue[100];
+char *queue[100];
 
 //initialize front and back to -1 
 int front = -1;
@@ -54,8 +54,11 @@ enQueue(char *element) {
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back + 1); //is this right??? not circular 
-
-		strcpy(queue + back, element);
+    	char *a = (char *)malloc(strlen(element)+1);
+    	strcpy(a, element);
+    	
+		queue[back] = a;
+		//strcpy(queue + back, element);
 		//printf("el: %s\n", element[0]);
 		/*for(int i = 0; i < 5 ; back++){
 			//printf("in for");
