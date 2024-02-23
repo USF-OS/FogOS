@@ -54,7 +54,7 @@ enQueue(char element) {
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back + 1); //is this right??? not circular 
       	queue[back] = element;
-      	printf("This is elem 0 in queue: %s\n", queue[0]);
+      	printf("This is elem 0 in queue: %c\n", queue[0]);
   	}
 }
 
@@ -74,6 +74,6 @@ void printQueue(){
 	//for(int i = front; i != back; i++){ //is this circular tho???
 	for(int i = 0; i < 10; i++){
 		printf("in the printqueue for loop\n");
-		printf("%s ", queue[i]);
+		printf("%c ", queue[i]);
 	}
 }
