@@ -8,10 +8,10 @@
 #include "user/user.h"
 
 //initialize SIZE
-#define SIZE 10;
+//#define SIZE 10;
 
 //initilaize array
-int  queue[SIZE];
+char queue[10];
 
 //initialize front and back to -1 
 int front = -1;
@@ -35,16 +35,16 @@ isEmpty() {
 
 //add an element
 void 
-enQueue(int element) {
+enQueue(char element) {
 	/* TODO: we shouldn't check if its full, instead refactor this to remove an 
 	element from the end and add the new elenent to the history queue to keep relevance*/
-	/*if (isFull()){
+	if (isFull()){
     	printf("Cannot add element. Queue is full\n");
-	}*/
-	if (back == 0){
+	}
+	/*if (back == 0){
 		//deQueue the last element
 		// add new element --> remove else 
-	}
+	}*/
   	else { //add element to queue
   		//if the queue is empty then update front to 0
     	if (front == -1){
@@ -52,7 +52,7 @@ enQueue(int element) {
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back + 1); //is this right??? not circular 
-      	items[back] = element;
+      	queue[back] = element;
   	}
 	
 }
@@ -69,15 +69,9 @@ deQueue() {
 
 //print the queue
 void printQueue() {
-	for (i = front; i != rear; i++ { //is this circular tho???
-	      printf("%d ", items[i]);
-	    }
+	for(int i = front; i != back; i++){ //is this circular tho???
+		printf("%d ", queue[i]);
+	}
 	
-	
-}
-
-int 
-main(int agrc, char *argv[])
-{
 	
 }
