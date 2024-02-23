@@ -58,15 +58,18 @@ void runcmd(struct cmd*) __attribute__((noreturn));
 struct history{
 	char *his[10];
 }
-void 
-historyinit()
+
+void
+historyadd(char *buf)
 {
 	
 }
 
 void
-historyadd(char *buf)
+gethistory()
 {
+	history h;
+	for (int i = 0; )
 	
 }
 // Execute cmd.  Never returns.
