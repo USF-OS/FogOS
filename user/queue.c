@@ -55,7 +55,7 @@ enQueue(char *element) {
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back + 1); //is this right??? not circular 
 
-		strcpy(queue + back, element);
+		strcpy(queue + back +1, element);
 		//printf("el: %s\n", element[0]);
 		/*for(int i = 0; i < 5 ; back++){
 			//printf("in for");
