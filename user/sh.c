@@ -215,7 +215,7 @@ main(void)
     }
     if(fork1() == 0){
     //TODO pass bufs back thriugh this???
-      historyadd(&hist, buf);
+      //historyadd(&hist, buf);
       runcmd(parsecmd(buf));
     }
     wait(0);
