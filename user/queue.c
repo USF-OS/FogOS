@@ -35,7 +35,8 @@ isEmpty() {
 
 //add an element
 void 
-enQueue(char element) {
+enQueue(char *element) {
+	printf("element to be queued: %s\n", element);
 	/* TODO: we shouldn't check if its full, instead refactor this to remove an 
 	element from the end and add the new elenent to the history queue to keep relevance*/
 	if (isFull()){
@@ -53,8 +54,21 @@ enQueue(char element) {
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back + 1); //is this right??? not circular 
-      	queue[back] = element;
-      	printf("This is elem 0 in queue: %c\n", queue[0]);
+
+		strcpy(queue + back, element);
+		//printf("el: %s\n", element[0]);
+		/*for(int i = 0; i < 5 ; back++){
+			//printf("in for");
+			printf("el: %s\n", element[i]);
+			queue[back] = element[i];
+		}*/
+      	//queue[back] = element;
+      	printf("the queue after enQueue: %s\n", queue);
+      	/*printf("This is elem 0 in queue: %c\n", queue[0]);
+      	printf("This is elem 1 in queue: %c\n", queue[1]);
+      	printf("This is elem 2 in queue: %c\n", queue[2]);
+      	printf("This is elem 3 in queue: %c\n", queue[3]);
+      	printf("This is elem 4 in queue: %c\n", queue[4]);*/
   	}
 }
 

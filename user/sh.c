@@ -80,7 +80,7 @@ void
 historyadd(struct history *history, char *buf)
 {
 	printf("adding to history: %s\n", buf);
-	enQueue(*buf);
+	enQueue(buf);
 	/*char result[256];
 	strcpy(result, history->his);
 	strcat(result, " ");
