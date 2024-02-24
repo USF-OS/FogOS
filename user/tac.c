@@ -8,7 +8,7 @@ tac(int fd)
 {
   //printf("tac : fd is %d\n", fd); // fd == 3 when fd represents a fi
 
-  uint num_lines = 128; // can read 128 lines with the last line being empty (EOF)
+  uint num_lines = 128; // can read 128 lines (the last line can have text)
   char **lines = malloc(num_lines * sizeof(char*));
   //printf("lines is %p\n", lines);
   if (lines == 0) {
@@ -20,25 +20,74 @@ tac(int fd)
 
   int line_index = 0;
   int char_read;
+  char **new_lines;
+  uint old_num_lines = 0;
+  uint new_num_lines = num_lines;
 
   while (1)
   {
+    //printf("new_num_lines: %d\n", new_num_lines);
     //printf("line_index: %d\n", line_index);
     //lines[line_index] = malloc(sz);
     //printf("lines[line_index]: %p\n", lines[line_index]);
+
   
     char_read = getline(&line, &sz, fd);
     // line[char_read] = '\0';
     //printf("char_read: %d\n", char_read);
     //printf("line: %s\n", line);
-    lines[line_index] = line;
+    
+    
     if (char_read <= 0)
     {
       //printf("reached EOF\n");
       //printf("line_index: %d, char_read: %d\n", line_index, char_read);
       // reach EOF
       break;
+
+    } 
+    else if (line_index == (new_num_lines-1)){ // the last line of the file read is doesn't have EOF
+      // expand the capacity of memory storing lines
+      //printf("LAST LINE\n");
+      //printf("line_index: %d\n", line_index);
+      // 
+      old_num_lines = new_num_lines;
+      new_num_lines = old_num_lines * 2;
+
+      new_lines = malloc(new_num_lines * sizeof(char*));
+
+
+      //memcpy(new_lines, lines, line_index+1);
+      
+      //printf("new_line is storing:\n");
+      for (int i = 0; i <= line_index; i++) 
+      {
+        if (i == line_index) {
+          new_lines[line_index] = line; 
+        } else {
+          new_lines[i] = lines[i];
+        }
+        
+        //memcpy(new_lines[i], lines[i], sizeof(char*));
+        //printf("%s\n", new_lines[i]);
+      }
+      //printf("finished printing new_line\n");
+
+  
+      if (lines != 0)
+      {
+        free(lines);
+      }
+
+      lines = new_lines;
+
+    } else {
+      //printf("line: %p\n", line);
+      //printf("line_index: %d\n", line_index);
+      lines[line_index] = line; // won't store the line in the lines array if it's EOF
+      //printf("lines[line_index]: %p\n", lines[line_index]);
     }
+
     
     line = 0;
     sz = 0;
@@ -46,11 +95,11 @@ tac(int fd)
     line_index++;
   }
    
-  line_index--;
+  //line_index--;
   //printf("line_index: %d\n", line_index);
 
   //printf("\n\n-----------------Reversed text is-----------------: \n");
-  while (line_index >= 0) 
+  while (--line_index >= 0) 
   {
     //printf("line_index: %d\n", line_index);
     //printf("Line %d, read %d character(s):\n%s\n\n", line_index, char_read, lines[line_index]);
@@ -60,7 +109,7 @@ tac(int fd)
     {
       free(lines[line_index]);
     }
-    line_index--;
+    //line_index--;
   }
 
   if (lines != 0)
