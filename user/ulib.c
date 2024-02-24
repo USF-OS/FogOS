@@ -217,10 +217,8 @@ memcpy(void *dst, const void *src, uint n)
  * @return 0 for success, -1 for failure
 */
 int
-sort(int argc, char *argv[], int fd)
+sort(int argc, char *argv[], int fd, char *flags[], int num_flags)
 {
-  // Error check
-
   /**
    *
    *
@@ -233,50 +231,16 @@ sort(int argc, char *argv[], int fd)
    *
   */
 
-  /* Check for flags and store in array */
+  FlagStruct fs = processFlags(flags, num_flags);    
 
-  int unq_flag = 0;
-  int rev_flag = 0; 
-  int num_flag = 0;
-  int ig_case_flag = 0;
-  int ig_blanks_flag = 0;
-
-  int num_flags = 0;
-  char **flags = (char **) malloc((argc - 1) * sizeof(char *));
-
-  getFlags(argc, argv, flags, &num_flags);
-
-  // Pretty ugly, but limited number of fla allows for this
-  if (num_flags > 0) {
-    for (int i = 0; i < num_flags; i++) {
-      if (strcmp(flags[i], "-u" ) == 0) {
-        unq_flag = 1;
-      }
-      if (strcmp(flags[i], "-r" ) == 0) {
-        rev_flag = 1;
-      }
-      if (strcmp(flags[i], "-b" ) == 0) {
-        ig_blanks_flag = 1;
-      }
-      if (strcmp(flags[i], "-f" ) == 0) {
-        ig_case_flag = 1;
-      }
-      if (strcmp(flags[i], "-n" ) == 0) {
-        num_flag = 1;
-      }
-    }
-  }     
-
-  /* Build array of lines from file we're reading from */
   char *line = NULL;
   char **lines = (char **) malloc(MAX_LINES * sizeof(char *));
   if (lines == NULL) return errorInt();
 
   uint buffer_size = 128;
-
-
   int num_lines = 0;
   int len;
+
 
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
@@ -286,30 +250,29 @@ sort(int argc, char *argv[], int fd)
     strcpy(*(lines + num_lines++), line);
   }
 
-  
-
   if (num_flags == 0) {
     insertionSortOrig(num_lines, lines);
     goto original;
   }
-  if (unq_flag == 1) {
+  if (fs.unq_flag) {
     unique(&num_lines, lines);
   }
-  if (ig_blanks_flag == 1) {
+  if (fs.ig_blanks_flag) {
     ignoreBlanks(num_lines, lines);
   }
-  if (ig_case_flag == 1) {
+  if (fs.ig_case_flag) {
     ignoreCase(num_lines, lines);
   }
 
-  if (num_flag == 1) {
+  if (fs.num_flag) {
     numeric(num_lines, lines);
   }
-  if (num_flags <= 2 && (rev_flag == 1 || unq_flag == 1)) {
+  if (num_flags <= 2 && (fs.num_flag == 1 || fs.unq_flag == 1)) {
     insertionSortOrig(num_lines, lines);
   }
 
-  if (rev_flag == 1) {
+  if (fs.rev_flag) {
+    printf("\n in here\n");
     reverse(num_lines, lines);
   }
 
@@ -317,8 +280,8 @@ sort(int argc, char *argv[], int fd)
     printLines(num_lines, lines);
     freeLines(argc, argv);
     freeLines(num_lines, lines);
+    free(flags);
 
-    close(fd);
 
   return 0;
 }

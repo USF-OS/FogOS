@@ -10,6 +10,29 @@
 /**
  * @return -1 for memory allocation error
 */
+
+typedef struct {
+    int unq_flag;
+    int rev_flag;
+    int num_flag;
+    int ig_case_flag;
+    int ig_blanks_flag;
+} FlagStruct;
+
+FlagStruct processFlags(char *flags[], int num_flags) {
+    FlagStruct fs = {0}; // Initialize all flags to 0
+
+    for (int i = 0; i < num_flags; i++) {
+        if (strcmp(flags[i], "-u") == 0) fs.unq_flag = 1;
+        else if (strcmp(flags[i], "-r") == 0) fs.rev_flag = 1;
+        else if (strcmp(flags[i], "-b") == 0) fs.ig_blanks_flag = 1;
+        else if (strcmp(flags[i], "-f") == 0) fs.ig_case_flag = 1;
+        else if (strcmp(flags[i], "-n") == 0) fs.num_flag = 1;
+    }
+
+    return fs;
+}
+
 int
 errorInt()
 {
@@ -203,20 +226,20 @@ insertionSortWithNumeric(int num_lines, char **lines) {
 }
 
 
-void 
-getFlags(int argc, char *argv[], char** flags, int* flagCount) {
-    for (int i = 1; i < argc; i++) {
-        if (argv[i][0] == '-') {
-            flags[*flagCount] = argv[i]; 
-            (*flagCount)++;
+// void 
+// getFlags(int argc, char *argv[], char** flags, int* flagCount) {
+//     for (int i = 1; i < argc; i++) {
+//         if (argv[i][0] == '-') {
+//             flags[*flagCount] = argv[i]; 
+//             (*flagCount)++;
             
-            if (*flagCount >= 100) { 
-                printf("Maximum number of flags reached (100).\n");
-                break;
-            }
-        }
-    }
-}
+//             if (*flagCount >= 100) { 
+//                 printf("Maximum number of flags reached (100).\n");
+//                 break;
+//             }
+//         }
+//     }
+// }
 
 void
 printLines(int num_lines, char *lines[])
