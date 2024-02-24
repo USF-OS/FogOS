@@ -3,17 +3,17 @@
 #include "kernel/fcntl.h"   // for using malloc and free
 
 
-// struct Line {
-//   uint index;
-//   char *content;
-// }; 
-
 void
 tac(int fd) 
 {
   //printf("tac : fd is %d\n", fd); // fd == 3 when fd represents a fi
 
-  char *lines[1024];
+  uint num_lines = 128; // can read 128 lines with the last line being empty (EOF)
+  char **lines = malloc(num_lines * sizeof(char*));
+  //printf("lines is %p\n", lines);
+  if (lines == 0) {
+    printf("tac: malloc for lines failed\n");
+  }
 
   char *line = 0;
   uint sz = 0;
@@ -21,18 +21,20 @@ tac(int fd)
   int line_index = 0;
   int char_read;
 
-  while (1) 
+  while (1)
   {
     //printf("line_index: %d\n", line_index);
     //lines[line_index] = malloc(sz);
     //printf("lines[line_index]: %p\n", lines[line_index]);
   
     char_read = getline(&line, &sz, fd);
-    line[char_read] = '\0';
+    // line[char_read] = '\0';
+    //printf("char_read: %d\n", char_read);
     //printf("line: %s\n", line);
     lines[line_index] = line;
     if (char_read <= 0)
     {
+      //printf("reached EOF\n");
       //printf("line_index: %d, char_read: %d\n", line_index, char_read);
       // reach EOF
       break;
@@ -47,9 +49,10 @@ tac(int fd)
   line_index--;
   //printf("line_index: %d\n", line_index);
 
-
+  //printf("\n\n-----------------Reversed text is-----------------: \n");
   while (line_index >= 0) 
   {
+    //printf("line_index: %d\n", line_index);
     //printf("Line %d, read %d character(s):\n%s\n\n", line_index, char_read, lines[line_index]);
     printf("%s", lines[line_index]);
 
@@ -58,6 +61,11 @@ tac(int fd)
       free(lines[line_index]);
     }
     line_index--;
+  }
+
+  if (lines != 0)
+  {
+    free(lines);
   }
 }
 
@@ -75,7 +83,7 @@ main(int argc, char *argv[])
   // (later change this to opening each argument (which should be a file) after "tac")
   for(i = 1; i < argc; i++)
   {
-    printf("argc[%d] is: %s\n", i, argv[i]);
+    //printf("argc[%d] is: %s\n", i, argv[i]);
     fd = open(argv[i], 0); //from user.h: int open(const char*, int);. file path = argv[i], omode = 0
     if(fd < 0) 
     {
@@ -84,7 +92,7 @@ main(int argc, char *argv[])
     }
   }
 
-  printf("fd is: %d\n", fd);
+  //printf("fd is: %d\n", fd);
   tac(fd);
   close(fd);
   exit(0);
