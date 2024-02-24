@@ -1,6 +1,8 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
+#include "kernel/fcntl.h"
+
 
 int
 main(int argc, char *argv[])
@@ -9,11 +11,16 @@ main(int argc, char *argv[])
 	 * Error check here
 	*/
 	
-	
+	int fd;
 	// This means we're reading from stdin
 	// via a pipe -> "ls | sort"
 	if (argc <= 1) {
 		// Reading from stdin withoug flags
+		printf("\nin standard in\n");
+		fd = 0;
+	} else {
+		char *file_name = argv[1];
+		fd = open(file_name, O_RDONLY);
 	}
 
 	/**

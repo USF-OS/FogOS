@@ -273,11 +273,11 @@ sort(int argc, char *argv[], int fd)
   if (lines == NULL) return errorInt();
 
   uint buffer_size = 128;
-  char *file_name = *argv;
+
 
   int num_lines = 0;
   int len;
-  int fd = open(file_name, O_RDONLY);
+
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
     *(lines + num_lines) = (char *) malloc((len + 1) * sizeof(char));
@@ -285,6 +285,8 @@ sort(int argc, char *argv[], int fd)
 
     strcpy(*(lines + num_lines++), line);
   }
+
+  
 
   if (num_flags == 0) {
     insertionSortOrig(num_lines, lines);
