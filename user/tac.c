@@ -135,26 +135,74 @@ tac(int fd)
 int 
 main(int argc, char *argv[])
 {
-  if(argc <= 1)
+  printf("argc: %d\n", argc);
+
+  if (argc == 1) {
+    fprintf(2, "tac: missing file argument\n");
+    exit(1);
+  }
+
+  if(argc != 2 && argc != 4)
   {
-    printf("exiting as argc<=1\n");
+    fprintf(2, "tac: invalid arguments\n");
     exit(1); // not handling reading from stdin for now
   }
 
-  int i, fd;
+  int fd;
+  const char* file_path;
 
-  for(i = 1; i < argc; i++)
+  if (argc == 2)    // Example: tac fileName.c  
   {
-    //printf("argc[%d] is: %s\n", i, argv[i]);
-    fd = open(argv[i], 0); //from user.h: int open(const char*, int);. file path = argv[i], omode = 0
-    if(fd < 0) 
-    {
-      fprintf(2, "cat: cannot open %s\n", argv[i]);
+    file_path = argv[1];
+  }
+  else // argc == 4, example: tac fileName.c -s "main"   ||  tac -s "main" fileName.C
+  {
+    // check if -s and a string are contained in the arguments
+    //  go through arguemnts one by one, if -s is found, check if the next argument is a "string"
+    //  invalid cases:  no -s
+    //                  -s is not followed by a "string"
+    // if true, search for the fileName argument (if pos of -s is 1/2, pos of file is 3/1; )
+    // otherwise, invalid arguments
+    int i;
+    for (i = 1; i < argc; i++) {
+      //int strncmp(const char *p, const char *q, uint n)
+      int arg_len = strlen(argv[i]);
+      if (arg_len == 2 && strcmp("-s", argv[i]) == 0) {
+        // find -s
+        printf("argv[%d] is: %s\n", i, argv[i]);
+        printf("argv[%d] first char is: %c\n", i+1, argv[i+1][0]);
+        printf("argv[%d] last char is: %c\n", i+1, argv[i+1][strlen(argv[i+1]) - 1]);
+        
+        // check if argv[i+1] is a string
+        if (i + 1 < argc && strlen(argv[i+1]) > 2 
+              && argv[i+1][0] == '"' && argv[i+1][strlen(argv[i+1]) - 1] == '"') 
+        {
+          printf("argv[%d] is a String: %s\n", i+1, argv[i+1]);
+          break;
+        } else {
+          fprintf(2, "tac: invalid separator (separator argument should be a non-empty quoted string)\n");
+          exit(1);
+        }
+      }
+    }
+
+    if (i == argc) {
+      fprintf(2, "tac: invalid arguments (missing -s)\n");
       exit(1);
     }
+
+    file_path = (i == 1) ? argv[3] : argv[1];
   }
 
-  //printf("fd is: %d\n", fd);
+
+  // open the fileName
+  fd = open(file_path, 0); //from user.h: int open(const char*, int);. file path = argv[i], omode = 0
+  if (fd < 0) 
+  {
+    fprintf(2, "tac: cannot open %s\n", file_path);
+    exit(1);
+  }
+
   tac(fd);
   close(fd);
   exit(0);
