@@ -12,14 +12,14 @@ char needle[50] = {0};
 
 
 int strStr(char* haystack, char* needle) {
-  printf("haystack: %s\n", haystack);
-  printf("needle: %s\n", needle);
+  // printf("haystack: %s\n", haystack);
+  // printf("needle: %s\n", needle);
     
   int needle_len = strlen(needle);
   int last_start = strlen(haystack) - needle_len;
 
-  printf("needle_len: %d\n", needle_len);
-  printf("last_start: %d\n", last_start);
+  // printf("needle_len: %d\n", needle_len);
+  // printf("last_start: %d\n", last_start);
 
   for (int start = 0; start <= last_start; start++) {
       for (int i = 0; i < needle_len; i++) {
@@ -33,6 +33,64 @@ int strStr(char* haystack, char* needle) {
   }
 
   return -1;
+}
+
+void print_substring(const char *str, int start, int end)
+{
+  for (int i = start; i <= end; i++)
+  {
+    printf("%c", str[i]);
+  }
+}
+
+void
+print_lines(char **lines, int num_lines)
+{
+  if (has_separator == 1) 
+  {
+    printf("print with separator!\n");
+
+    // 1. print lines[math_line_index] starting from index "match_start" to the end of this line
+
+    print_substring(lines[math_line_index], match_start, strlen(lines[math_line_index])-1);
+
+
+    // 2. print all lines beginning from (math_line_index+1) to the end of file (the last line_index)
+    for (int i = math_line_index+1; i < num_lines; i++) {
+      printf("%s", lines[i]);
+      free(lines[i]);
+    }
+
+    // 3. print all lines from lines[0] to lines[math_line_index-1]
+    for (int i = 0; i <= math_line_index-1; i++) {
+      printf("%s", lines[i]);
+      free(lines[i]);
+    }
+
+    // 4. print lines[math_line_index] starting from index 0 to lines[match_start-1]
+    //printf("print the fist part of the match line with match_start %d\n", match_start);
+    print_substring(lines[math_line_index], 0, match_start-1);
+
+    free(lines[math_line_index]);
+  }
+  else // no separator
+  {
+    int line_index = num_lines;
+    while (--line_index >= 0) 
+    {
+      //printf("line_index: %d\n", line_index);
+      //printf("Line %d, read %d character(s):\n%s\n\n", line_index, char_read, lines[line_index]);
+      printf("%s", lines[line_index]);
+
+      if (lines[line_index] != 0)
+      {
+        free(lines[line_index]);
+      }
+    }
+  }
+
+
+
 }
 
 void
@@ -142,23 +200,23 @@ tac(int fd)
     
     if (has_separator == 1 && match_found == 0)
     {
-      printf("has_separator == 1 && match_found == 0\n");
+      //printf("has_separator == 1 && match_found == 0\n");
       
       int result = strStr(line, needle);
-      printf("result: %d\n", result);
+      //printf("result: %d\n", result);
       if (result != -1)
       {
         match_start = result;
         math_line_index = line_index;
         match_found = 1;
 
-        printf("match_start: %d\n", match_start);
-        printf("math_line_index: %d\n", math_line_index);
-        printf("match_found: %d\n", match_found);
+        // printf("match_start: %d\n", match_start);
+        // printf("math_line_index: %d\n", math_line_index);
+        // printf("match_found: %d\n", match_found);
       }
     }
 
-    printf("-------------------------------------------------------\n");
+    //printf("-------------------------------------------------------\n");
     
     line = 0;
     sz = 0;
@@ -172,18 +230,22 @@ tac(int fd)
   // print the reversed text
   // if no -s, print and free lines in reversed order
   // if has -s, 
-  while (--line_index >= 0) 
-  {
-    //printf("line_index: %d\n", line_index);
-    //printf("Line %d, read %d character(s):\n%s\n\n", line_index, char_read, lines[line_index]);
-    printf("%s", lines[line_index]);
 
-    if (lines[line_index] != 0)
-    {
-      free(lines[line_index]);
-    }
+  int line_count = line_index;
+  print_lines(lines, line_count);
 
-  }
+  // while (--line_index >= 0) 
+  // {
+  //   //printf("line_index: %d\n", line_index);
+  //   //printf("Line %d, read %d character(s):\n%s\n\n", line_index, char_read, lines[line_index]);
+  //   printf("%s", lines[line_index]);
+
+  //   if (lines[line_index] != 0)
+  //   {
+  //     free(lines[line_index]);
+  //   }
+
+  // }
 
   if (lines != 0)
   {
@@ -194,7 +256,7 @@ tac(int fd)
 int 
 main(int argc, char *argv[])
 {
-  printf("argc: %d\n", argc);
+  //printf("argc: %d\n", argc);
 
   if (argc == 1) {
     fprintf(2, "tac: missing file argument\n");
@@ -228,15 +290,15 @@ main(int argc, char *argv[])
       int arg_len = strlen(argv[i]);
       if (arg_len == 2 && strcmp("-s", argv[i]) == 0) {
         // find -s
-        printf("argv[%d] is: %s\n", i, argv[i]);
-        printf("argv[%d] first char is: %c\n", i+1, argv[i+1][0]);
-        printf("argv[%d] last char is: %c\n", i+1, argv[i+1][strlen(argv[i+1]) - 1]);
-        
+        // printf("argv[%d] is: %s\n", i, argv[i]);
+        // printf("argv[%d] first char is: %c\n", i+1, argv[i+1][0]);
+        // printf("argv[%d] last char is: %c\n", i+1, argv[i+1][strlen(argv[i+1]) - 1]);
+        //printf("strlen(argv[i+1] length is: %d\n", strlen(argv[i+1]));
         // check if argv[i+1] is a string
         if (i + 1 < argc && strlen(argv[i+1]) > 2 
               && argv[i+1][0] == '"' && argv[i+1][strlen(argv[i+1]) - 1] == '"') 
         {
-          printf("argv[%d] is a String: %s\n", i+1, argv[i+1]);
+          //printf("argv[%d] is a String: %s\n", i+1, argv[i+1]);
           break;
         } else {
           fprintf(2, "tac: invalid separator (separator argument should be a non-empty quoted string)\n");
