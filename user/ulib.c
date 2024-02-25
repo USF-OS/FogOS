@@ -15,25 +15,14 @@ _main()
 }
 
 uint32 
-crc(int fd, int file_size)
+crc(int fd, int size)
 {
-	uint32 checksum, bytes, buffer_size;
+	uint32 checksum, bytes, file_size, buffer_size;
 	char buffer[1024];
 	char* current_byte;
-
-	/*
-	// Lookup Table for Half-Byte 32-bit CRC with Polynomial 0x04C11DB7
-	const uint32 lookup_table[] =
-	{
-		0x00000000, 0x4C11DB70, 0x9823B6E0, 0xD4326D90,
-		0x34867077, 0x7897AB07, 0xACA5C697, 0xE0B41DE7,
-		0x690CE0EE, 0x251D3B9E, 0xF12F560E, 0xBD3E8D7E,
-		0x5D8A9099, 0x119B4BE9, 0xC5A92679, 0x89B8FD09
-	};
-	*/
 	
 
-	// Lookup Table for 32-bit CRC with Polynomial 0x04C11DB7
+	// Lookup table for the 32-bit CRC algorithm with polynomial 0x04C11DB7
 	const uint32 lookup_table[] = 
 	{
 		0x00000000, 0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B, 0x1A864DB2, 0x1E475005,
@@ -71,18 +60,20 @@ crc(int fd, int file_size)
 	};
 
 	
-	checksum = 0; //0xFFFFFFFF;
+	checksum = 0;
+	file_size = size;
 	buffer_size = 1024;
 
+	// Reads chunks of the file into the buffer in a loop and runs the CRC algorithm on each byte read 
 	while (file_size > 0)
 	{
-		// Handles small files and the last bytes of larger files
+		// Handles small files and the last bytes of large files
 		if (file_size < 1024) 
 		{
 			buffer_size = file_size;
 		}
 
-		// Reads from the file into the buffer and checks that the read was successful
+		// Reads data from the file into the buffer and checks that the read operation was successful
 		bytes = read(fd, buffer, buffer_size);
 		if (bytes != buffer_size)
 		{
@@ -97,20 +88,21 @@ crc(int fd, int file_size)
 		while (bytes-- > 0)
 		{
 			checksum = lookup_table[((checksum >> 24) ^ *current_byte++) & 0xFF] ^ (checksum << 8);
-
 		}
 
 		// Keeps track of the remaining unread bytes in the file
 		file_size -= buffer_size;
 	}
 
-	while (buffer_size != 0)
+	// Extends the algorithm, using each byte of the original 32-bit size as part of the CRC algorithm
+	while (size != 0)
 	{
-		checksum = lookup_table[((checksum >> 24) ^ buffer_size) & 0xFF] ^ (checksum << 8);
-		buffer_size = buffer_size >> 8;
+		checksum = lookup_table[((checksum >> 24) ^ size) & 0xFF] ^ (checksum << 8);
+		size = size >> 8;
 	}
+	
 
-	// Invert the checksum and return the value
+	// Inverts the checksum and returns the value
 	return ~checksum;
 }
 
