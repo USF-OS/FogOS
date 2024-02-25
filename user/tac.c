@@ -4,6 +4,36 @@
 
 uint init_num_lines = 128;
 
+int has_separator = 0;
+int match_start = -1;
+int math_line_index = -1;
+int match_found = 0;
+char needle[50] = {0};
+
+
+int strStr(char* haystack, char* needle) {
+  printf("haystack: %s\n", haystack);
+  printf("needle: %s\n", needle);
+    
+  int needle_len = strlen(needle);
+  int last_start = strlen(haystack) - needle_len;
+
+  printf("needle_len: %d\n", needle_len);
+  printf("last_start: %d\n", last_start);
+
+  for (int start = 0; start <= last_start; start++) {
+      for (int i = 0; i < needle_len; i++) {
+          if (*(needle+i) != *(haystack+start+i)) {
+            break;
+          }
+          if (i == (needle_len-1)) {
+            return start;
+          }
+      }
+  }
+
+  return -1;
+}
 
 void
 tac(int fd) 
@@ -88,7 +118,6 @@ tac(int fd)
       //printf("%s\n", new_lines[i]);
       //printf("finished printing new_line\n");
 
-  
       if (lines != 0)
       {
         free(lines);
@@ -103,6 +132,33 @@ tac(int fd)
       //printf("else: line_index: %d, lines[line_index]: %s", line_index, lines[line_index]);
     }
 
+    // printf("line_index: %d\n", line_index);
+    // printf("has_separator: %d\n", has_separator);
+    // printf("match_found: %d\n", match_found);
+    // printf("needle: %s\n", needle);
+    // printf("match_start: %d\n", match_start);
+    // printf("math_line_index: %d\n", math_line_index);
+    // printf("match_found: %d\n", match_found);
+    
+    if (has_separator == 1 && match_found == 0)
+    {
+      printf("has_separator == 1 && match_found == 0\n");
+      
+      int result = strStr(line, needle);
+      printf("result: %d\n", result);
+      if (result != -1)
+      {
+        match_start = result;
+        math_line_index = line_index;
+        match_found = 1;
+
+        printf("match_start: %d\n", match_start);
+        printf("math_line_index: %d\n", math_line_index);
+        printf("match_found: %d\n", match_found);
+      }
+    }
+
+    printf("-------------------------------------------------------\n");
     
     line = 0;
     sz = 0;
@@ -113,6 +169,9 @@ tac(int fd)
   //printf("line_index: %d\n", line_index);
 
   //printf("\n\n-----------------Reversed text is-----------------: \n");
+  // print the reversed text
+  // if no -s, print and free lines in reversed order
+  // if has -s, 
   while (--line_index >= 0) 
   {
     //printf("line_index: %d\n", line_index);
@@ -191,7 +250,11 @@ main(int argc, char *argv[])
       exit(1);
     }
 
+    // arguments contain -s followed by a valid string 
     file_path = (i == 1) ? argv[3] : argv[1];
+    has_separator = 1;
+    char *str_arg = (i == 1) ? argv[2] : argv[3];
+    memcpy(needle, str_arg+1, strlen(str_arg)-2);
   }
 
 
