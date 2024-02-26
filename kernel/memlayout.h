@@ -65,3 +65,6 @@
 //   TRAPFRAME (p->trapframe, used by the trampoline)
 //   TRAMPOLINE (the same page as in the kernel)
 #define TRAPFRAME (TRAMPOLINE - PGSIZE)
+
+//Mapping unixtime into kernel's virtual memeory
+#define UNIX_TEST 0x101000
