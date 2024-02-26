@@ -34,8 +34,11 @@ typedef struct {
 } FlagStruct;
 
 /**
- * Sets flags
- * @return struct with flags set/unset
+ * Processes command line flags and sets corresponding flags in a FlagStruct.
+ * 
+ * @param num_flags The number of flags passed through the command line.
+ * @param flags[] An array of strings representing each flag.
+ * @return A FlagStruct with flags set according to the command line arguments.
 */
 FlagStruct
 processFlags(int num_flags, char *flags[])
@@ -75,6 +78,9 @@ errorVoid()
 }
 
 /**
+ * Validates if the provided input is a recognized flag.
+ * 
+ * @param flag The input string to validate as a flag.
  * @return 0 if user input is valid flag, other number if not.
 */
 int
@@ -91,7 +97,10 @@ isFlag(char* flag)
 }
 
 /**
- * @return 0 if lowercase, 1 if uppercase
+ * Checks if a character is uppercase.
+ * 
+ * @param c The character to check.
+ * @return 1 if the character is uppercase, 0 otherwise.
 */
 int
 my_isUpper(const char c)
@@ -101,7 +110,9 @@ my_isUpper(const char c)
 
 /**
  * @brief Determines if at least 1 character in the line is uppercase
- * @return 0 if all lowercase or 1 if at least 1 uppercase character
+ * 
+ * @param line The string to examine.
+ * @return 1 if there is at least one uppercase character in the string, 0 if the string contains no uppercase characters.
 */
 int
 my_lineIsUpper(const char* line)
@@ -116,7 +127,9 @@ my_lineIsUpper(const char* line)
 
 /**
  * @brief Converts a line to all lowercase characters
- * @return The lowercase line
+ * 
+ * @param line The input string to be converted to lowercase. Assumes it is null-terminated.
+ * @return A new string in lowercase. This string is dynamically allocated and must be freed by the caller.
 */
 char*
 my_toLower(char* line)
@@ -140,6 +153,12 @@ my_toLower(char* line)
 
 /**
  * Compares two strings based on specific criteria indicated by a flag.
+ *
+ * @param s1 The first string to compare.
+ * @param s2 The second string to compare.
+ * @param flag A string representing the flag that modifies the comparison behavior. For example, "-f" for case-insensitive comparison and "-b" for ignoring leading blanks.
+ * 
+ * @return An integer less than, equal to, or greater than zero if s1 is found, respectively, to be less than, to match, or be greater than s2, according to the comparison criteria.
 */
 int
 compare(const char* s1, const char* s2, char* flag)
@@ -168,6 +187,10 @@ compare(const char* s1, const char* s2, char* flag)
 
 /**
  * @brief Good for small data input (up to 1000 lines)
+ * 
+ * @param num_lines The number of lines (strings) in the array to be sorted.
+ * @param lines A pointer to the array of strings to be sorted.
+ * @param flag A character string representing the flag that modifies the sorting behavior, such as ignoring case or sorting numerically.
 */
 void
 insertionSort(int num_lines, char *lines[], char* flag)
@@ -188,8 +211,10 @@ insertionSort(int num_lines, char *lines[], char* flag)
 /**
  * Regular insertion sort algo for soritng lines
  * that dont have any specified flags.
- * 
  * Sorts according to ascii value of strings
+ * 
+ * @param num_lines The number of lines (strings) in the array to be sorted.
+ * @param lines A pointer to the array of strings to be sorted.
 */
 void
 insertionSortOrig(int num_lines, char *lines[])
@@ -209,6 +234,9 @@ insertionSortOrig(int num_lines, char *lines[])
 
 /**
  * Checks of if first char of line is a digit
+ * 
+ * @param c The character to be evaluated.
+ * @return Returns 1 (true) if the character is a digit, 0 (false) otherwise.
 */
 int
 my_isdigit(char c)
@@ -218,6 +246,9 @@ my_isdigit(char c)
 
 /**
  * @brief Checks if the first character of a string is numeric
+ * 
+ * @param str The string to be checked.
+ * @return Returns 1 (true) if the first character is a digit, 0 (false) otherwise.
 */
 int
 isNumeric(const char *str)
@@ -227,6 +258,9 @@ isNumeric(const char *str)
 
 /**
  * @brief Manually parses a long from a string
+ * 
+ * @param str The string containing the digits to be converted.
+ * @return The numeric value of the digit sequence at the beginning of the string as a long integer.
 */
 long
 parseLong(const char *str)
@@ -242,6 +276,11 @@ parseLong(const char *str)
 /**
  * Used by insertionSortWithNumeric() to compare the 
  * numerical strings as ints/numbers
+ * 
+ * @param a The first string to compare.
+ * @param b The second string to compare.
+ * @return -1 if a < b, 1 if a > b, or the result of strcmp(a, b) if neither or both strings start with a digit.
+ */
 */
 int
 compareStringsAsNumbers(const char* a, const char* b)
@@ -266,6 +305,8 @@ compareStringsAsNumbers(const char* a, const char* b)
  * algo that updates the structure, which is then mem copied
  * into the main array "lines"
  * 
+ * @param num_lines The number of lines to sort.
+ * @param lines The array of strings, specifically those that are numeric or start with a number, to be sorted.
 */
 void
 insertionSortWithNumeric(int num_lines, char **lines)
@@ -289,6 +330,11 @@ insertionSortWithNumeric(int num_lines, char **lines)
  * Parses through command line arguemtns and looks
  * for flags, which are determined by "-" before a char.
  * Limits flag count to 100
+ * 
+ * @param argc The number of command-line arguments.
+ * @param argv An array of pointers to the command-line arguments.
+ * @param num_flags A pointer to an integer that stores the number of flags identified.
+ * @param flags An array of pointers to characters where identified flags are stored.
 */
 void
 getFlags(int argc, char *argv[], int* num_flags, char *flags[])
@@ -307,6 +353,9 @@ getFlags(int argc, char *argv[], int* num_flags, char *flags[])
 
 /**
  * @brief Print *lines[]
+ * 
+ * @param num_lines The number of lines in the array.
+ * @param lines An array of pointers to characters, each representing a line to be printed.
 */
 void
 printLines(int num_lines, char *lines[])
@@ -318,6 +367,9 @@ printLines(int num_lines, char *lines[])
 
 /**
  * @brief Free *lines[]
+ * 
+ * @param num_lines The number of lines in the array.
+ * @param lines An array of pointers to characters, each pointing to a dynamically allocated string to be freed.
 */
 void
 freeLines(int num_lines, char *lines[])
@@ -332,6 +384,9 @@ freeLines(int num_lines, char *lines[])
 /**
  * 1) Advance line pointer to first alphanumeric character
  * 2) Disregard leading blanks when sorting
+ * 
+ * @param num_lines The number of lines to be sorted.
+ * @param lines An array of pointers to characters, each representing a line to be sorted ignoring leading blanks.
 */
 void
 ignoreBlanks(int num_lines, char *lines[])
@@ -344,6 +399,11 @@ ignoreBlanks(int num_lines, char *lines[])
  * 2) Compare adjacent lines, ignoring duplicates
  * Removes duplicate lines after sorting
  * Called by using -u flag 
+ * 
+ * @param num_lines A pointer to an integer representing the total number of lines in the array.
+ *                  This value is updated to reflect the number of unique lines after duplicates are removed.
+ * @param lines A pointer to an array of strings, each representing a line. This array is sorted
+ *              and then filtered to remove duplicates, with the result being a set of unique lines.
 */
 void
 unique(int *num_lines, char *lines[])
@@ -382,6 +442,9 @@ unique(int *num_lines, char *lines[])
  * Ignores cases in the sorting process
  * Converts the line/string into lowercase and then sorts
  * Called by using the -f flag
+ * 
+ * @param num_lines The total number of lines in the array to be sorted.
+ * @param lines A pointer to an array of strings, each representing a line to be sorted in a case-insensitive manner.
 */
 void
 ignoreCase(int num_lines, char *lines[])
@@ -393,6 +456,9 @@ ignoreCase(int num_lines, char *lines[])
  * Sorts according to the numerical value of each line 
  * or sorts the first digit in a line that contains chars
  * Called by using the -n flag 
+ * 
+ * @param num_lines The total number of lines in the array to be sorted.
+ * @param lines A pointer to an array of strings, each representing a line to be sorted.
 */
 void
 numeric(int num_lines, char *lines[])
@@ -425,6 +491,9 @@ numeric(int num_lines, char *lines[])
 
 /**
  * @brief Swaps indeces for reversing
+ * 
+ * @param a Pointer to the first string pointer to swap.
+ * @param b Pointer to the second string pointer to swap.
 */
 void
 swap(char** a, char** b)
@@ -437,6 +506,9 @@ swap(char** a, char** b)
 /**
  * Simply reverses the list of sorted lines
  * Called with the -r flag
+ * 
+ * @param num_lines The number of lines in the array to be reversed. This determines the range of elements to sort and reverse.
+ * @param lines A pointer to an array of strings. Each string is a line that will be sorted and then reversed in order.
 */
 void
 reverse(int num_lines, char *lines[])
