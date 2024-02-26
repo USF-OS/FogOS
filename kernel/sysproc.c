@@ -89,3 +89,9 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_random(void) {
+  volatile uint64 *test_dev = (uint64 *) UNIX_TEST;
+  return *test_dev;	  
+}
