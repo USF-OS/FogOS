@@ -20,7 +20,9 @@ int back = -1;
 //check if queue is full 
 int 
 isFull(){
-	//if front = 0 and back = 0
+	/*if (front = 0 && back = 0 || front = 0 && back = 100){
+		
+	}*/
 	return 0;
 }
 
