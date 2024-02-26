@@ -211,14 +211,27 @@ memcpy(void *dst, const void *src, uint n)
 }
 
 /**
- * @brief ** add description **
- * @param argc Number of arguments (file, flag(s))
- * @param *argv[] Array of arguments (file, flag(s))
- * @return 0 for success, -1 for failure
+ * @author Shyon Ghahghahi
+ * @author Amin Joseph
+ * @brief Parent function that handles all input. Will call various
+ *        functions in sortfuncs.c to delegate tasks such as sorting,
+ *        printing, freeing, etc.
+ * @param fd File descriptor that determines whether we're reading from a file or stdin (via a pipe)
+ * @param num_flags Number of flags passed by the user
+ * @param *flags[] Flags passed by the user
+ * @return 0 for success, 1 for failure
 */
 int
-sort(int argc, char *argv[], int fd, char *flags[], int num_flags)
+sort(int fd, int num_flags, char *flags[])
 {
+
+  /**
+   * Error check:
+   * File not found         -> done
+   * No args (without pipe) -> TODO
+  */
+
+
   /**
    *
    *
@@ -231,7 +244,12 @@ sort(int argc, char *argv[], int fd, char *flags[], int num_flags)
    *
   */
 
-  FlagStruct fs = processFlags(flags, num_flags);    
+  FlagStruct fs = processFlags(num_flags, flags);
+
+  if (fs.help_flag) {
+    help();
+    return 0;
+  }
 
   char *line = NULL;
   char **lines = (char **) malloc(MAX_LINES * sizeof(char *));
@@ -240,7 +258,6 @@ sort(int argc, char *argv[], int fd, char *flags[], int num_flags)
   uint buffer_size = 128;
   int num_lines = 0;
   int len;
-
 
   while (1) {
     if ((len = getline(&line, &buffer_size, fd)) <= 0) break;
@@ -254,34 +271,17 @@ sort(int argc, char *argv[], int fd, char *flags[], int num_flags)
     insertionSortOrig(num_lines, lines);
     goto original;
   }
-  if (fs.unq_flag) {
-    unique(&num_lines, lines);
-  }
-  if (fs.ig_blanks_flag) {
-    ignoreBlanks(num_lines, lines);
-  }
-  if (fs.ig_case_flag) {
-    ignoreCase(num_lines, lines);
-  }
 
-  if (fs.num_flag) {
-    numeric(num_lines, lines);
-  }
-  if (num_flags <= 2 && (fs.num_flag == 1 || fs.unq_flag == 1)) {
-    insertionSortOrig(num_lines, lines);
-  }
-
-  if (fs.rev_flag) {
-    printf("\n in here\n");
-    reverse(num_lines, lines);
-  }
+  if (fs.ig_blanks_flag)  ignoreBlanks(num_lines, lines);
+  if (fs.ig_case_flag)    ignoreCase(num_lines, lines);
+  if (fs.num_flag)        numeric(num_lines, lines);
+  if (fs.rev_flag)        reverse(num_lines, lines);
+  if (fs.unq_flag)        unique(&num_lines, lines);
 
   original:
     printLines(num_lines, lines);
-    freeLines(argc, argv);
     freeLines(num_lines, lines);
-    free(flags);
-
+    freeLines(num_flags, flags);
 
   return 0;
 }
