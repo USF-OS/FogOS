@@ -2,9 +2,9 @@ NAME
 	sort - sort lines of text files
 
 SYNOPSIS
-	sort <OPTION> <FILE>
-	<text output> | sort <OPTION>
-		ex: ls | sort <OPTION>
+	sort [OPTION] [FILE]
+	[text output] | sort [OPTION]
+		ex: ls | sort [OPTION]
 
 DESCRIPTION
 	Write sorted concatenation of FILE to standard output.
