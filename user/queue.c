@@ -20,10 +20,14 @@ int back = -1;
 //check if queue is full 
 int 
 isFull(){
-	if (front = 0 && back = 0 || front = 0 && back = 99){
+	/*if (front = 0 && back = 0 || front = 0 && back = 99){
 		return 1;
+	}*/
+	//when back+1 == front
+	if((back + 1) == front){
+		return 1; //yes it is full;
 	}
-	return 0;
+	return 0; //no it is not full
 }
 
 //check if queue is empty
@@ -40,7 +44,7 @@ int
 deQueue() {
 	if(isFull() == 1){
 		front++;
-		back == 0;
+		//back == 0;
 		return 1; //sucessfully dequeued
 	}
 	//check if the queue is empty 
@@ -63,6 +67,12 @@ enQueue(char *element) {
 	printf("element to be queued: %s\n", element);
 	/* TODO: we shouldn't check if its full, instead refactor this to remove an 
 	element from the end and add the new elenent to the history queue to keep relevance*/
+
+	back = (back+1); //is this right??? not circular 
+    if(back == strlen(queue)){
+    	back == 0;
+    }
+
 	if (isFull()){
     	//printf("Cannot add element. Queue is full\n");
     	deQueue();
@@ -82,7 +92,7 @@ enQueue(char *element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	back = (back+1); //is this right??? not circular 
+    	
     	
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
