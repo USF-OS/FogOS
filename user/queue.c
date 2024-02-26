@@ -68,10 +68,7 @@ enQueue(char *element) {
 	/* TODO: we shouldn't check if its full, instead refactor this to remove an 
 	element from the end and add the new elenent to the history queue to keep relevance*/
 
-	back = (back+1); //is this right??? not circular 
-    if(back == strlen(queue)){
-    	back == 0;
-    }
+	
 
 	if (isFull()){
     	//printf("Cannot add element. Queue is full\n");
@@ -92,7 +89,10 @@ enQueue(char *element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	
+    	back = (back+1); //is this right??? not circular 
+    	if(back == strlen(queue)){
+    	   back == 0;
+    	}
     	
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
