@@ -7,10 +7,8 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 
-//initialize SIZE
-//#define SIZE 10;
-
 //initilaize array
+//int size = 10;
 char *queue[10]; //temp
 
 //initialize front and back to -1 
@@ -24,7 +22,7 @@ isFull(){
 		return 1;
 	}*/
 	//when back+1 == front
-	if((back + 1) == front){
+	if(((back + 1) == front) || ((front == 0) && (back == 10 -1))){
 		return 1; //yes it is full;
 	}
 	
@@ -41,13 +39,13 @@ isEmpty() {
 }
 
 //remove an element
-int 
+void 
 deQueue() {
-	if(isFull() == 1){
+	/*if(isFull() == 1){
 		front++;
 		//back == 0;
 		return 1; //sucessfully dequeued
-	}
+	}*/
 	//check if the queue is empty 
 	/*if(isEmpty() == 0){
 		queue[back] == NULL;
@@ -58,7 +56,13 @@ deQueue() {
 	//return the value pointed by front
 	// inscrese the front index by 1
 	// last element --> resent the values of front and back to -1
-	return 0;
+	if (front == back){
+		front = -1;
+		back = -1;
+	}
+	else{
+		front = (front +1) % 10;	
+	}
 }
 
 
@@ -90,10 +94,10 @@ enQueue(char *element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	back = (back+1); //is this right??? not circular
-    	if(back == 10){
+    	back = (back+1) % 10; //is this right??? not circular
+    	/*if(back == 10){
     	   back = 0;
-    	}
+    	}*/
     	
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
@@ -112,9 +116,13 @@ void printQueue(){
 	//for(int i = front; i != back; i++){ //is this circular tho???
 	//for(int i = front; i < back+1; i++){
 	//char *temp[10];
-	//for()
-	
-	for(int i = front; i != back; i++){
+	for (int i = front; i != back; i = (i + 1) % 10) {
+	      if (i != '\0'){
+	      	printf("in the printqueue for loop\n");
+	      	printf("%s ", queue[i]);
+	      }
+	}
+	/*for(int i = front; i != back; i++){
 		if (i != '\0'){
 			printf("in the printqueue for loop\n");
 			printf("%s ", queue[i]);
@@ -122,5 +130,5 @@ void printQueue(){
 		if(i == 9){
 			i = 0;
 		}
-	}
+	}*/
 }
