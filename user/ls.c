@@ -27,12 +27,14 @@ fmtname(char *path)
 
 void help() {
   printf("LS MANUAL PAGE\n");
+  printf("-------\n");
   printf("Flags:\n");
   printf("-t: prints based off type\n");
   printf("-sz: prints based off size\n");
   printf("-c: prints the files in a nice set of columns (ONLY FOR DIR)\n");
   printf("-fun: prints files in a fun set of colors (ONLY FOR DIR)\n");
   printf("-rand: prints files in random colors\n");
+  printf("-i: prints the index of the file\n");
 }
 
 void
@@ -85,6 +87,11 @@ ls(char *path, char *flag)
        printf("\033[%dm%s %d\033[0m\n", color, fmtname(path), st.type);
     }
 
+    //INDEX FLAG
+    if (strcmp(flag, "-i") == 0) {
+       valid = 1;
+       printf("\033[%dm%s %d \033[0m\n", color, fmtname(path), st.ino);
+    }
 
     //RAND
     if (strcmp(flag, "-rand") == 0) {
@@ -109,9 +116,7 @@ ls(char *path, char *flag)
          color = WHITE;
        }
        printf("\033[%dm%s \033[0m\n", color, fmtname(path));
-      }
-
-
+    }
     break;
 
   case T_DIR:
@@ -163,8 +168,7 @@ ls(char *path, char *flag)
         } else if (st.type == 1) {
             color = CYAN;
             printf("\033[%dm%s %d\033[0m\n", color, fmtname(buf), st.type);
-        }
-          else if (st.type == 2) {
+        } else if (st.type == 2) {
             color = WHITE;
             printf("\033[%dm%s %d\033[0m\n", color, fmtname(buf), st.type);
         } else if (st.type == 3) {
@@ -181,8 +185,14 @@ ls(char *path, char *flag)
           color = WHITE;
           printf("\033[%dm%s %d %d %d\033[0m\n", color, fmtname(buf), st.type, st.ino, st.size);
       }
+      
+      //INDEX FLAG
+      if (strcmp(flag, "-i") == 0) {
+	  valid = 1;
+          printf("\033[%dm%s %d \033[0m\n", color, fmtname(buf), st.ino);
+      }
 
-
+      //FUN FLAG
       if (strcmp(flag, "-fun") == 0) {
           valid = 1;
           if (st.ino % 6 == 1) {
@@ -275,24 +285,34 @@ main(int argc, char *argv[])
 {
   int i;
   int j;
+  int count = 0;
+  int checked = 0;
   char flag[128];
-
+ 
   strcpy(flag, "-");
-
   if(argc < 2){
     ls(".", "-");
     exit(0);
   }
 
   for(i=1; i<argc; i++) {
-
     //locate flag
-    for(j=1; j<argc;j++) {
-        if(argv[j][0] == '-') {
-           strcpy(flag, argv[j]);
-        }
+    if (checked != 1) {
+      for(j=1; j<argc;j++) {
+          if(argv[j][0] == '-') {
+             strcpy(flag, argv[j]);
+	     count++;	   
+          }
+	  checked = 1;
+      }
     }
 
+    if (count >= 2 && checked == 1) {
+       printf("Too many flags detected. Please use one flag at a time\n");
+       return 0;
+    }
+
+    //help flag
     if (strcmp(flag, "-h") == 0) {
        help();
        exit(0);
