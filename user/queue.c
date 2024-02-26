@@ -118,12 +118,17 @@ void printQueue(){
 	//for(int i = front; i != back; i++){ //is this circular tho???
 	//for(int i = front; i < back+1; i++){
 	//char *temp[10];
-	for (int i = front; i <= back; i++) {
+	int count = 0;
+	for (int i = front; i+1 != back; i++) {
 	//for (int i = front; i != back; i = i%10) {
+		  if (count == 10){
+		  	break;
+		  }
 		  i = (i) % 10;
 	      //if (i != '\0'){
 	      printf("in the printqueue for loop\n");
 	      printf("%s ", queue[i]);
+	      count++;
 	      //}
 	}
 	
