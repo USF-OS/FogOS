@@ -20,9 +20,9 @@ int back = -1;
 //check if queue is full 
 int 
 isFull(){
-	/*if (front = 0 && back = 0 || front = 0 && back = 100){
-		
-	}*/
+	if (front = 0 && back = 0 || front = 0 && back = 99){
+		return 1;
+	}
 	return 0;
 }
 
@@ -38,11 +38,16 @@ isEmpty() {
 //remove an element
 int 
 deQueue() {
+	if(isFull() == 1){
+		front++;
+		back == 0;
+		return 1; //sucessfully dequeued
+	}
 	//check if the queue is empty 
-	if(isEmpty() == 0){
+	/*if(isEmpty() == 0){
 		queue[back] == NULL;
 		front++;	
-	}
+	}*/
 	
 	
 	//return the value pointed by front
