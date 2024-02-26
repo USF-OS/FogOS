@@ -11,7 +11,7 @@
 //#define SIZE 10;
 
 //initilaize array
-char *queue[100];
+char *queue[10]; //temp
 
 //initialize front and back to -1 
 int front = -1;
@@ -90,8 +90,8 @@ enQueue(char *element) {
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back+1); //is this right??? not circular 
-    	if(back == strlen(queue)){
-    	   back == 0;
+    	if(back == 10){
+    	   back = 0;
     	}
     	
     	char *a = (char *)malloc(strlen(element)+1);
