@@ -122,6 +122,7 @@ void printQueue(){
 	      	printf("%s ", queue[i]);
 	      }
 	}
+	
 	/*for(int i = front; i != back; i++){
 		if (i != '\0'){
 			printf("in the printqueue for loop\n");
