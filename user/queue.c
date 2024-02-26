@@ -62,6 +62,7 @@ deQueue() {
 	}
 	else{
 		front = (front +1) % 10;	
+		//back = (back%10);
 	}
 }
 
@@ -78,6 +79,7 @@ enQueue(char *element) {
 	if (isFull()){
     	printf("Cannot add element. Queue is full\n");
     	deQueue();
+    	back = (back+1) % 10; //is this right??? not circular
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
     	    	
@@ -116,11 +118,13 @@ void printQueue(){
 	//for(int i = front; i != back; i++){ //is this circular tho???
 	//for(int i = front; i < back+1; i++){
 	//char *temp[10];
-	for (int i = front; i != back; i = (i + 1) % 10) {
-	      if (i != '\0'){
-	      	printf("in the printqueue for loop\n");
-	      	printf("%s ", queue[i]);
-	      }
+	for (int i = front; i <= back; i++) {
+	//for (int i = front; i != back; i = i%10) {
+		  i = (i) % 10;
+	      //if (i != '\0'){
+	      printf("in the printqueue for loop\n");
+	      printf("%s ", queue[i]);
+	      //}
 	}
 	
 	/*for(int i = front; i != back; i++){
