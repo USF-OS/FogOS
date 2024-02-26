@@ -267,10 +267,7 @@ sort(int fd, int num_flags, char *flags[])
     strcpy(*(lines + num_lines++), line);
   }
 
-  if (num_flags == 0) {
-    insertionSortOrig(num_lines, lines);
-    goto original;
-  }
+  if (num_flags == 0) goto original;
 
   if (fs.ig_blanks_flag)  ignoreBlanks(num_lines, lines);
   if (fs.ig_case_flag)    ignoreCase(num_lines, lines);
@@ -279,6 +276,7 @@ sort(int fd, int num_flags, char *flags[])
   if (fs.unq_flag)        unique(&num_lines, lines);
 
   original:
+    insertionSortOrig(num_lines, lines);
     printLines(num_lines, lines);
     freeLines(num_lines, lines);
     freeLines(num_flags, flags);
