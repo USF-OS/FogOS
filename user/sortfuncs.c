@@ -12,8 +12,18 @@
 #define MAX_LINES 1000
 
 /**
- * @todo Add description
-*/
+ * Struct to store program option flags.
+ * 
+ * This structure is used to represent the state of various options in a program, 
+ * where each flag indicates whether a specific feature or behavior is enabled.
+ * 
+ * @param ig_blanks_flag Indicates if blank spaces should be ignored.
+ * @param ig_case_flag Indicates if case sensitivity should be ignored.
+ * @param rev_flag Indicates if the order should be reversed.
+ * @param num_flag Indicates if numerical sorting is enabled.
+ * @param unq_flag Indicates if only unique entries should be considered.
+ * @param help_flag Indicates if help or usage information should be displayed.
+ */
 typedef struct {
   int ig_blanks_flag;
   int ig_case_flag;
@@ -129,7 +139,7 @@ my_toLower(char* line)
 }
 
 /**
- * @todo Add description
+ * Compares two strings based on specific criteria indicated by a flag.
 */
 int
 compare(const char* s1, const char* s2, char* flag)
@@ -176,7 +186,10 @@ insertionSort(int num_lines, char *lines[], char* flag)
 }
 
 /**
- * @todo Add description
+ * Regular insertion sort algo for soritng lines
+ * that dont have any specified flags.
+ * 
+ * Sorts according to ascii value of strings
 */
 void
 insertionSortOrig(int num_lines, char *lines[])
@@ -195,7 +208,7 @@ insertionSortOrig(int num_lines, char *lines[])
 }
 
 /**
- * @todo Add description
+ * Checks of if first char of line is a digit
 */
 int
 my_isdigit(char c)
@@ -227,7 +240,8 @@ parseLong(const char *str)
 }
 
 /**
- * @todo Add description
+ * Used by insertionSortWithNumeric() to compare the 
+ * numerical strings as ints/numbers
 */
 int
 compareStringsAsNumbers(const char* a, const char* b)
@@ -244,7 +258,14 @@ compareStringsAsNumbers(const char* a, const char* b)
 }
 
 /**
- * @todo Add description
+ * Sorts according to lines that begin with an int
+ * or lines that are only filled with ints
+ * 
+ * Seperate line of chars numbers are passed in and then 
+ * temporarily converted to compare in an insertion sort 
+ * algo that updates the structure, which is then mem copied
+ * into the main array "lines"
+ * 
 */
 void
 insertionSortWithNumeric(int num_lines, char **lines)
@@ -265,7 +286,9 @@ insertionSortWithNumeric(int num_lines, char **lines)
 }
 
 /**
- * @todo Add description
+ * Parses through command line arguemtns and looks
+ * for flags, which are determined by "-" before a char.
+ * Limits flag count to 100
 */
 void
 getFlags(int argc, char *argv[], int* num_flags, char *flags[])
@@ -319,6 +342,8 @@ ignoreBlanks(int num_lines, char *lines[])
 /**
  * 1) Sort lines
  * 2) Compare adjacent lines, ignoring duplicates
+ * Removes duplicate lines after sorting
+ * Called by using -u flag 
 */
 void
 unique(int *num_lines, char *lines[])
@@ -354,7 +379,9 @@ unique(int *num_lines, char *lines[])
 }
 
 /**
- * @todo Add description
+ * Ignores cases in the sorting process
+ * Converts the line/string into lowercase and then sorts
+ * Called by using the -f flag
 */
 void
 ignoreCase(int num_lines, char *lines[])
@@ -363,7 +390,9 @@ ignoreCase(int num_lines, char *lines[])
 }
 
 /**
- * @todo Add description
+ * Sorts according to the numerical value of each line 
+ * or sorts the first digit in a line that contains chars
+ * Called by using the -n flag 
 */
 void
 numeric(int num_lines, char *lines[])
@@ -406,7 +435,8 @@ swap(char** a, char** b)
 }
 
 /**
- * @todo Add description
+ * Simply reverses the list of sorted lines
+ * Called with the -r flag
 */
 void
 reverse(int num_lines, char *lines[])
