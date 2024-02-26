@@ -3,7 +3,6 @@
 #include "kernel/types.h"
 #include "user/user.h"
 #include "kernel/fcntl.h"
-//#include "<sys/queue.h>"
 #include "user/queue.c"
 
 // Parsed command representation
@@ -63,7 +62,6 @@ struct history{
 void
 historyadd(struct history *history, char *buf)
 {
-	printf("adding to history: %s\n", buf);
 	enQueue(buf);	
 }
 
@@ -172,7 +170,6 @@ main(void)
 
   // Read and run input commands.
   while(getcmd(buf, sizeof(buf)) >= 0){
-  	printf("about to run, %s\n", buf);
   	historyadd(&hist, buf);
     if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){ 
       // Chdir must be called by the parent, not the child.
@@ -181,14 +178,11 @@ main(void)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
-    	printf("history\n"); //added this to test
-    	printf("Your latest history:");
+    	//printf("Your latest history:\n");
         printQueue();
         printf("\n");
     }
     if(fork1() == 0){
-    //TODO pass bufs back thriugh this???
-      //historyadd(&hist, buf);
       runcmd(parsecmd(buf));
     }
     wait(0);

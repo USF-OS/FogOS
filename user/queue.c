@@ -8,8 +8,10 @@
 #include "user/user.h"
 
 //initilaize array
-//int size = 10;
-char *queue[10]; //temp
+
+#define SIZE 10 //able to be changed
+
+char *queue[SIZE]; 
 
 //initialize front and back to -1 
 int front = -1;
@@ -18,7 +20,7 @@ int back = -1;
 //check if queue is full 
 int 
 isFull(){
-	if(((back + 1) == front) || ((front == 0) && (back == 10 -1))){
+	if(((back + 1) == front) || ((front == 0) && (back == SIZE -1))){
 		return 1; //yes it is full;
 	}
 	return 0; //no it is not full
@@ -41,7 +43,7 @@ deQueue() {
 		back = -1;
 	}
 	else{
-		front = (front +1) % 10;	
+		front = (front +1) % SIZE;	
 	}
 }
 
@@ -51,7 +53,7 @@ void
 enQueue(char *element) {
 	if (isFull()){
     	deQueue();
-    	back = (back+1) % 10; 
+    	back = (back+1) % SIZE; 
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
         queue[back] = a;
@@ -62,7 +64,7 @@ enQueue(char *element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	back = (back+1) % 10; 
+    	back = (back+1) % SIZE; 
     	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
 		queue[back] = a;
@@ -73,10 +75,10 @@ enQueue(char *element) {
 void printQueue(){
 	int count = 0;
 	for (int i = front; i+1 != back; i++) {
-		  if (count == 10){
+		  if (count == SIZE){
 		  	break;
 		  }
-		  i = (i) % 10;
+		  i = (i) % SIZE;
 	      printf("%s ", queue[i]);
 	      count++;
 	}
