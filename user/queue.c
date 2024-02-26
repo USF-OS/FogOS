@@ -40,14 +40,19 @@ enQueue(char *element) {
 	/* TODO: we shouldn't check if its full, instead refactor this to remove an 
 	element from the end and add the new elenent to the history queue to keep relevance*/
 	if (isFull()){
-    	printf("Cannot add element. Queue is full\n");
+    	//printf("Cannot add element. Queue is full\n");
+    	deQueue();
+    	char *a = (char *)malloc(strlen(element)+1);
+    	strcpy(a, element);
+    	    	
+        queue[back] = a;
 	}
 	/*if (back == 0){
 		//deQueue the last element
 		// add new element --> remove else 
 	}*/
   	else { //add element to queue
-  		printf("in enqueue\n");
+  		//printf("in enqueue\n");
   		//if the queue is empty then update front to 0
     	if (front == -1){
     		front = 0;
@@ -60,7 +65,7 @@ enQueue(char *element) {
     	
 		queue[back] = a;
 		
-      	printf("the queue after enQueue: %s\n", queue);
+      	//printf("the queue after enQueue: %s\n", queue);
   	}
 }
 
