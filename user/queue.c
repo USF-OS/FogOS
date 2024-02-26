@@ -35,6 +35,23 @@ isEmpty() {
 	return 0;
 }
 
+//remove an element
+int 
+deQueue() {
+	//check if the queue is empty 
+	if(isEmpty() == 0){
+		queue[back] == NULL;
+		front++;	
+	}
+	
+	
+	//return the value pointed by front
+	// inscrese the front index by 1
+	// last element --> resent the values of front and back to -1
+	return 0;
+}
+
+
 //add an element
 void 
 enQueue(char *element) {
@@ -69,22 +86,6 @@ enQueue(char *element) {
 		
       	//printf("the queue after enQueue: %s\n", queue);
   	}
-}
-
-//remove an element
-int 
-deQueue() {
-	//cehck if the queue is empty 
-	if(isEmpty() == 0){
-		queue[back] == NULL;
-		front++;	
-	}
-	
-	
-	//return the value pointed by front
-	// inscrese the front index by 1
-	// last element --> resent the values of front and back to -1
-	return 0;
 }
 
 //print the queue
