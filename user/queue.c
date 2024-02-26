@@ -89,7 +89,7 @@ enQueue(char *element) {
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
-    	back = (back+1); //is this right??? not circular 
+    	back = (back+1); //is this right??? not circular
     	if(back == 10){
     	   back = 0;
     	}
