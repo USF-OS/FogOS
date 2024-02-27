@@ -135,8 +135,8 @@ UPROGS=\
 	$U/_compress\
 	$U/_decompress\
 
-fs.img: mkfs/mkfs README.md $(UPROGS)
-	mkfs/mkfs fs.img README.md $(UPROGS)
+fs.img: mkfs/mkfs README.md test_compression $(UPROGS)
+	mkfs/mkfs fs.img README.md test_compression $(UPROGS)
 
 -include kernel/*.d user/*.d
 

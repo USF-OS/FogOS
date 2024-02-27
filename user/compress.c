@@ -23,6 +23,7 @@ typedef struct {
     Node **array;  // A pointer to the node array
 } MinHeap;
 
+
 // Swap the pointers of two nodes
 void swapNode(Node **a, Node **b) {
     Node *t = *a;
@@ -139,28 +140,31 @@ Node *buildHuffmanTree(char data[], int freq[], int size) {
     return getMin(minHeap);
 }
 
-void printCodes(Node *root, int arr[], int top) {
+void printCodes(Node *root, int arr[], int top, int fd) {
     if (root->left) {
         arr[top] = 0;
-        printCodes(root->left, arr, top + 1);
+        printCodes(root->left, arr, top + 1,fd);
     }
 
     if (root->right) {
         arr[top] = 1;
-        printCodes(root->right, arr, top + 1);
+        printCodes(root->right, arr, top + 1, fd);
     }
 
     if (!root->left && !root->right) {
-        printf("%c: ", root->data);
-        for (int i = 0; i < top; ++i)
+        printf("%c:", root->data);
+        fprintf(fd, "%c:", root->data);
+        for (int i = 0; i < top; ++i){
             printf("%d", arr[i]);
+            fprintf(fd, "%c", '0'+arr[i]);}
+        fprintf(fd, "\n");
         printf("\n");
     }
 }
 
 int main(int argc, char *argv[])
 {
-	if(argc<2) return 1;
+	if(argc<3) return 1;
 	char *filename = argv[1];
 	compress(filename);
 	int fd = open(filename, O_RDONLY);
@@ -168,7 +172,6 @@ int main(int argc, char *argv[])
         // Handle error: file open failed
         return 1;
     }
-
 	int freq[256] = {0};
 	
 	char buffer;
@@ -196,13 +199,70 @@ int main(int argc, char *argv[])
             j++;
         }
     }
-    
+    /*
 	for (int i = 0; i < count; i++) {
 	        printf(" '%c' appears %d times\n", chars[i], counts[i]);
-	    }
+	    }*/
 
 	struct Node *root = buildHuffmanTree(chars, counts, sizeof(chars) / sizeof(chars[0]));
-	int huffmanCode[256], top = 0;
-	printCodes(root, huffmanCode, top);
+	 int huffmanCode[256];
+
+	 int fd2 = open(argv[2], O_CREATE | O_RDWR);
+	 
+	 printCodes(root, huffmanCode, 0,fd2);
+
+	// Read huffman code from table
+
+	int fd3 = open(argv[2], O_RDONLY);
+
+	int count3 = 0;
+	char temp3, buffer3[129];
+	int index3 = 0;
+	char symbol3[256];
+	char* code3[256];
+	while (read(fd3, &temp3, 1) > 0) {
+		if (temp3 != '\n' && index3 < 128) {
+            buffer3[index3++] = temp3;
+        } else {
+            buffer3[index3] = '\0';
+            if (index3 > 1) {
+            	//printf("%c\n", buffer3[0]);
+            	symbol3[count3]=buffer3[0];
+            	//printf("%s\n", buffer3+1);
+            	
+            	code3[count3] = (char*)malloc(strlen(buffer3 + 1) + 1);
+            	if (code3[count3] != NULL) {
+            	                strcpy(code3[count3], buffer3 + 1);
+            	            }
+                count3++;
+            }
+            index3 = 0;
+        }
+    }
+
+    for(int i=0;i<count3;i++){
+    	printf("%c %s\n",symbol3[i],code3[i]);
+    }
+
+    fprintf(fd2, "\n\n");
+	int fd4 = open(filename, O_RDONLY);
+    if (fd4 < 0) {
+        // Handle error: file open failed
+        return 1;
+    }
+	
+	char buffer4;
+	int readsize4;
+	while((readsize4=read(fd4, &buffer4, 1)) > 0){
+		for(int i=0;i<count3;i++){
+		if(symbol3[i]==(unsigned char)buffer4){
+			fprintf(fd2, "%s ",code3[i]);
+		}
+	}
+	}
+
+	close(fd3);
+    close(fd4);    
+
 	return 0;
 }
