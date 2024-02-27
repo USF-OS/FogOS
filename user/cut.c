@@ -18,7 +18,6 @@ void cutc(int fd, int start, int end) {
             exit(1);
         }
 
-
         // Iterate through each character in the buffer.
         for (int i = 0; i < n; i++) {
             // Check if the current character is within the specified range.
@@ -82,24 +81,21 @@ int main(int argc, char *argv[]) {
     if (strcmp(argv[1], "-c") == 0) {
         // Ensure proper usage with the correct number of arguments.
         if (argc < 4) {
-           fprintf(2, "cut: -c option requires two arguments(Example: cut -c 1 3)\n");
-	   exit(1);
+            fprintf(2, "cut: -c option requires two arguments(Example: cut -c 1 3)\n");
+	        exit(1);
         }
          
         int start = atoi(argv[2]); // Convert start position from string to int.
         int end = atoi(argv[3]);   // Convert end position from string to int.
-        
         
         // Validate the range
         if (start <= 0 || end <= 0 || start > end) {
             fprintf(2, "cut: invalid range specified\n");
             exit(1);
         }
-
         // Adjusting the start and end to 0-based index
         start--;
         end--;
-
 
         fd = (argc == 5) ? open(argv[4], 0) : 0; // Open file if provided.
 
@@ -114,13 +110,12 @@ int main(int argc, char *argv[]) {
             fprintf(2, "cut: incorrect usage of -f and -d\n");
             exit(1);
         }
+        
         int field = atoi(argv[2]) - 1;  // Convert field number from string to int.
         char delimiter = argv[4][0];    // Get the delimiter character.
-
-
-	fd = (argc == 6) ? open(argv[5], 0) : 0; // Open file if provided.
-
+	    fd = (argc == 6) ? open(argv[5], 0) : 0; // Open file if provided.
         cutf(fd, delimiter, field); // Call the function to cut fields.
+        
         if (fd != 0) close(fd); // Close the file descriptor if it was opened.
     } else {
         // Print error message if arguments do not match expected patterns.
