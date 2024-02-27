@@ -1,82 +1,119 @@
-#include "kernel/types.h"   
-#include "user/user.h"      
-#include "kernel/fcntl.h"   
+/**
+ * tac
+ * 
+ * Supported patterns:
+ *   tac FILE
+ *   tac FILE -s separator
+ *   tac -s separator FIILE
+ * 
+ * (Separator is a non-empty quoted string, limited to no more than 5 spaces and 50 characters.
+ *  Separators containing special characters (such as '(' and ')') may not be supported.)
+ * 
+ * Usage:  
+ *   tac file: 
+ *   Print the lines in a specified file in reverse order.
+ * 
+ *   tac file -s separator or tac -s separator file:
+ *   Print from the first occurrence of the separator (inclusive) to the end of file.
+ *   Then, print from the beginning of file to the position before the fist occurrence 
+ *   of the separator.
+ */
 
+#include "kernel/types.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
 
-// separator input from command line can't contain more than 5 spaces
-// separator can't contain ()
-// separator must have no more than 50 characters
+static uint INIT_NUM_LINES = 128;
+static int has_separator = 0;
+static int match_start = -1;
+static int match_line_index = -1;
+static int match_found = 0;
+static char needle[100] = {0};
 
-uint init_num_lines = 128;
-int has_separator = 0;
-int match_start = -1;
-int math_line_index = -1;
-int match_found = 0;
-char needle[100] = {0};
-
-
-int search_str(char* haystack, char* needle) {
+/**
+ * Search for the first occurrence of a string within another string.
+ *
+ * @param haystack The string to be searched.
+ * @param needle   The string to search for within the haystack.
+ * @return         The index of the first occurrence of the needle in the haystack,
+ *                 or -1 if the needle is not found.
+ */
+int search_str(char *haystack, char *needle)
+{
   int needle_len = strlen(needle);
   int last_start = strlen(haystack) - needle_len;
 
-  for (int start = 0; start <= last_start; start++) 
+  for (int start = 0; start <= last_start; start++)
   {
-      for (int i = 0; i < needle_len; i++) 
-      {
-          if (*(needle + i) != *(haystack + start + i)) 
-          {
-            break;
-          }
-          if (i == (needle_len - 1)) 
-          {
-            return start;
-          }
-      }
+    for (int i = 0; i < needle_len; i++)
+    {
+      if (*(needle + i) != *(haystack + start + i))
+        break;
+  
+      if (i == (needle_len - 1))
+        return start;
+    }
   }
 
   return -1;
 }
 
+/**
+ * Print the input string from the starting index to the ending index.
+ *
+ * @param str   The input string.
+ * @param start The starting index of the substring.
+ * @param end   The ending index of the substring.
+ */
 void print_substring(const char *str, int start, int end)
 {
   for (int i = start; i <= end; i++)
-  {
     printf("%c", str[i]);
-  }
 }
 
-void
-print_lines(char **lines, int num_lines)
+/**
+ * If -s followed by a valid separator is provided via the command line, 
+ * print from the first occurrence of the separator (inclusive) to the end of file.
+ * Then, print from the beginning of file to the position before the fist occurrence 
+ * of the separator.
+ * 
+ * If only a file name is provided in the command line,
+ * print lines in the file in reverse.
+ *
+ * @param lines     The input array of lines.
+ * @param num_lines The number of lines in the line array.
+ */
+void print_lines(char **lines, int num_lines)
 {
-  if (has_separator == 1) 
+  if (has_separator == 1)
   {
-     if (match_found == 0) 
-     {
-        fprintf(2, "tac: the string is not contained in the input text\n");
-        exit(1);
-     }
+    if (match_found == 0)
+    {
+      fprintf(2, "tac: the string is not contained in the input text\n");
+      exit(1);
+    }
 
-    print_substring(lines[math_line_index], match_start, strlen(lines[math_line_index])-1);
+    print_substring(lines[match_line_index], match_start, strlen(lines[match_line_index]) - 1);
 
-    for (int i = math_line_index+1; i < num_lines; i++) 
+    for (int i = match_line_index + 1; i < num_lines; i++)
     {
       printf("%s", lines[i]);
       free(lines[i]);
     }
 
-    for (int i = 0; i <= math_line_index-1; i++) 
+    for (int i = 0; i <= match_line_index - 1; i++)
     {
       printf("%s", lines[i]);
       free(lines[i]);
     }
 
-    print_substring(lines[math_line_index], 0, match_start-1);
-    free(lines[math_line_index]);
+    print_substring(lines[match_line_index], 0, match_start - 1);
+    free(lines[match_line_index]);
   }
   else // no separator
   {
     int line_index = num_lines;
-    while (--line_index >= 0) 
+    while (--line_index >= 0)
     {
       printf("%s", lines[line_index]);
 
@@ -88,15 +125,20 @@ print_lines(char **lines, int num_lines)
   }
 }
 
-void
-tac(int fd) 
+/**
+ * Read from the file represented by a file descriptor and 
+ * print the file based on various command line arguments.
+ * 
+ * @param fd The file descriptor representing a file stream.
+ */
+void tac(int fd)
 {
   uint old_num_lines = 0;
-  uint new_num_lines = init_num_lines;
+  uint new_num_lines = INIT_NUM_LINES;
 
-  char **lines = malloc(new_num_lines * sizeof(char*));
+  char **lines = malloc(new_num_lines * sizeof(char *));
 
-  if (lines == 0) 
+  if (lines == 0)
   {
     fprintf(2, "tac: malloc failed\n");
     exit(1);
@@ -107,32 +149,32 @@ tac(int fd)
 
   int line_index = 0, char_read = 0;
   char **new_lines;
-  
+
   while (1)
   {
     char_read = getline(&line, &sz, fd);
-  
+
     if (char_read <= 0)
     {
-      // reach end of file
+      // Reach end of file
       break;
-    } 
+    }
     else if (line_index == (new_num_lines - 1))
-    { 
+    {
       old_num_lines = new_num_lines;
       new_num_lines = old_num_lines * 2;
 
-      new_lines = malloc(new_num_lines * sizeof(char*));
+      new_lines = malloc(new_num_lines * sizeof(char *));
 
-      if (new_lines == 0) 
+      if (new_lines == 0)
       {
         fprintf(2, "tac: malloc failed\n");
         exit(1);
       }
 
-      memcpy(new_lines, lines, (line_index + 1) * sizeof(char*));
+      memcpy(new_lines, lines, (line_index + 1) * sizeof(char *));
 
-      new_lines[line_index] = line; 
+      new_lines[line_index] = line;
 
       if (lines != 0)
       {
@@ -140,25 +182,24 @@ tac(int fd)
       }
 
       lines = new_lines;
-
-    } 
-    else 
-    {
-      lines[line_index] = line; 
     }
-    
+    else
+    {
+      lines[line_index] = line;
+    }
+
     if (has_separator == 1 && match_found == 0)
-    { 
+    {
       int result = search_str(line, needle);
 
       if (result != -1)
       {
         match_start = result;
-        math_line_index = line_index;
+        match_line_index = line_index;
         match_found = 1;
       }
     }
-    
+
     line = 0;
     sz = 0;
 
@@ -174,38 +215,34 @@ tac(int fd)
   }
 }
 
-int 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-  if (argc == 1) 
+  if (argc == 1)
   {
     fprintf(2, "tac: missing file argument\n");
     exit(1);
   }
 
-  // if argc is not 2, make sure argc is 4 (make sure quoted string is treated as one argument)
-  // after quote string is treated as one argument, if argc is still not 4, print error message and exit
-  if (argc != 2) 
+  if (argc != 2)
   {
-    
     int c = 0;
 
+    // Treat a quoted string containing spaces as one argument
     for (int i = 1; i < argc; i++)
     {
-      
-      if (argv[i][0] == '"')   
+      if (argv[i][0] == '"')
       {
         int arg_start_index = i;
-
-        if (arg_start_index == 1) {
+        if (arg_start_index == 1)
+        {
           fprintf(2, "tac: invalid arguments\n");
           exit(1);
         }
 
-        char *arg = argv[i];  
+        char *arg = argv[i];
 
         char new_str_arg[100] = {0};
-    
+
         strcpy(new_str_arg, arg);
         strcpy(new_str_arg + strlen(arg), "\0");
 
@@ -213,11 +250,11 @@ main(int argc, char *argv[])
         {
           i++;
 
-          if (i < argc) 
-          { 
+          if (i < argc)
+          {
             strcpy(new_str_arg + strlen(new_str_arg), " \0");
             strcpy(new_str_arg + strlen(new_str_arg), argv[i]);
-            strcpy(new_str_arg + strlen(new_str_arg) + strlen(argv[i]), "\0");   
+            strcpy(new_str_arg + strlen(new_str_arg) + strlen(argv[i]), "\0");
 
             c++;
           }
@@ -229,7 +266,7 @@ main(int argc, char *argv[])
 
         argv[arg_start_index] = new_str_arg;
 
-        if (arg_start_index == 2 )
+        if (arg_start_index == 2)
         {
           argv[3] = argv[argc - 1];
         }
@@ -246,29 +283,26 @@ main(int argc, char *argv[])
   }
 
   int fd;
-  const char* file_path;
+  const char *file_path;
 
-  if (argc == 2)  
+  if (argc == 2)
   {
     file_path = argv[1];
   }
-  else 
-  {                     
+  else
+  {
     int i;
-    for (i = 1; i < argc; i++) 
+    for (i = 1; i < argc; i++)
     {
-      //int strncmp(const char *p, const char *q, uint n)
       int arg_len = strlen(argv[i]);
-      if (arg_len == 2 && strcmp("-s", argv[i]) == 0) 
+      if (arg_len == 2 && strcmp("-s", argv[i]) == 0)
       {
-        // find -s
-        // check if argv[i+1] is a string
-        if (i+1 < argc && strlen(argv[i+1]) > 2 
-              && argv[i+1][0] == '"' && argv[i+1][strlen(argv[i+1]) - 1] == '"') 
+        if (i + 1 < argc && strlen(argv[i + 1]) > 2 
+            && argv[i + 1][0] == '"' && argv[i + 1][strlen(argv[i + 1]) - 1] == '"')
         {
           break;
-        } 
-        else 
+        }
+        else
         {
           fprintf(2, "tac: invalid separator (separator argument should be a non-empty quoted string)\n");
           exit(1);
@@ -276,22 +310,20 @@ main(int argc, char *argv[])
       }
     }
 
-    if (i == argc) 
+    if (i == argc)
     {
       fprintf(2, "tac: invalid arguments (missing -s)\n");
       exit(1);
     }
 
-    // arguments contain -s followed by a valid string 
     file_path = (i == 1) ? argv[3] : argv[1];
     has_separator = 1;
     char *str_arg = (i == 1) ? argv[2] : argv[3];
-    memcpy(needle, str_arg+1, strlen(str_arg)-2);
+    memcpy(needle, str_arg + 1, strlen(str_arg) - 2);
   }
 
-
   fd = open(file_path, 0);
-  if (fd < 0) 
+  if (fd < 0)
   {
     fprintf(2, "tac: cannot open %s\n", file_path);
     exit(1);
