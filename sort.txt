@@ -27,4 +27,5 @@ AUTHOR
 	Written by Shyon Ghahghahi and Amin Joseph
 
 LIMITATIONS
-	Unable to support multiple flags.
+	Limited support with multiple flags.
+	Unwanted behavior when combining -n, -b, or -f.
