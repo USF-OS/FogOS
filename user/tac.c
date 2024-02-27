@@ -195,13 +195,6 @@ main(int argc, char *argv[])
       
       if (argv[i][0] == '"')   
       {
-        char *arg = argv[i];  
-
-        char new_str_arg[100] = {0};
-    
-        strcpy(new_str_arg, arg);
-        strcpy(new_str_arg + strlen(arg), "\0");
-
         int arg_start_index = i;
 
         if (arg_start_index == 1) {
@@ -209,7 +202,14 @@ main(int argc, char *argv[])
           exit(1);
         }
 
-        while (new_str_arg[strlen(new_str_arg) - 1] != '"')
+        char *arg = argv[i];  
+
+        char new_str_arg[100] = {0};
+    
+        strcpy(new_str_arg, arg);
+        strcpy(new_str_arg + strlen(arg), "\0");
+
+        while (new_str_arg[strlen(new_str_arg) - 1] != '"' || strlen(new_str_arg) == 1)
         {
           i++;
 
