@@ -22,6 +22,8 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+int compress(const char*);
+int decompress(const char*);
 
 // ulib.c
 int stat(const char*, struct stat*);
