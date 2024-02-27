@@ -191,3 +191,125 @@ memcpy(void *dst, const void *src, uint n)
 {
   return memmove(dst, src, n);
 }
+
+int 
+isdigit(int c) 
+{
+  return (c >= '0' && c <= '9');
+}
+
+int 
+isalpha(int c) 
+{
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
+int 
+isupper(int c) 
+{
+  return c >= 'A' && c <= 'Z';
+}
+
+int 
+islower(int c) 
+{
+  return c >= 'a' && c <= 'z';
+}
+
+int 
+toupper(int c) 
+{
+  if (c >= 'a' && c <= 'z') {
+    return c - 'a' + 'A';
+  }
+  return c;
+}
+
+int 
+tolower(int c) 
+{
+  if (c >= 'A' && c <= 'Z') {
+	  return c + 'a' - 'A';
+  }
+  return c;
+}
+
+int 
+ispunct(int c) 
+{
+  return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c >= '[' && c <= '`') || (c >= '{' && c <= '~'));
+}
+
+
+int 
+isspace(int c) 
+{
+  return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v';
+}
+
+void findindexes(char* str, int c, int* indexes, int* count) 
+{
+  *count = 0;
+  int i = 0;
+
+  while (str[i] != '\0') {
+  	if (str[i] == c) {
+  		indexes[*count] = i;
+  		(*count)++;
+  	}
+  	i++;
+  }
+
+}
+
+int charcount(char* str, int c)
+{
+  int i = 0;
+  int count = 0;
+  while (str[i] != '\0') {
+  	if (str[i] == c) {
+  	  count++;
+  	}
+  	i++;
+  }
+  return count;
+}
+
+char *strpbrk(char* str, char* substr) 
+{
+  char *c;
+
+  for (c = str; *c != '\0'; ++c) {
+  	if (strchr(substr, *c)) {
+  		return (char*) c;
+  	}
+  }
+  return "\0";
+}
+
+int strfind(char* str, char* substr)
+{
+  while (*substr != '\0') {
+  	if (*str != *substr) {
+  		return 0;
+  	}
+  	str++;
+  	substr++;
+  }
+  return 1;
+}
+
+int strcount(char* str, char* substr)
+{
+  int count = 0;
+  while (*str != '\0') {
+  	if (strfind(str, substr)) {
+  		count++;
+  		str += strlen(substr) - 1;
+  	}
+  	str++;
+  }
+  return count;
+}
+
+
