@@ -247,7 +247,19 @@ sort(int fd, int num_flags, char *flags[])
     strcpy(*(lines + num_lines++), line);
   }
 
-  /* Add description of this */
+  /* 
+    Setting flag precedence:
+
+      -reverse & -unique sorted frist if called in order
+      to maintain proper data manipulation in case other
+      flags are called
+
+      Precedence is set by the order of flag booleans,
+      pretty ugly but it works
+
+      Regular insertion sort is called if no flags are 
+      present
+  */
   if (num_flags <= 2 && (fs.unq_flag || fs.rev_flag)) insertionSortOrig(num_lines, lines);
 
   if (fs.ig_blanks_flag)  ignoreBlanks(num_lines, lines);
