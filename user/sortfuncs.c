@@ -281,7 +281,7 @@ parseLong(const char *str)
  * @param b The second string to compare.
  * @return -1 if a < b, 1 if a > b, or the result of strcmp(a, b) if neither or both strings start with a digit.
  */
-*/
+
 int
 compareStringsAsNumbers(const char* a, const char* b)
 {
@@ -340,7 +340,7 @@ void
 getFlags(int argc, char *argv[], int* num_flags, char *flags[])
 {
   for (int i = 1; i < argc; i++) {
-    if (argv[i][0] == '-') {
+    if (isFlag(argv[i])) {
       flags[*num_flags] = argv[i];
       (*num_flags)++;
       if (*num_flags >= 100) {
@@ -391,6 +391,7 @@ freeLines(int num_lines, char *lines[])
 void
 ignoreBlanks(int num_lines, char *lines[])
 {
+  printf("\n in here\n");
   insertionSort(num_lines, lines, "-b");
 }
 
@@ -408,7 +409,6 @@ ignoreBlanks(int num_lines, char *lines[])
 void
 unique(int *num_lines, char *lines[])
 {
-  insertionSortOrig(*num_lines, lines);
 
   int num_unique_lines = 0;
   char **unique_lines = (char **) malloc(*num_lines * sizeof(char *));
@@ -513,8 +513,6 @@ swap(char** a, char** b)
 void
 reverse(int num_lines, char *lines[])
 {
-  insertionSortOrig(num_lines, lines);
-
   int start = 0;
   int end = num_lines - 1;
 
