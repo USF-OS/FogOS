@@ -539,6 +539,7 @@ help()
   int fd = open("sort.txt", O_RDONLY);
   while (1) {
     if (getline(&line, &size, fd) <= 0) break;
+    printf("%s\n", line);
   }
   close(fd);
 }
