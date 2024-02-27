@@ -119,6 +119,7 @@ UPROGS=\
 	$U/_cat\
 	$U/_copy\
 	$U/_move\
+	$U/_pwd\
 	$U/_echo\
 	$U/_forktest\
 	$U/_grep\

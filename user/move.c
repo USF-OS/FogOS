@@ -21,11 +21,12 @@ main(int argc, char *argv[])
 	char *destination = malloc(strlen(argv[1]) + strlen(argv[2]) + 2);
 	strcpy(destination, argv[2]);
 	destination[strlen(argv[2])] = '/';
-	strcpy( destination + strlen(argv[2]) + 1, argv[1]);
+	strcpy(destination + strlen(argv[2]) + 1, argv[1]);
 	if (link(argv[1], destination) < 0) {
 		fprintf(2, "move: link failed %s\n", destination);
 		exit(1);
 	}
 	unlink(argv[1]);
+	free(destination);
 	exit(0);
 }

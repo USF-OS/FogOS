@@ -89,3 +89,16 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_cwd(void)
+{
+  uint64 buf;
+  int size;
+  argaddr(0, &buf);
+  argint(2, &size);
+  
+  struct inode *pwd = myproc()->cwd;
+  printf("Current working directory is: %d\n", pwd);
+  return 0;
+}
