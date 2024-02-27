@@ -224,26 +224,6 @@ memcpy(void *dst, const void *src, uint n)
 int
 sort(int fd, int num_flags, char *flags[])
 {
-
-  /**
-   * Error check:
-   * File not found         -> done
-   * No args (without pipe) -> TODO
-  */
-
-
-  /**
-   *
-   *
-   *
-   * ----------------------------------------------------
-   * DON'T FORGET TO FREE LINES AFTER PRINTING TO STDOUT
-   * ----------------------------------------------------
-   *
-   *
-   *
-  */
-
   FlagStruct fs = processFlags(num_flags, flags);
 
   if (fs.help_flag) {
@@ -267,10 +247,8 @@ sort(int fd, int num_flags, char *flags[])
     strcpy(*(lines + num_lines++), line);
   }
 
-  if (num_flags <= 2) {
-    if (fs.unq_flag == 1 || fs.rev_flag == 1)
-      insertionSortOrig(num_lines, lines);
-  }
+  /* Add description of this */
+  if (num_flags <= 2 && (fs.unq_flag || fs.rev_flag)) insertionSortOrig(num_lines, lines);
 
   if (fs.ig_blanks_flag)  ignoreBlanks(num_lines, lines);
   if (fs.ig_case_flag)    ignoreCase(num_lines, lines);
@@ -278,10 +256,10 @@ sort(int fd, int num_flags, char *flags[])
   if (fs.rev_flag)        reverse(num_lines, lines);
   if (fs.unq_flag)        unique(&num_lines, lines);
 
-
-    printLines(num_lines, lines);
-    freeLines(num_lines, lines);
-    freeLines(num_flags, flags);
+  if (num_flags == 0) insertionSortOrig(num_lines, lines);
+  printLines(num_lines, lines);
+  freeLines(num_lines, lines);
+  freeLines(num_flags, flags);
 
   return 0;
 }

@@ -527,9 +527,9 @@ reverse(int num_lines, char *lines[])
  * Prints the help page for the sort utility.
  *
  * Includes information about:
- *  - instructions
- *  - flags
- *  - limitations
+ *  - Instructions
+ *  - Flags
+ *  - Limitations
 */
 void
 help()
@@ -538,7 +538,7 @@ help()
   char *line = NULL;
 
   // int fd = open("../docs/sort.txt", O_RDONLY);
-  int fd = open("docs/sort.txt", O_RDONLY);
+  int fd = open("sort.txt", O_RDONLY);
   printf("%d\n", fd);
   while (1) {
     if (getline(&line, &size, fd) <= 0) break;

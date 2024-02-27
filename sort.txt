@@ -1,0 +1,30 @@
+NAME
+	sort - sort lines of text files
+
+SYNOPSIS
+	sort [OPTION] [FILE]
+	[text output] | sort [OPTION]
+		ex: ls | sort [OPTION]
+
+DESCRIPTION
+	Write sorted concatenation of FILE to standard output.
+
+	With no FILE, read standard input (not recommended).
+
+	Deafult sort is lexicographic.
+
+	Options:
+
+	-b: ignore leading blanks
+	-f: ignore case
+	-n: numeric sort; compare according to string numerical value
+	-r: reverse the result of comparisons
+	-u: output only unique values
+
+	-h: help page
+
+AUTHOR
+	Written by Shyon Ghahghahi and Amin Joseph
+
+LIMITATIONS
+	Unable to support multiple flags.
