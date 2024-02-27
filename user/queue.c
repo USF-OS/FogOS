@@ -21,6 +21,7 @@ int back = -1;
 int 
 isFull(){
 	if(((back + 1) == front) || ((front == 0) && (back == SIZE -1))){
+	//if ((back+1)%SIZE == front){
 		return 1; //yes it is full;
 	}
 	return 0; //no it is not full
@@ -73,7 +74,7 @@ enQueue(char *element) {
 
 //print the queue
 void printQueue(){
-	int count = 0;
+	/*int count = 0;
 	for (int i = front; i+1 != back; i++) {
 		  if (count == SIZE){
 		  	break;
@@ -81,5 +82,11 @@ void printQueue(){
 		  i = (i) % SIZE;
 	      printf("%s ", queue[i]);
 	      count++;
+	}*/
+
+	int j = front;
+	for (int count = 0; count < SIZE; count++) {
+		  printf("%s ", queue[j]);
+		  j = (j+1) % SIZE;
 	}
 }
