@@ -1,10 +1,11 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
+#include "kernel/fcntl.h"
 #include "user/user.h"
 #include "user/math.h"
 
 int main(void){
-   
+	printf("try\n");   
     // Test cases for pow function
     printf("Testing pow function:\n");
     printf("2^3 = %.2f\n", pow(2.0, 3.0));

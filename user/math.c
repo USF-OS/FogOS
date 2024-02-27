@@ -4,7 +4,7 @@
 #include "user/user.h"
 #include "user/math.h"
 
-#define NaN (0.0 / 0.0)
+//#define NaN (0.0 / 0.0)
 
 /**
  * pow computes the power of a base number raised to an exponent.
@@ -44,7 +44,7 @@ double sqrt(double x){
 	 
      //base cases
     if (x < 0) {
-        return NaN; 
+        return 0; 
     } else if (x == 0 || x == 1) {
         return x; 
     }
