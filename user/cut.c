@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
         // Ensure proper usage with the correct number of arguments.
         if (argc < 4) {
             fprintf(2, "cut: -c option requires two arguments(Example: cut -c 1 3)\n");
-	        exit(1);
+            exit(1);
         }
          
         int start = atoi(argv[2]); // Convert start position from string to int.
@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
         
         int field = atoi(argv[2]) - 1;  // Convert field number from string to int.
         char delimiter = argv[4][0];    // Get the delimiter character.
-	    fd = (argc == 6) ? open(argv[5], 0) : 0; // Open file if provided.
+        fd = (argc == 6) ? open(argv[5], 0) : 0; // Open file if provided.
         cutf(fd, delimiter, field); // Call the function to cut fields.
         
         if (fd != 0) close(fd); // Close the file descriptor if it was opened.
