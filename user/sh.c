@@ -181,6 +181,7 @@ main(void)
     	//printf("Your latest history:\n");
         printQueue();
         printf("\n");
+        continue;
     }
     if(fork1() == 0){
       runcmd(parsecmd(buf));
