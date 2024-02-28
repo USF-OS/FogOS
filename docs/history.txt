@@ -1,0 +1,10 @@
+HISTORY command README
+
+History saves your previous command line commands in a circular 
+queue using the queue.c file we made. Through typing history in 
+the command line you should see a list outprinted to your 
+terminal in order from your most recent commands on the bottom
+and your least at the top. 
+
+Currently we have size defined as 10 at the beginning of the 
+queue.c file. This is for testing purposes.
