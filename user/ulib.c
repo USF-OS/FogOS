@@ -126,6 +126,7 @@ getline(char **lineptr, uint *n, int fd)
   return total_read;
 }
 
+
 int
 stat(const char *n, struct stat *st)
 {
