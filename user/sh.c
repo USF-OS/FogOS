@@ -178,7 +178,6 @@ main(void)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
-    	//printf("Your latest history:\n");
         printQueue();
         printf("\n");
         continue;
@@ -188,6 +187,8 @@ main(void)
     }
     wait(0);
   }
+  //TODO this is where we save to file
+  //fprintf("queueSave.txt", &hist);
   exit(0);
 }
 
