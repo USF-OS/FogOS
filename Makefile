@@ -100,11 +100,11 @@ $U/usys.S : $U/usys.pl
 $U/usys.o : $U/usys.S
 	$(CC) $(CFLAGS) -c -o $U/usys.o $U/usys.S
 
-$U/_forktest: $U/forktest.o $(ULIB)
-	# forktest has less library code linked in - needs to be small
-	# in order to be able to max out the proc table.
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_forktest $U/forktest.o $U/ulib.o $U/usys.o $U/umalloc.o $U/printf.o
-	$(OBJDUMP) -S $U/_forktest > $U/forktest.asm
+# $U/_forktest: $U/forktest.o $(ULIB)
+# 	# forktest has less library code linked in - needs to be small
+# 	# in order to be able to max out the proc table.
+# 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_forktest $U/forktest.o $U/ulib.o $U/usys.o $U/umalloc.o $U/printf.o
+# 	$(OBJDUMP) -S $U/_forktest > $U/forktest.asm
 
 mkfs/mkfs: mkfs/mkfs.c $K/fs.h $K/param.h
 	gcc -Werror -Wall -I. -o mkfs/mkfs mkfs/mkfs.c
@@ -117,6 +117,8 @@ mkfs/mkfs: mkfs/mkfs.c $K/fs.h $K/param.h
 
 UPROGS=\
 	$U/_cat\
+	$U/_clock\
+	$U/_date\
 	$U/_echo\
 	$U/_forktest\
 	$U/_grep\
