@@ -77,8 +77,10 @@ double exp(double x){
 }
 
 /**
- * The floor function is a function that takes in a valid double and retruns the smallest whole value it can be.
- * For example, 2.9 becomes 2.
+ * Returns the largest integer that is less than or equal to the given double value. For example, 2.9 becomes 2.
+ *
+ * @param val the input double value
+ * @return the largest integer that is less than or equal to the given double value
  */
 double floor(double val) {
     if (val >= 0) {
@@ -94,8 +96,10 @@ double floor(double val) {
 }
 
 /**
- * The ceil function is a function that takes in a valid double and returns the largest whole value it can be.
- * For example, 2.9 becomes 3.
+ * Returns the smallest integer that is greater than or equal to the given double value. For example, 2.9 becomes 3.
+ *
+ * @param val the input double value
+ * @return the smallest integer that is greater than or equal to the given double value
  */
 double ceil(double val) {
     if (val >= 0) {
@@ -110,8 +114,11 @@ double ceil(double val) {
 }
 
 /**
- * The ceil function is a function that takes in a valid double and returns the closest whole value.
- * For example -1.1 equals -1.
+ * Returns the closest integer value to the given double.
+ *For example -1.1 equals -1.
+
+ * @param val the input double value
+ * @return the closest integer value to the given double
  */
 int closestInt(double val) {
     if (val > 0) {
