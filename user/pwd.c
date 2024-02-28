@@ -6,7 +6,6 @@
 int
 main(int argc, char *argv[])
 {
-	char buf[200] = "hello";
-	cwd(buf, 200);
+	cwd();
 	exit(0);
 }

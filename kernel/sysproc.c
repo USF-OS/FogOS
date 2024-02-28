@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "fs.h"
 
 uint64
 sys_exit(void)
@@ -93,12 +94,11 @@ sys_uptime(void)
 uint64
 sys_cwd(void)
 {
-  uint64 buf;
-  int size;
-  argaddr(0, &buf);
-  argint(2, &size);
-  
+  char buf[512];
+  struct dirent de;
   struct inode *pwd = myproc()->cwd;
-  printf("Current working directory is: %d\n", pwd);
+  readi(pwd, 0, (uint64)&de, 0, sizeof(de));
+  strncpy(buf, de.name, sizeof(de.name));
+  printf("Current PWD is: %s", buf);
   return 0;
 }

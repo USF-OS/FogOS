@@ -3,6 +3,14 @@
 #include "kernel/fcntl.h"
 #include "user/user.h"
 
+/*
+* Usage: move /source_file /directory_destination
+* Takes in a source_file and moves it to the directory_destination.
+* Uses link and unlink to create a reference file pointing to the data
+* of the source file, moving the reference file into the directory, 
+* and unlinking the original file.
+*/
+
 int
 main(int argc, char *argv[])
 {

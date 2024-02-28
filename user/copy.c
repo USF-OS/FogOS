@@ -5,6 +5,12 @@
 
 char buf[2048];
 
+/*
+* Usage: copy /source_file /destination_file
+* Opens the source_file for reading, copies over content 
+* to a string buffer which is then written to the destination file.
+*/
+
 int
 main(int argc, char *argv[])
 {
