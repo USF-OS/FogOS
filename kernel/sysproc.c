@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "fs.h"
 
 uint64
 sys_exit(void)
@@ -88,4 +89,24 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+//returns the path of the cwd inode stored within myproc() by getting its dirent name,
+//and copies it out to user space to a user provided buffer.
+uint64
+sys_cwd(void)
+{
+  int size;
+  uint64 addr;
+  argaddr(0, &addr);
+  argint(1, &size);
+
+  struct dirent de;
+  struct inode *pwd = myproc()->cwd;
+  pagetable_t pagetable = myproc()->pagetable;
+  readi(pwd, 0, (uint64)&de, 0, sizeof(de));
+  if(sizeof(de.name) > size){
+  	return -1;
+  }
+  return copyout(pagetable, addr, de.name, sizeof(de.name));
 }
