@@ -85,5 +85,18 @@ void queueStart(int fd){
 	for(int i = 0; i < SIZE; i++){
 		//read from file
 		//enqueue
+		
+	}
+}
+
+void queueWriteFile(){
+	int j = front;
+	char* filename = "history.txt";
+	int fd = open(filename, 0);
+	
+	for (int i = 0; i < SIZE; i++) {
+		char *elem = queue[j];
+		write(fd, elem, strlen(elem));
+		j = (j+1) % SIZE;
 	}
 }
