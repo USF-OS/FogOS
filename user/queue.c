@@ -81,17 +81,34 @@ void printQueue(){
 	}
 }
 
-void queueStart(int fd){
+void queueStart(){
+	char* filename = "historySave.txt";
+	char buf[256];
+	int fd = open(filename, 0);
+	read(fd, buf, 256);
+	char temp[100];
+	int cc = 0;
+	char c;
 	for(int i = 0; i < SIZE; i++){
 		//read from file
 		//enqueue
-		
+		for(int i=0; i+1 < 100; ){
+		    cc = read(fd, &c, 1);
+		    if(cc < 1)
+		      break;
+		    temp[i++] = c;
+		    if(c == '\n' || c == '\r')
+		      break;
+		}
+		char *p = temp;
+		enQueue(p);
+		back++;
 	}
 }
 
 void queueWriteFile(){
 	int j = front;
-	char* filename = "history.txt";
+	char* filename = "historySave.txt";
 	int fd = open(filename, 0);
 	
 	for (int i = 0; i < SIZE; i++) {

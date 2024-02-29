@@ -159,7 +159,9 @@ main(void)
   static char buf[100];
   int fd;
   struct history hist; //it does not like this for some reason
- 
+
+  queueStart();
+  
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
     if(fd >= 3){
@@ -167,7 +169,7 @@ main(void)
       break;
     }
   }
-
+  
   // Read and run input commands.
   while(getcmd(buf, sizeof(buf)) >= 0){
   	historyadd(&hist, buf);
@@ -188,6 +190,7 @@ main(void)
     wait(0);
   }
   //TODO this is where we save to file
+  queueWriteFile();
   //fprintf("queueSave.txt", &hist);
   exit(0);
 }
