@@ -1,0 +1,3 @@
+This is a small text file for testing.
+It contains only a few lines of text.
+Just enough to check if head/tail displays the correct number of lines.

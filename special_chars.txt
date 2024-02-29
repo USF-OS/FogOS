@@ -1,0 +1,2 @@
+Special characters: !@#$%^&*()_+{}[]|\:;"'<>,.?/
+Non-ASCII characters: éñüßæøåäëïöü
