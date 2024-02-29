@@ -2,7 +2,6 @@
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
 #include "user/user.h"
-#include "user/math.h"
 
 //#define NaN (0.0 / 0.0)
 
