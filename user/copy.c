@@ -38,7 +38,7 @@ main(int argc, char *argv[])
 		}
 	}
 	if(n < 0) {
-		printf("Unable to read source file");
+		fprintf(2, "Unable to read source file");
 		exit(1);
 	}
 
