@@ -82,9 +82,9 @@ void printQueue(){
 }
 
 void queueStart(){
-	char* filename = "historySave.txt";
+	char* filename = "hist.txt";
 	char buf[256];
-	int fd = open(filename, 0);
+	int fd = open(filename, O_RDONLY);
 	read(fd, buf, 256);
 	char temp[100];
 	int cc = 0;
@@ -104,12 +104,14 @@ void queueStart(){
 		enQueue(p);
 		back++;
 	}
+	//todo debug -print elms as reading from file
 }
+
 
 void queueWriteFile(){
 	int j = front;
-	char* filename = "historySave.txt";
-	int fd = open(filename, 0);
+	char* filename = "hist.txt";
+	int fd = open(filename, O_WRONLY | O_CREATE | O_TRUNC);
 	
 	for (int i = 0; i < SIZE; i++) {
 		char *elem = queue[j];
