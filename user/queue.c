@@ -81,6 +81,7 @@ void printQueue(){
 	}
 }
 
+//read from the file 
 void queueStart(){
 	char* filename = "hist.txt";
 	char buf[256];
@@ -107,7 +108,7 @@ void queueStart(){
 	//todo debug -print elms as reading from file
 }
 
-
+//write to the file
 void queueWriteFile(){
 	int j = front;
 	char* filename = "hist.txt";
