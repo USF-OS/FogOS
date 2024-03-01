@@ -152,13 +152,13 @@ void printCodes(Node *root, int arr[], int top, int fd) {
     }
 
     if (!root->left && !root->right) {
-        printf("%c:", root->data);
+        //printf("%c:", root->data);
         fprintf(fd, "%c:", root->data);
         for (int i = 0; i < top; ++i){
-            printf("%d", arr[i]);
+            //printf("%d", arr[i]);
             fprintf(fd, "%c", '0'+arr[i]);}
         fprintf(fd, "\n");
-        printf("\n");
+        //printf("\n");
     }
 }
 
@@ -218,8 +218,8 @@ int main(int argc, char *argv[])
 	int count3 = 0;
 	char temp3, buffer3[129];
 	int index3 = 0;
-	char symbol3[256];
-	char* code3[256];
+	char* symbol3=malloc(256);
+	char** code3=malloc(256);
 	while (read(fd3, &temp3, 1) > 0) {
 		if (temp3 != '\n' && index3 < 128) {
             buffer3[index3++] = temp3;
@@ -232,13 +232,14 @@ int main(int argc, char *argv[])
             	
             	code3[count3] = (char*)malloc(strlen(buffer3 + 1) + 1);
             	if (code3[count3] != NULL) {
-            	                strcpy(code3[count3], buffer3 + 1);
+            	                strcpy(code3[count3], buffer3 + 2);
             	            }
                 count3++;
             }
             index3 = 0;
         }
     }
+    
 
     for(int i=0;i<count3;i++){
     	printf("%c %s\n",symbol3[i],code3[i]);
@@ -261,6 +262,7 @@ int main(int argc, char *argv[])
 	}
 	}
 
+	close(fd2);
 	close(fd3);
     close(fd4);    
 

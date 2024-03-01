@@ -38,8 +38,8 @@ int readLine(int fd, char *buffer, int maxSize) {
 }
 
 void decodeHuffmanString(int fd, HuffmanCode codes[], int codeCount, char *outputFileName) {
-    char bitBuffer[BUFFER_SIZE];
-    char decodedString[BUFFER_SIZE] = {0};
+    char *bitBuffer=malloc(BUFFER_SIZE);
+    char *decodedString=malloc(BUFFER_SIZE);
     int bitSize = readLine(fd, bitBuffer, sizeof(bitBuffer));
     if (bitSize > 0) {
         int decodedIndex = 0;
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	    }
 	    HuffmanCode codes[MAX_CODES];
 	    int codeCount = 0;
-	    char lineBuffer[BUFFER_SIZE];
+	    char *lineBuffer=malloc(BUFFER_SIZE);
 	    int lineSize;
 	    int emptyLineCount = 0;
 	    while ((lineSize = readLine(fd, lineBuffer, sizeof(lineBuffer))) != -1) {
