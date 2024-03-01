@@ -503,3 +503,17 @@ sys_pipe(void)
   }
   return 0;
 }
+
+uint64
+sys_compress(void)
+{
+	printf("Compressing file.....\n");
+	return 0;
+}
+
+uint64
+sys_decompress(void)
+{
+	printf("Decompressing file.....\n");
+	return 0;
+}
