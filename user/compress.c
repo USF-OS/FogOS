@@ -49,6 +49,7 @@ Node *newNode(char data, unsigned freq) {
     temp->freq = freq;
     return temp;
 }
+
 // Insert a node into the MinHeap
 void insertMinHeap(MinHeap *minHeap, Node *node) {
     minHeap->size += 1;
@@ -143,7 +144,7 @@ Node *buildHuffmanTree(char data[], int freq[], int size) {
 void printCodes(Node *root, int arr[], int top, int fd) {
     if (root->left) {
         arr[top] = 0;
-        printCodes(root->left, arr, top + 1,fd);
+        printCodes(root->left, arr, top + 1, fd);
     }
 
     if (root->right) {
@@ -152,33 +153,36 @@ void printCodes(Node *root, int arr[], int top, int fd) {
     }
 
     if (!root->left && !root->right) {
-        //printf("%c:", root->data);
-        fprintf(fd, "%c:", root->data);
-        for (int i = 0; i < top; ++i){
-            //printf("%d", arr[i]);
-            fprintf(fd, "%c", '0'+arr[i]);}
-        fprintf(fd, "\n");
-        //printf("\n");
+        if (!root->left && !root->right) {
+            if (root->data == '\n') {
+                fprintf(fd, "~:");
+            } else {
+                fprintf(fd, "%c:", root->data);
+            }
+            for (int i = 0; i < top; ++i) {
+                fprintf(fd, "%c", '0' + arr[i]);
+            }
+            fprintf(fd, "\n");
+        }
     }
 }
 
-int main(int argc, char *argv[])
-{
-	if(argc<3) return 1;
-	char *filename = argv[1];
-	compress(filename);
-	int fd = open(filename, O_RDONLY);
+int main(int argc, char *argv[]) {
+    if (argc < 3) return 1;
+    char *filename = argv[1];
+    compress(filename);
+    int fd = open(filename, O_RDONLY);
     if (fd < 0) {
         // Handle error: file open failed
         return 1;
     }
-	int freq[256] = {0};
-	
-	char buffer;
-	int readsize;
-	while((readsize=read(fd, &buffer, 1)) > 0){
-		freq[(unsigned char)buffer]++;
-	}
+    int freq[256] = {0};
+
+    char buffer;
+    int readsize;
+    while ((readsize = read(fd, &buffer, 1)) > 0) {
+        freq[(unsigned char) buffer]++;
+    }
 
     close(fd);
 
@@ -199,72 +203,61 @@ int main(int argc, char *argv[])
             j++;
         }
     }
-    /*
-	for (int i = 0; i < count; i++) {
-	        printf(" '%c' appears %d times\n", chars[i], counts[i]);
-	    }*/
 
-	struct Node *root = buildHuffmanTree(chars, counts, sizeof(chars) / sizeof(chars[0]));
-	 int huffmanCode[256];
+    struct Node *root = buildHuffmanTree(chars, counts, sizeof(chars) / sizeof(chars[0]));
+    int huffmanCode[256];
 
-	 int fd2 = open(argv[2], O_CREATE | O_RDWR);
-	 
-	 printCodes(root, huffmanCode, 0,fd2);
+    int fd2 = open(argv[2], O_CREATE | O_RDWR);
 
-	// Read huffman code from table
+    printCodes(root, huffmanCode, 0, fd2);
 
-	int fd3 = open(argv[2], O_RDONLY);
+    // Read huffman code from table
 
-	int count3 = 0;
-	char temp3, buffer3[129];
-	int index3 = 0;
-	char* symbol3=malloc(256);
-	char** code3=malloc(256);
-	while (read(fd3, &temp3, 1) > 0) {
-		if (temp3 != '\n' && index3 < 128) {
+    int fd3 = open(argv[2], O_RDONLY);
+
+    int count3 = 0;
+    char temp3, buffer3[129];
+    int index3 = 0;
+    char *symbol3 = malloc(256);
+    char **code3 = malloc(256);
+    while (read(fd3, &temp3, 1) > 0) {
+        if (temp3 != '\n' && index3 < 128) {
             buffer3[index3++] = temp3;
         } else {
             buffer3[index3] = '\0';
             if (index3 > 1) {
-            	//printf("%c\n", buffer3[0]);
-            	symbol3[count3]=buffer3[0];
-            	//printf("%s\n", buffer3+1);
-            	
-            	code3[count3] = (char*)malloc(strlen(buffer3 + 1) + 1);
-            	if (code3[count3] != NULL) {
-            	                strcpy(code3[count3], buffer3 + 2);
-            	            }
+                symbol3[count3] = buffer3[0];
+                code3[count3] = (char *) malloc(strlen(buffer3 + 1) + 1);
+                if (code3[count3] != NULL) {
+                    strcpy(code3[count3], buffer3 + 2);
+                }
                 count3++;
             }
             index3 = 0;
         }
     }
-    
-
-    for(int i=0;i<count3;i++){
-    	printf("%c %s\n",symbol3[i],code3[i]);
-    }
 
     fprintf(fd2, "\n\n");
-	int fd4 = open(filename, O_RDONLY);
+    int fd4 = open(filename, O_RDONLY);
     if (fd4 < 0) {
         // Handle error: file open failed
         return 1;
     }
-	
-	char buffer4;
-	int readsize4;
-	while((readsize4=read(fd4, &buffer4, 1)) > 0){
-		for(int i=0;i<count3;i++){
-		if(symbol3[i]==(unsigned char)buffer4){
-			fprintf(fd2, "%s ",code3[i]);
-		}
-	}
-	}
 
-	close(fd2);
-	close(fd3);
-    close(fd4);    
+    char buffer4;
+    int readsize4;
+    while ((readsize4 = read(fd4, &buffer4, 1)) > 0) {
+        if (buffer4 == '\n')buffer4 = '~';
+        for (int i = 0; i < count3; i++) {
+            if (symbol3[i] == (unsigned char) buffer4) {
+                fprintf(fd2, "%s ", code3[i]);
+            }
+        }
+    }
 
-	return 0;
+    close(fd2);
+    close(fd3);
+    close(fd4);
+
+    return 0;
 }
