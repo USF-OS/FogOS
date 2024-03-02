@@ -3,6 +3,7 @@
 #include "kernel/types.h"
 #include "user/user.h"
 #include "kernel/fcntl.h"
+#include "user/queue.c"
 
 // Parsed command representation
 #define EXEC  1
@@ -53,6 +54,16 @@ int fork1(void);  // Fork but panics on failure.
 void panic(char*);
 struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
+
+struct history{
+	char his[10];
+};	
+
+void
+historyadd(struct history *history, char *buf)
+{
+	enQueue(buf);	
+}
 
 // Execute cmd.  Never returns.
 void
@@ -147,7 +158,10 @@ main(void)
 {
   static char buf[100];
   int fd;
+  struct history hist; //it does not like this for some reason
 
+  queueStart();
+  
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
     if(fd >= 3){
@@ -155,20 +169,29 @@ main(void)
       break;
     }
   }
-
+  
   // Read and run input commands.
   while(getcmd(buf, sizeof(buf)) >= 0){
-    if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){
+  	historyadd(&hist, buf);
+    if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){ 
       // Chdir must be called by the parent, not the child.
       buf[strlen(buf)-1] = 0;  // chop \n
       if(chdir(buf+3) < 0)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
+    }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
+        printQueue();
+        printf("\n");
+        continue;
     }
-    if(fork1() == 0)
+    if(fork1() == 0){
       runcmd(parsecmd(buf));
+    }
     wait(0);
   }
+  //TODO this is where we save to file
+  queueWriteFile();
+  //fprintf("queueSave.txt", &hist);
   exit(0);
 }
 
@@ -492,3 +515,4 @@ nulterminate(struct cmd *cmd)
   }
   return cmd;
 }
+
