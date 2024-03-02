@@ -47,7 +47,8 @@ printptr(int fd, uint64 x) {
     putc(fd, digits[x >> (sizeof(uint64) * 8 - 4)]);
 }
 
-//https://github.com/shreshthtuli/xv6/blob/master/printf.c
+//function to print floats (currently not working)
+/*//https://github.com/shreshthtuli/xv6/blob/master/printf.c
 void
 printfloat(int fd, float xx)
 {
@@ -58,7 +59,7 @@ printfloat(int fd, float xx)
 	if(fin<10)
     putc(fd, '0');
 	printint(fd, fin, 10, 1);
-}
+}*/
 
 // Print to the given fd. Only understands %d, %x, %p, %s.
 void
@@ -83,9 +84,9 @@ vprintf(int fd, const char *fmt, va_list ap)
         printint(fd, va_arg(ap, uint64), 10, 0);
       } else if(c == 'x') {
         printint(fd, va_arg(ap, int), 16, 0);
-      }else if(c == 'f'){ // MOD-2
+      }/*else if(c == 'f'){ 
         printfloat(fd, va_arg(ap, double));
-      }
+      }*/
       else if(c == 'p') {
         printptr(fd, va_arg(ap, uint64));
       } else if(c == 's'){

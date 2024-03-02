@@ -1,10 +1,6 @@
-#include "kernel/types.h"
-#include "kernel/stat.h"
-#include "kernel/fcntl.h"
-#include "user/user.h"
-#include "user/math.h"
+#include "math.h"
 
-//#define NaN (0.0 / 0.0)
+#define NaN (0.0 / 0.0)
 
 /**
  * pow computes the power of a base number raised to an exponent.
@@ -13,7 +9,7 @@
  * @param y the exponent
  * @return the result of x raised to the power of y
  */
-float pow(float x, float y){
+float osPow(float x, float y){
 	//base case if base is 0
 	if(x==0)
 		return 0;
@@ -24,11 +20,11 @@ float pow(float x, float y){
 
 	//if exponent is a negative number
 	if(y<0)
-		return 1/(x*pow(x, -y-1));
+		return 1/(x*osPow(x, -y-1));
 
     //if it's a positive number
 	else
-		return x*pow(x,y-1);
+		return x*osPow(x,y-1);
 	
 }
 
@@ -40,23 +36,21 @@ float pow(float x, float y){
  */
 
 //https://stackoverflow.com/questions/61936060/finding-the-square-root-of-a-number-by-using-binary-search#:~:text=Calculate%20the%20middle%20index%20mid,ans%20as%20the%20square%20root
-float sqrt(float x){
-	 
+float osSqrt(float x){	 
      //base cases
     if (x < 0) {
-        return 0; 
+        return NaN; 
     } else if (x == 0 || x == 1) {
-        return x; 
+    	return x;
     }
- 	
- 	float start = 0.0;
+    float start = 0.0;
     float end= x;
     float mid;
 
     // Use binary search to find the square root
-    while (end > start) {
+    while (end - start > 0.00001) {
         mid = (start + end) / 2;
-        if (mid * mid > x) {
+	if (mid * mid > x) {
             end= mid;
         } else {
             start = mid;
@@ -71,9 +65,9 @@ float sqrt(float x){
  * @param x the exponent.
  * @return the result of raising e to the power of x.
  */
-float exp(float x){
+float osExp(float x){
 	float e=2.71828182845904523536028747135266249;
-	return pow(e,x);
+	return osPow(e,x);
 }
 
 /**
@@ -82,7 +76,7 @@ float exp(float x){
  * @param val the input float value
  * @return the largest integer that is less than or equal to the given float value
  */
-float floor(float val) {
+float osFloor(float val) {
     if (val >= 0) {
         return (int)val;
     }
@@ -101,7 +95,7 @@ float floor(float val) {
  * @param val the input float value
  * @return the smallest integer that is greater than or equal to the given float value
  */
-float ceil(float val) {
+float osCeil(float val) {
     if (val >= 0) {
         if (val == (int)val) {
             return (int)val;
@@ -120,7 +114,7 @@ float ceil(float val) {
  * @param val the input float value
  * @return the closest integer value to the given double
  */
-int closestInt(float val) {
+int osClosestInt(float val) {
     if (val > 0) {
         int upper_closest = (int)(val + 0.5);
         return upper_closest;
