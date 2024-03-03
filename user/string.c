@@ -59,6 +59,9 @@ char
 uint 
 strspn(const char *s, const char *accept)
 {
+	if (s == 0)
+		return 0;
+
 	int accept_len = strlen(accept);
 	char *walk = (char *)s;
 	uint span_len = 0;
@@ -83,6 +86,9 @@ strspn(const char *s, const char *accept)
 uint 
 strcspn(const char *s, const char *reject)
 {
+	if (s == 0)
+		return 0;
+
 	int reject_len = strlen(reject);
 	char *walk = (char *)s;
 	uint span_len = 0;
@@ -98,12 +104,6 @@ strcspn(const char *s, const char *reject)
 		walk++;	
 	}
 	return span_len;
-}
-
-char
-*strtok(char *restrict str, const char *restrict sep) {
-	char *last;
-	return strtok_r(str, sep, &last);
 }
 
 char
@@ -131,6 +131,12 @@ char
 		*last = end + 1;
 	}
 	return str;
+}
+
+char
+*strtok(char *restrict str, const char *restrict sep) {
+	char *last;
+	return strtok_r(str, sep, &last);
 }
 
 char
