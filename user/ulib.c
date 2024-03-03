@@ -2,6 +2,7 @@
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
 #include "user/user.h"
+#include "user/crctable.h"
 
 //
 // wrapper so that it's OK if main() does not call exit().
@@ -12,6 +13,58 @@ _main()
   extern int main();
   main();
   exit(0);
+}
+
+uint32 
+crc(int fd, int size)
+{
+	char buffer[1024] = {0};
+	char* current_byte = buffer;
+	uint32 bytes = 0;
+	uint32 checksum = 0;
+	uint32 file_size = size;
+	uint32 buffer_size = sizeof(buffer);
+
+	// Reads chunks of the file into the buffer in a loop and runs the CRC algorithm on each byte read 
+	while (file_size > 0)
+	{
+		// Handles small files and the last bytes of large files
+		if (file_size < 1024) 
+		{
+			buffer_size = file_size;
+		}
+
+		// Reads data from the file into the buffer and checks that the read operation was successful
+		bytes = read(fd, buffer, buffer_size);
+		if (bytes != buffer_size)
+		{
+			printf("Problem reading file.\n");
+			return -1;
+		}
+
+		// Sets the pointer to the beginning of the buffer
+		current_byte = buffer;
+
+		// Runs the CRC algorithm on each byte in the buffer
+		while (bytes-- > 0)
+		{
+			checksum = lookup_table[((checksum >> 24) ^ *current_byte++) & 0xFF] ^ (checksum << 8);
+		}
+
+		// Keeps track of the remaining unread bytes in the file
+		file_size -= buffer_size;
+	}
+
+	// Extends the algorithm, using each byte of the original 32-bit size as part of the CRC algorithm
+	while (size != 0)
+	{
+		checksum = lookup_table[((checksum >> 24) ^ size) & 0xFF] ^ (checksum << 8);
+		size = size >> 8;
+	}
+	
+
+	// Inverts the checksum and returns the value
+	return ~checksum;
 }
 
 char*
