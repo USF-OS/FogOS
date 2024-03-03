@@ -10,7 +10,7 @@ main(void)
 	char* buf[3];
 	buf[0] = "cksum";
 
-	char short_buf[] = "Short File Test";
+	char short_buf[25] = {[0 ... 24] = 'a'};
 	char long_buf[3000] = {[0 ... 2999] = 'a'};
 	//printf("%s", long_buf);
 
@@ -61,7 +61,7 @@ main(void)
 	else
 	{
 		wait(&status);
-		printf("Expected: 1339477475 16 short.txt\n\n");
+		printf("Expected: 970868420 25 short.txt\n\n");
 	}
 
 	/* Create a child process to test the long file */
@@ -90,7 +90,7 @@ main(void)
 	else
 	{
 		wait(&status);
-		printf("Expected:\n1339477475 16 short.txt\n1909244717 105000 long.txt\n\n");
+		printf("Expected:\n970868420 25 short.txt\n1909244717 105000 long.txt\n\n");
 	}
 
 	/* Create a child process to test a directory */
