@@ -88,30 +88,14 @@ void queueStart(){
 	uint sz = 256;
 	char *buf = malloc(sz);
 	int fd = open(filename, O_RDONLY);
-	if (getline(&buf, &sz, fd) < 0){
-		exit(1);
-	}
-	//read(fd, buf, 256);
-	/*char temp[100];
-	int cc = 0;
-	char c;
-	printf("buf: %s\n", buf);
-	for(int i = 0; i < SIZE; i++){
-		//read from file
-		//enqueue
-		for(int i=0; i+1 < 100; ){
-		    cc = read(fd, &c, 1);
-		    if(cc < 1)
-		      break;
-		    temp[i++] = c;
-		    if(c == '\n' || c == '\r')
-		      break;
+	while(true){
+		if (getline(&buf, &sz, fd) < 0){
+			break;
 		}
-		char *p = temp;
-		enQueue(p);
+		enQueue(buf);
 		back++;
-	}*/
-	//todo debug -print elms as reading from file
+	}
+	//need to clear hist.txt???
 }
 
 //write to the file
