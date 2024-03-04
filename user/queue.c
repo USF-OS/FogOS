@@ -6,6 +6,7 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
+#include "kernel/fcntl.h"
 
 //initilaize array
 
@@ -84,12 +85,17 @@ void printQueue(){
 //read from the file 
 void queueStart(){
 	char* filename = "hist.txt";
-	char buf[256];
+	uint sz = 256;
+	char *buf = malloc(sz);
 	int fd = open(filename, O_RDONLY);
-	read(fd, buf, 256);
-	char temp[100];
+	if (getline(&buf, &sz, fd) < 0){
+		exit(1);
+	}
+	//read(fd, buf, 256);
+	/*char temp[100];
 	int cc = 0;
 	char c;
+	printf("buf: %s\n", buf);
 	for(int i = 0; i < SIZE; i++){
 		//read from file
 		//enqueue
@@ -104,7 +110,7 @@ void queueStart(){
 		char *p = temp;
 		enQueue(p);
 		back++;
-	}
+	}*/
 	//todo debug -print elms as reading from file
 }
 
