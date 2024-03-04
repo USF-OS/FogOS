@@ -101,8 +101,8 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
-extern uint64 sys_date(void);
 extern uint64 sys_clock(void);
+extern uint64 sys_date(void);
 
 
 // An array mapping syscall numbers from syscall.h
@@ -131,7 +131,6 @@ static uint64 (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_clock]   sys_clock,
 [SYS_date]   sys_date,
-
 };
 
 void

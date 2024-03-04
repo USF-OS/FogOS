@@ -46,7 +46,7 @@ kvmmake(void)
   // allocate and map a kernel stack for each process.
   proc_mapstacks(kpgtbl);
 
-  // lab4 map kernel's virtual memory for clock (goldfish_rtc)
+  // map kernel's virtual memory for clock (goldfish_rtc)
   kvmmap(kpgtbl, CLOCK_TEST, CLOCK_TEST, PGSIZE, PTE_R | PTE_W);
   
   return kpgtbl;
