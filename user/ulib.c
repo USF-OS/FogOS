@@ -63,7 +63,7 @@ strchr(const char *s, char c)
   return 0;
 }
 
-char*
+/*char*
 gets(char *buf, int max)
 {
   int i, cc;
@@ -79,7 +79,7 @@ gets(char *buf, int max)
   }
   buf[i] = '\0';
   return buf;
-}
+}*/
 
 int
 stat(const char *n, struct stat *st)
@@ -145,3 +145,85 @@ memcpy(void *dst, const void *src, uint n)
 {
   return memmove(dst, src, n);
 }
+
+char*
+gets(char *buf, int max)
+{
+  max = fgets(buf, max, 0);
+  return buf;
+}
+
+int
+fgets(char *buf, int max, int fd)
+{
+  int i, cc;
+  char c;
+	
+  for(i=0; i+1 < max; ){
+	cc = read(fd, &c, 1);
+	if(cc < 1)
+	  break;
+	buf[i++] = c;
+	if(c == '\n' || c == '\r')
+	  break;
+  }
+  buf[i] = '\0';
+  return i;
+}
+
+int
+getline(char **lineptr, uint *sz, int fd)
+{
+  //initialize buffer if not already initialized (size = 0)
+  if (*lineptr == 0 || *sz == 0) { // prof used && said lineptr = 0
+     *sz = 128;
+     *lineptr = (char *)malloc(*sz);
+     //malloc error handling
+     if (*lineptr == NULL) {
+         return -1;
+     }
+  }
+  int counter = 0;
+  //defrencing line pointer and then can acess buf
+  char *buf = *lineptr;
+  
+  //while we have more to read
+  while(buf[counter-1] != '\n'){
+  	//read into the buffer using fgets
+  	int max = fgets(buf+counter, *sz-counter, fd);
+  	
+  	//track the total amount of bytes read
+  	counter += max;
+  	
+  	//if we hit EOF or error --> stop, return number of bytes read or -1 for error
+  	if (max == 0){
+  	  	return counter;
+  		
+  	}else if (max < 0){
+  		return -1;
+  		
+  	}else if(buf[counter-1] == '\n'){
+  		return counter;
+  		
+  	}else{
+  		// Resize the buffer (double the size)
+        int newSize = *sz * 2;
+        char *newBuffer = (char *)malloc(newSize);
+
+        if (newBuffer == NULL) {
+            // Memory allocation error
+            return -1;
+        }
+
+        // Copy existing data to the new buffer
+        memcpy(newBuffer, *lineptr, *sz);
+
+        free(*lineptr);
+        *lineptr = newBuffer;
+        *sz = newSize;	
+        buf = *lineptr;
+  	}
+  }
+  return 0;
+}
+
