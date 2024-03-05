@@ -128,13 +128,14 @@ UPROGS=\
 	$U/_rm\
 	$U/_sh\
 	$U/_stressfs\
+	$U/_tac\
 	$U/_usertests\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
 
-fs.img: mkfs/mkfs README.md $(UPROGS)
-	mkfs/mkfs fs.img README.md $(UPROGS)
+fs.img: mkfs/mkfs README.md empty.txt one_line.txt 10_lines.txt 200_lines.txt $(UPROGS)
+	mkfs/mkfs fs.img README.md empty.txt one_line.txt 10_lines.txt 200_lines.txt $(UPROGS)
 
 -include kernel/*.d user/*.d
 

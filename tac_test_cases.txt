@@ -1,0 +1,740 @@
+tac
+A simplified tac command, which is similar to, but different from the original tac command.
+
+
+[Supported patterns]:
+tac FILE
+tac FILE -s separator
+tac -s separator FILE
+
+(Separator is a non-empty quoted string, limited to no more than 5 spaces and 50 characters.
+Separators containing special characters (such as '(' and ')') may not be supported.)
+
+
+[Description]:
+tac FILE
+Print the lines in the specified file in reverse order.
+
+
+tac FILE -s separator
+  or
+tac -s separator FILE
+Print from the first occurrence of the separator (inclusive) to the end of the file. Then, print from the beginning of the file
+to the position before the first occurrence of the separator.
+
+
+[Text files for testing]:
+  empty.txt 
+  one_line.txt 
+  10_lines.txt 
+  200_lines.txt
+
+
+[Sample inputs and expected outputs]:
+
+$ tac
+tac: missing file argument
+$
+----------------------------------------------------
+$ tac hello.txt
+tac: cannot open hello.txt
+$
+----------------------------------------------------
+$ tac -s "hello" world.txt
+tac: cannot open world.txt
+----------------------------------------------------
+$ tac empty.txt
+$
+----------------------------------------------------
+$ tac -s "hello" empty.txt
+tac: the string is not contained in the input text
+$
+----------------------------------------------------
+$ tac -s empty.txt
+tac: invalid arguments
+$
+----------------------------------------------------
+$ tac -s hello one_line.txt
+tac: invalid separator (separator argument should be a non-empty quoted string)
+$
+----------------------------------------------------
+$ tac -s "" one_line.txt
+tac: invalid separator (separator argument should be a non-empty quoted string)
+$
+----------------------------------------------------
+$ tac one_line.txt
+Hello world!$ 
+----------------------------------------------------
+$ tac -s "world" one_line.txt
+world!Hello $ 
+----------------------------------------------------
+$ tac -s "hello" one_line.txt
+tac: the string is not contained in the input text
+$
+----------------------------------------------------
+$ tac one_line.txt -s "Hello world!"
+Hello world!$
+----------------------------------------------------
+$ tac 10_lines.txt
+This is a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!
+2024-03-08 11:30:40 - Warning: Low disk space
+2024-03-07 10:45:55 - User updated profile
+2024-03-06 10:10:18 - Data successfully processed
+2024-03-05 09:20:30 - Restarting application
+2024-03-04 09:05:12 - Error: Database connection lost
+2024-03-03 08:30:45 - Processing data
+2024-03-02 08:15:23 - User logged in
+2024-03-01 08:00:00 - Application started
+$
+----------------------------------------------------
+$ tac 10_lines.txt -s "Warning"
+Warning: Low disk space
+
+This is a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!2024-03-01 08:00:00 - Application started
+2024-03-02 08:15:23 - User logged in
+2024-03-03 08:30:45 - Processing data
+2024-03-04 09:05:12 - Error: Database connection lost
+2024-03-05 09:20:30 - Restarting application
+2024-03-06 10:10:18 - Data successfully processed
+2024-03-07 10:45:55 - User updated profile
+2024-03-08 11:30:40 - $ 
+----------------------------------------------------
+$ tac 10_lines.txt -s "a really really really really really"
+a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!2024-03-01 08:00:00 - Application started
+2024-03-02 08:15:23 - User logged in
+2024-03-03 08:30:45 - Processing data
+2024-03-04 09:05:12 - Error: Database connection lost
+2024-03-05 09:20:30 - Restarting application
+2024-03-06 10:10:18 - Data successfully processed
+2024-03-07 10:45:55 - User updated profile
+2024-03-08 11:30:40 - Warning: Low disk space
+
+This is $ 
+----------------------------------------------------
+$ tac 10_lines.txt -s "a really really really really really "
+too many args
+$ 
+----------------------------------------------------
+$ tac -s "2024-03-06" 10_lines.txt
+2024-03-06 10:10:18 - Data successfully processed
+2024-03-07 10:45:55 - User updated profile
+2024-03-08 11:30:40 - Warning: Low disk space
+
+This is a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!2024-03-01 08:00:00 - Application started
+2024-03-02 08:15:23 - User logged in
+2024-03-03 08:30:45 - Processing data
+2024-03-04 09:05:12 - Error: Database connection lost
+2024-03-05 09:20:30 - Restarting application
+$ 
+----------------------------------------------------
+$ tac 200_lines.txt
+200. This is line 200199. This is line 199
+198. This is line 198
+197. This is line 197
+196. This is line 196
+195. This is line 195
+194. This is line 194
+193. This is line 193
+192. This is line 192
+191. This is line 191
+190. This is line 190
+189. This is line 189
+188. This is line 188
+187. This is line 187
+186. This is line 186
+185. This is line 185
+184. This is line 184
+183. This is line 183
+182. This is line 182
+181. This is line 181
+180. This is line 180
+179. This is line 179
+178. This is line 178
+177. This is line 177
+176. This is line 176
+175. This is line 175
+174. This is line 174
+173. This is line 173
+172. This is line 172
+171. This is line 171
+170. This is line 170
+169. This is line 169
+168. This is line 168
+167. This is line 167
+166. This is line 166
+165. This is line 165
+164. This is line 164
+163. This is line 163
+162. This is line 162
+161. This is line 161
+160. This is line 160
+159. This is line 159
+158. This is line 158
+157. This is line 157
+156. This is line 156
+155. This is line 155
+154. This is line 154
+153. This is line 153
+152. This is line 152
+151. This is line 151
+150. This is line 150
+149. This is line 149
+148. This is line 148
+147. This is line 147
+146. This is line 146
+145. This is line 145
+144. This is line 144
+143. This is line 143
+142. This is line 142
+141. This is line 141
+140. This is line 140
+139. This is line 139
+138. This is line 138
+137. This is a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!
+136. This is line 136
+135. This is line 135
+134. This is line 134
+133. This is line 133
+132. This is line 132
+131. This is line 131
+130. This is line 130
+129. This is line 129
+128. This is line 128
+127. This is line 127
+126. This is line 126
+125. This is line 125
+124. This is line 124
+123. This is line 123
+122. This is line 122
+121. This is line 121
+120. This is line 120
+119. This is line 119
+118. This is line 118
+117. This is line 117
+116. This is line 116
+115. This is line 115
+114. This is line 114
+113. This is line 113
+112. This is line 112
+111. This is line 111
+110. This is line 110
+109. This is line 109
+108. This is line 108
+107. This is line 107
+106. This is line 106
+105. This is line 105
+104. This is line 104
+103. This is line 103
+102. This is line 102
+101. This is line 101
+100. This is line 100
+99. This is line 99
+98. This is line 98
+97. This is line 97
+96. This is line 96
+95. This is line 95
+94. This is line 94
+93. This is line 93
+92. This is line 92
+91. This is line 91
+90. This is line 90
+89. This is line 89
+88. This is line 88
+87. This is line 87
+86. This is line 86
+85. This is line 85
+84. This is line 84
+83. This is line 83
+82. This is line 82
+81. This is line 81
+80. This is line 80
+79. This is line 79
+78. This is line 78
+77. This is line 77
+76. This is line 76
+75. This is line 75
+74. This is line 74
+73. This is line 73
+72. This is line 72
+71. This is line 71
+70. This is line 70
+69. This is line 69
+68. This is line 68
+67. This is line 67
+66. This is line 66
+65. This is line 65
+64. This is line 64
+63. This is line 63
+62. This is line 62
+61. This is line 61
+60. This is line 60
+59. This is line 59
+58. This is line 58
+57. This is line 57
+56. This is line 56
+55. This is line 55
+54. This is line 54
+53. This is line 53
+52. This is line 52
+51. This is line 51
+50. This is line 50
+49. This is line 49
+48. This is line 48
+47. This is line 47
+46. This is line 46
+45. This is line 45
+44. This is line 44
+43. This is line 43
+42. This is line 42
+41. This is line 41
+40. This is line 40
+39. This is line 39
+38. This is line 38
+37. This is line 37
+36. This is line 36
+35. This is line 35
+34. This is line 34
+33. This is line 33
+32. This is line 32
+31. This is line 31
+30. This is line 30
+29. This is line 29
+28. This is line 28
+27. This is line 27
+26. This is line 26
+25. This is line 25
+24. This is line 24
+23. This is line 23
+22. This is line 22
+21. This is line 21
+20. This is line 20
+19. This is line 19
+18. This is line 18
+17. This is line 17
+16. This is line 16
+15. This is line 15
+14. This is line 14
+13. This is line 13
+12. This is line 12
+11. This is line 11
+10. This is line 10
+9. This is line 9
+8. This is line 8
+7. This is line 7
+6. This is line 6
+5. This is line 5
+4. This is line 4
+3. This is line 3
+2. This is line 2
+1. This is line 1
+$ 
+----------------------------------------------------
+$ tac -s "137" 200_lines.txt
+137. This is a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!
+138. This is line 138
+139. This is line 139
+140. This is line 140
+141. This is line 141
+142. This is line 142
+143. This is line 143
+144. This is line 144
+145. This is line 145
+146. This is line 146
+147. This is line 147
+148. This is line 148
+149. This is line 149
+150. This is line 150
+151. This is line 151
+152. This is line 152
+153. This is line 153
+154. This is line 154
+155. This is line 155
+156. This is line 156
+157. This is line 157
+158. This is line 158
+159. This is line 159
+160. This is line 160
+161. This is line 161
+162. This is line 162
+163. This is line 163
+164. This is line 164
+165. This is line 165
+166. This is line 166
+167. This is line 167
+168. This is line 168
+169. This is line 169
+170. This is line 170
+171. This is line 171
+172. This is line 172
+173. This is line 173
+174. This is line 174
+175. This is line 175
+176. This is line 176
+177. This is line 177
+178. This is line 178
+179. This is line 179
+180. This is line 180
+181. This is line 181
+182. This is line 182
+183. This is line 183
+184. This is line 184
+185. This is line 185
+186. This is line 186
+187. This is line 187
+188. This is line 188
+189. This is line 189
+190. This is line 190
+191. This is line 191
+192. This is line 192
+193. This is line 193
+194. This is line 194
+195. This is line 195
+196. This is line 196
+197. This is line 197
+198. This is line 198
+199. This is line 199
+200. This is line 2001. This is line 1
+2. This is line 2
+3. This is line 3
+4. This is line 4
+5. This is line 5
+6. This is line 6
+7. This is line 7
+8. This is line 8
+9. This is line 9
+10. This is line 10
+11. This is line 11
+12. This is line 12
+13. This is line 13
+14. This is line 14
+15. This is line 15
+16. This is line 16
+17. This is line 17
+18. This is line 18
+19. This is line 19
+20. This is line 20
+21. This is line 21
+22. This is line 22
+23. This is line 23
+24. This is line 24
+25. This is line 25
+26. This is line 26
+27. This is line 27
+28. This is line 28
+29. This is line 29
+30. This is line 30
+31. This is line 31
+32. This is line 32
+33. This is line 33
+34. This is line 34
+35. This is line 35
+36. This is line 36
+37. This is line 37
+38. This is line 38
+39. This is line 39
+40. This is line 40
+41. This is line 41
+42. This is line 42
+43. This is line 43
+44. This is line 44
+45. This is line 45
+46. This is line 46
+47. This is line 47
+48. This is line 48
+49. This is line 49
+50. This is line 50
+51. This is line 51
+52. This is line 52
+53. This is line 53
+54. This is line 54
+55. This is line 55
+56. This is line 56
+57. This is line 57
+58. This is line 58
+59. This is line 59
+60. This is line 60
+61. This is line 61
+62. This is line 62
+63. This is line 63
+64. This is line 64
+65. This is line 65
+66. This is line 66
+67. This is line 67
+68. This is line 68
+69. This is line 69
+70. This is line 70
+71. This is line 71
+72. This is line 72
+73. This is line 73
+74. This is line 74
+75. This is line 75
+76. This is line 76
+77. This is line 77
+78. This is line 78
+79. This is line 79
+80. This is line 80
+81. This is line 81
+82. This is line 82
+83. This is line 83
+84. This is line 84
+85. This is line 85
+86. This is line 86
+87. This is line 87
+88. This is line 88
+89. This is line 89
+90. This is line 90
+91. This is line 91
+92. This is line 92
+93. This is line 93
+94. This is line 94
+95. This is line 95
+96. This is line 96
+97. This is line 97
+98. This is line 98
+99. This is line 99
+100. This is line 100
+101. This is line 101
+102. This is line 102
+103. This is line 103
+104. This is line 104
+105. This is line 105
+106. This is line 106
+107. This is line 107
+108. This is line 108
+109. This is line 109
+110. This is line 110
+111. This is line 111
+112. This is line 112
+113. This is line 113
+114. This is line 114
+115. This is line 115
+116. This is line 116
+117. This is line 117
+118. This is line 118
+119. This is line 119
+120. This is line 120
+121. This is line 121
+122. This is line 122
+123. This is line 123
+124. This is line 124
+125. This is line 125
+126. This is line 126
+127. This is line 127
+128. This is line 128
+129. This is line 129
+130. This is line 130
+131. This is line 131
+132. This is line 132
+133. This is line 133
+134. This is line 134
+135. This is line 135
+136. This is line 136
+$
+----------------------------------------------------
+$ tac -s "This is line 200" 200_lines.txt
+This is line 2001. This is line 1
+2. This is line 2
+3. This is line 3
+4. This is line 4
+5. This is line 5
+6. This is line 6
+7. This is line 7
+8. This is line 8
+9. This is line 9
+10. This is line 10
+11. This is line 11
+12. This is line 12
+13. This is line 13
+14. This is line 14
+15. This is line 15
+16. This is line 16
+17. This is line 17
+18. This is line 18
+19. This is line 19
+20. This is line 20
+21. This is line 21
+22. This is line 22
+23. This is line 23
+24. This is line 24
+25. This is line 25
+26. This is line 26
+27. This is line 27
+28. This is line 28
+29. This is line 29
+30. This is line 30
+31. This is line 31
+32. This is line 32
+33. This is line 33
+34. This is line 34
+35. This is line 35
+36. This is line 36
+37. This is line 37
+38. This is line 38
+39. This is line 39
+40. This is line 40
+41. This is line 41
+42. This is line 42
+43. This is line 43
+44. This is line 44
+45. This is line 45
+46. This is line 46
+47. This is line 47
+48. This is line 48
+49. This is line 49
+50. This is line 50
+51. This is line 51
+52. This is line 52
+53. This is line 53
+54. This is line 54
+55. This is line 55
+56. This is line 56
+57. This is line 57
+58. This is line 58
+59. This is line 59
+60. This is line 60
+61. This is line 61
+62. This is line 62
+63. This is line 63
+64. This is line 64
+65. This is line 65
+66. This is line 66
+67. This is line 67
+68. This is line 68
+69. This is line 69
+70. This is line 70
+71. This is line 71
+72. This is line 72
+73. This is line 73
+74. This is line 74
+75. This is line 75
+76. This is line 76
+77. This is line 77
+78. This is line 78
+79. This is line 79
+80. This is line 80
+81. This is line 81
+82. This is line 82
+83. This is line 83
+84. This is line 84
+85. This is line 85
+86. This is line 86
+87. This is line 87
+88. This is line 88
+89. This is line 89
+90. This is line 90
+91. This is line 91
+92. This is line 92
+93. This is line 93
+94. This is line 94
+95. This is line 95
+96. This is line 96
+97. This is line 97
+98. This is line 98
+99. This is line 99
+100. This is line 100
+101. This is line 101
+102. This is line 102
+103. This is line 103
+104. This is line 104
+105. This is line 105
+106. This is line 106
+107. This is line 107
+108. This is line 108
+109. This is line 109
+110. This is line 110
+111. This is line 111
+112. This is line 112
+113. This is line 113
+114. This is line 114
+115. This is line 115
+116. This is line 116
+117. This is line 117
+118. This is line 118
+119. This is line 119
+120. This is line 120
+121. This is line 121
+122. This is line 122
+123. This is line 123
+124. This is line 124
+125. This is line 125
+126. This is line 126
+127. This is line 127
+128. This is line 128
+129. This is line 129
+130. This is line 130
+131. This is line 131
+132. This is line 132
+133. This is line 133
+134. This is line 134
+135. This is line 135
+136. This is line 136
+137. This is a really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really LOOOOOOONG LINE!
+138. This is line 138
+139. This is line 139
+140. This is line 140
+141. This is line 141
+142. This is line 142
+143. This is line 143
+144. This is line 144
+145. This is line 145
+146. This is line 146
+147. This is line 147
+148. This is line 148
+149. This is line 149
+150. This is line 150
+151. This is line 151
+152. This is line 152
+153. This is line 153
+154. This is line 154
+155. This is line 155
+156. This is line 156
+157. This is line 157
+158. This is line 158
+159. This is line 159
+160. This is line 160
+161. This is line 161
+162. This is line 162
+163. This is line 163
+164. This is line 164
+165. This is line 165
+166. This is line 166
+167. This is line 167
+168. This is line 168
+169. This is line 169
+170. This is line 170
+171. This is line 171
+172. This is line 172
+173. This is line 173
+174. This is line 174
+175. This is line 175
+176. This is line 176
+177. This is line 177
+178. This is line 178
+179. This is line 179
+180. This is line 180
+181. This is line 181
+182. This is line 182
+183. This is line 183
+184. This is line 184
+185. This is line 185
+186. This is line 186
+187. This is line 187
+188. This is line 188
+189. This is line 189
+190. This is line 190
+191. This is line 191
+192. This is line 192
+193. This is line 193
+194. This is line 194
+195. This is line 195
+196. This is line 196
+197. This is line 197
+198. This is line 198
+199. This is line 199
+200. $ 
+----------------------------------------------------
+$ tac -s "hello world" 200_lines.txt
+tac: the string is not contained in the input text
+$ 
+
+
