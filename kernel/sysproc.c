@@ -89,3 +89,10 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_time(void)
+{
+  volatile uint64 *time_rtc = (uint64 *) GOLDFISH_RTC;
+  return *time_rtc;
+}
