@@ -88,8 +88,8 @@ void queueStart(){
 	uint sz = 256;
 	char *buf = malloc(sz);
 	int fd = open(filename, O_RDONLY);
-	while(true){
-		if (getline(&buf, &sz, fd) < 0){
+	while(1){
+		if (getline(&buf, &sz, fd) <= 0){
 			break;
 		}
 		enQueue(buf);
