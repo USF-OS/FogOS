@@ -57,8 +57,9 @@ set_dateTime(struct dateTime *epoch)
   
   // Calculate which day it is
   char *days[] = {"Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"};
-  current->curr_day_index = (epoch->days % 7) - 1;
-  current->name_of_day = days[((epoch->days % 7) - 1)];
+  current->curr_day_index = (epoch->days % 7);
+  // printf("name of day %s\n", days[current->curr_day_index]);
+  current->name_of_day = days[((epoch->days % 7))];
 
   // Array of days in each month (Jan - Dec)
   int days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -102,7 +103,7 @@ set_dateTime(struct dateTime *epoch)
 
   current->curr_month_index = month_idx + 1;
   current->name_of_month = months[month_idx];
-  current->days = days_in_month[month_idx] + days_left;
+  current->days = days_in_month[month_idx] + days_left + 1;
   current->years = years;
 
   // Calculate time (HH:MM:SS format)
