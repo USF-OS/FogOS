@@ -63,6 +63,27 @@ strchr(const char *s, char c)
   return 0;
 }
 
+int strstr(const char* str, const char* sub)
+{
+  if (*str == '\0' || *sub == '\0') {return 0;}
+
+  const char *start = str;
+  while (*start != '\0')
+  {
+    const char *p_str = start;
+    const char *p_sub = sub;
+
+    while (*p_sub != '\0' && *p_str == *p_sub) {
+      p_str++; p_sub++;
+    }
+
+    if (*p_sub == '\0') {return 1;}
+
+    start++;
+  }
+  return 0;
+}
+
 char*
 gets(char *buf, int max)
 {

@@ -22,12 +22,14 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+uint64 clock(void);
 
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);
 void *memmove(void*, const void*, int);
 char* strchr(const char*, char c);
+int strstr(const char*, const char*);
 int strcmp(const char*, const char*);
 void fprintf(int, const char*, ...);
 void printf(const char*, ...);

@@ -89,3 +89,16 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_clock(void)
+{
+  volatile uint64 *test_dev = (uint64 *) CLOCK_TEST;
+  return *test_dev;
+}
+
+uint64
+sys_date(void)
+{
+  return sys_clock();
+}
