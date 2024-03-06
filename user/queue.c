@@ -103,10 +103,17 @@ void queueWriteFile(){
 	int j = front;
 	char* filename = "hist.txt";
 	int fd = open(filename, O_WRONLY | O_CREATE | O_TRUNC);
+	int sz = 0;
 	
-	for (int i = 0; i < SIZE; i++) {
+	if(isFull() == 0){
+		printf("isfull yes");
+		sz = SIZE;
+	}else{
+		sz = back;
+	}
+	for (int i = 0; i < sz; i++) {
 		char *elem = queue[j];
 		write(fd, elem, strlen(elem));
-		j = (j+1) % SIZE;
+		j = (j+1) % sz;
 	}
 }
