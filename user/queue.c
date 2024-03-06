@@ -77,7 +77,7 @@ void printQueue(){
 
 	int j = front;
 	for (int count = 0; count < SIZE; count++) {
-		  printf("%s ", queue[j]);
+		  printf("''%s' ", queue[j]);
 		  j = (j+1) % SIZE;
 	}
 }
