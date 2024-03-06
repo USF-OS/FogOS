@@ -105,11 +105,11 @@ void queueWriteFile(){
 	int fd = open(filename, O_WRONLY | O_CREATE | O_TRUNC);
 	int sz = 0;
 	
-	if(isFull() == 0){
+	if(isFull() == 1){
 		printf("isfull yes");
 		sz = SIZE;
 	}else{
-		sz = back;
+		sz = back + 1;
 	}
 	for (int i = 0; i < sz; i++) {
 		char *elem = queue[j];
