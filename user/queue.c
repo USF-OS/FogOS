@@ -77,7 +77,7 @@ void printQueue(){
 	int j = front;
 	for (int count = 0; count < SIZE; count++) {
 		if (queue[j] != 0){
-		  printf("'%s' ", queue[j]);
+		  printf("%s ", queue[j]);
 		}
 		j = (j+1) % SIZE;
 	}
@@ -94,7 +94,7 @@ void queueStart(){
 			break;
 		}
 		enQueue(buf);
-		back++;
+		//back++;
 	}
 	//need to clear hist.txt???
 }
@@ -107,7 +107,6 @@ void queueWriteFile(){
 	int sz = 0;
 	
 	if(isFull() == 1){
-		printf("isfull yes");
 		sz = SIZE;
 	}else{
 		sz = back + 1;
