@@ -20,9 +20,10 @@ char
 int
 strncmp(const char *s1, const char *s2, uint n)
 {
-	while (*s1 && *s1 == *s2 && n > 0) 
+	while (*s1 && *s1 == *s2 && n > 1) 
 		s1++, s2++, n--;
-		
+
+	// return compares last 2 chars safely
 	return (uchar)*s1 - (uchar)*s2;
 }
 
