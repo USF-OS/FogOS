@@ -158,7 +158,7 @@ main(void)
 {
   static char buf[100];
   int fd;
-  struct history hist; //it does not like this for some reason
+  struct history hist;
 
   queueStart();
   
@@ -189,9 +189,7 @@ main(void)
     }
     wait(0);
   }
-  //TODO this is where we save to file
   queueWriteFile();
-  //fprintf("queueSave.txt", &hist);
   exit(0);
 }
 

@@ -8,13 +8,12 @@
 #include "user/user.h"
 #include "kernel/fcntl.h"
 
-//initilaize array
-
 #define SIZE 10 //able to be changed
 
+//initilaize array
 char *queue[SIZE]; 
 
-//initialize front and back to -1 
+//initialize front and back to -1 to show emptyness
 int front = -1;
 int back = -1;
 
@@ -22,7 +21,7 @@ int back = -1;
 int 
 isFull(){
 	if(((back + 1) == front) || ((front == 0) && (back == SIZE -1))){
-		return 1; //yes it is full;
+		return 1; //yes it is full
 	}
 	return 0; //no it is not full
 }
@@ -77,7 +76,7 @@ void printQueue(){
 	int j = front;
 	for (int count = 0; count < SIZE; count++) {
 		if (queue[j] != 0){
-		  printf("%s ", queue[j]);
+		  printf("%s", queue[j]);
 		}
 		j = (j+1) % SIZE;
 	}
@@ -94,9 +93,7 @@ void queueStart(){
 			break;
 		}
 		enQueue(buf);
-		//back++;
 	}
-	//need to clear hist.txt???
 }
 
 //write to the file
