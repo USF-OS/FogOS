@@ -1,7 +1,8 @@
-// Circular Queue implementation
-//queue but the last element is connected to the first element
-//to implement this g=have two pinters ie. front and back 
-//front tracks first element and back tracks the last element 
+/* Circular Queue implementation
+ * queue but the last element is connected to the first element
+ * to implement this g=have two pinters ie. front and back 
+ * front tracks first element and back tracks the last element 
+ */
 
 #include "kernel/types.h"
 #include "kernel/stat.h"
@@ -29,7 +30,7 @@ isFull(){
 //check if queue is empty
 int 
 isEmpty() {
-	if (front == -1){
+	if(front == -1){
 		return 1;
 	}
 	return 0;
@@ -38,7 +39,7 @@ isEmpty() {
 //remove an element
 void 
 deQueue() {
-	if (front == back){
+	if(front == back){
 		front = -1;
 		back = -1;
 	}
@@ -51,21 +52,20 @@ deQueue() {
 //add an element
 void 
 enQueue(char *element) {
-	if (isFull()){
+	char *a = (char *)malloc(strlen(element)+1);
+	if(isFull()){
     	deQueue();
     	back = (back+1) % SIZE; 
-    	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
         queue[back] = a;
 	}
-  	else { //add element to queue
+  	else{ //add element to queue
   		//if the queue is empty then update front to 0
-    	if (front == -1){
+    	if(front == -1){
     		front = 0;
     	}
     	//increase the back by 1 but if it reaches end (size) should be start of queue
     	back = (back+1) % SIZE; 
-    	char *a = (char *)malloc(strlen(element)+1);
     	strcpy(a, element);
 		queue[back] = a;
   	}
@@ -74,29 +74,30 @@ enQueue(char *element) {
 //print the queue
 void printQueue(){
 	int j = front;
-	for (int count = 0; count < SIZE; count++) {
-		if (queue[j] != 0){
+	for(int count = 0; count < SIZE; count++){
+		if(queue[j] != 0){
 		  printf("%s", queue[j]);
 		}
 		j = (j+1) % SIZE;
 	}
 }
 
-//read from the file 
+//read from the file to load history after restart
 void queueStart(){
 	char* filename = "hist.txt";
 	uint sz = 256;
 	char *buf = malloc(sz);
 	int fd = open(filename, O_RDONLY);
 	while(1){
-		if (getline(&buf, &sz, fd) <= 0){
+		if(getline(&buf, &sz, fd) <= 0){
+			close(fd);
 			break;
 		}
 		enQueue(buf);
 	}
 }
 
-//write to the file
+//write history queue to the file when system exit
 void queueWriteFile(){
 	int j = front;
 	char* filename = "hist.txt";
@@ -108,9 +109,10 @@ void queueWriteFile(){
 	}else{
 		sz = back + 1;
 	}
-	for (int i = 0; i < sz; i++) {
+	for(int i = 0; i < sz; i++) {
 		char *elem = queue[j];
 		write(fd, elem, strlen(elem));
-		j = (j+1) % sz;
+		j = (j+1) % SIZE;
 	}
+	close(fd);
 }

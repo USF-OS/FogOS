@@ -160,7 +160,7 @@ main(void)
   int fd;
   struct history hist;
 
-  queueStart();
+  queueStart();//start our history queue
   
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
@@ -172,7 +172,7 @@ main(void)
   
   // Read and run input commands.
   while(getcmd(buf, sizeof(buf)) >= 0){
-  	historyadd(&hist, buf);
+  	historyadd(&hist, buf); //add inputted cmd to history
     if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){ 
       // Chdir must be called by the parent, not the child.
       buf[strlen(buf)-1] = 0;  // chop \n
@@ -180,8 +180,8 @@ main(void)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
     }else if(strcmp(buf, "history\n") == 0){ //see if histoy was input in termial
-        printQueue();
-        printf("\n");
+        printQueue(); //print the stored history
+        printf("\n"); 
         continue;
     }
     if(fork1() == 0){
@@ -189,7 +189,7 @@ main(void)
     }
     wait(0);
   }
-  queueWriteFile();
+  queueWriteFile();//write current history to queue when system exits
   exit(0);
 }
 
